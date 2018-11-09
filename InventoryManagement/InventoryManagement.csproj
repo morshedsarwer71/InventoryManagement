@@ -193,10 +193,36 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Areas\Accounting\AccountingAreaRegistration.cs" />
+    <Compile Include="Areas\Accounting\Models\AccountsHead.cs" />
+    <Compile Include="Areas\Accounting\Models\Journal.cs" />
+    <Compile Include="Areas\Accounting\Models\ReportHead.cs" />
+    <Compile Include="Areas\Global\GlobalAreaRegistration.cs" />
+    <Compile Include="Areas\Global\Models\Concern.cs" />
+    <Compile Include="Areas\Global\Models\SystemUser.cs" />
+    <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
+    <Compile Include="Areas\Inventory\Models\Buyer.cs" />
+    <Compile Include="Areas\Inventory\Models\Category.cs" />
+    <Compile Include="Areas\Inventory\Models\Product.cs" />
+    <Compile Include="Areas\Inventory\Models\PurchaseDuePayment.cs" />
+    <Compile Include="Areas\Inventory\Models\PurchaseInvoice.cs" />
+    <Compile Include="Areas\Inventory\Models\PurchaseReturnInvoice.cs" />
+    <Compile Include="Areas\Inventory\Models\SalesDuePayment.cs" />
+    <Compile Include="Areas\Inventory\Models\SalesInvoice.cs" />
+    <Compile Include="Areas\Inventory\Models\SalesReturnInvoice.cs" />
+    <Compile Include="Areas\Inventory\Models\SessionInvoice.cs" />
+    <Compile Include="Areas\Inventory\Models\Supplier.cs" />
+    <Compile Include="Areas\Inventory\Models\Unit.cs" />
+    <Compile Include="Context\DataContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811092148504_initialcreate.cs" />
+    <Compile Include="Migrations\201811092148504_initialcreate.Designer.cs">
+      <DependentUpon>201811092148504_initialcreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +260,9 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Areas\Accounting\Views\web.config" />
+    <Content Include="Areas\Inventory\Views\web.config" />
+    <Content Include="Areas\Global\Views\web.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -279,6 +308,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Accounting\Controllers\" />
+    <Folder Include="Areas\Accounting\Views\Shared\" />
+    <Folder Include="Areas\Global\Controllers\" />
+    <Folder Include="Areas\Global\Views\Shared\" />
+    <Folder Include="Areas\Inventory\Controllers\" />
+    <Folder Include="Areas\Inventory\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +326,11 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811092148504_initialcreate.resx">
+      <DependentUpon>201811092148504_initialcreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
