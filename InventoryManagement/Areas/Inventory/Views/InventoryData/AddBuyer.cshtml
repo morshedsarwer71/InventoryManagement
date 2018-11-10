@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "AddBuyer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        @using (Html.BeginForm("AddBuyer", "InventoryData", new { Areas = "Inventory" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            <div class="form-group">
+                <label class="col-form-label">Buyer Name</label>
+                <input type="text" name="BuyerName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Buyer Address</label>
+                <input type="text" name="BuyerAddress" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Mobile Number</label>
+                <input type="text" name="MobileNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Alt. Number</label>
+                <input type="text" name="AlternateMobileNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Buyer Previous Balance</label>
+                <input type="text" name="BuyerBalance" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Description</label>
+                <textarea class="form-control" name="Description"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="submit" class="btn btn-info">SUBMIT</button>
+            </div>
+        }
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
