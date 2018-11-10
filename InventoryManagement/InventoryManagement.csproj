@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Accounting\AccountingAreaRegistration.cs" />
+    <Compile Include="Areas\Accounting\Controllers\AccountingController.cs" />
     <Compile Include="Areas\Accounting\Models\AccountsHead.cs" />
     <Compile Include="Areas\Accounting\Models\Journal.cs" />
     <Compile Include="Areas\Accounting\Models\ReportHead.cs" />
@@ -308,7 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Accounting\Controllers\" />
+    <Folder Include="Areas\Accounting\Views\Accounting\" />
     <Folder Include="Areas\Accounting\Views\Shared\" />
     <Folder Include="Areas\Global\Controllers\" />
     <Folder Include="Areas\Global\Views\Shared\" />
