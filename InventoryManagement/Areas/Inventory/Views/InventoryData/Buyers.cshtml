@@ -1,4 +1,4 @@
-﻿
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.BuyerIndexViewModels
 @{
     Layout = null;
 }
@@ -10,8 +10,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Tables</a></li>
-        <li class="active">Simple</li>
+        <li><a href="#">Buyer</a></li>
+        <li class="active">Buyers</li>
     </ol>
 </section>
 
@@ -23,52 +23,33 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Task</th>
-                            <th>Progress</th>
-                            <th style="width: 40px">Label</th>
-                        </tr>
-                        <tr>
-                            <td>1.</td>
-                            <td>Update software</td>
-                            <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-red">55%</span></td>
-                        </tr>
-                        <tr>
-                            <td>2.</td>
-                            <td>Clean database</td>
-                            <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-yellow">70%</span></td>
-                        </tr>
-                        <tr>
-                            <td>3.</td>
-                            <td>Cron job running</td>
-                            <td>
-                                <div class="progress progress-xs progress-striped active">
-                                    <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-light-blue">30%</span></td>
-                        </tr>
-                        <tr>
-                            <td>4.</td>
-                            <td>Fix and squish bugs</td>
-                            <td>
-                                <div class="progress progress-xs progress-striped active">
-                                    <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                                </div>
-                            </td>
-                            <td><span class="badge bg-green">90%</span></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Mobile Num.</th>
+                                <th>Alt Mobile Num.</th>
+                                <th>Prev. Balance</th>
+                                <th style="width: 15px">Update</th>
+                                <th style="width: 15px">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GetResponseBuyers)
+                            {
+                            <tr>
+                                <td>@item.Serial</td>
+                                <td>@item.BuyerName</td>
+                                <td>@item.BuyerAddress</td>
+                                <td>@item.MobileNumber</td>
+                                <td>@item.AlternateMobileNumber</td>
+                                <td>@item.BuyerBalance</td>
+                                <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                                <td style="color:red"><a href="#"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                            }
+                        </tbody>                        
                     </table>
                 </div>
                 <!-- /.box-body -->

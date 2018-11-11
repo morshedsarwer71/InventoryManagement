@@ -1,5 +1,6 @@
 ﻿using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Models;
+using InventoryManagement.Areas.Inventory.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             return View();
         }
-        public ActionResult Buyers()
+        public ActionResult Buyers(int page=1)
         {
-            return View();
+            var responseBuyers = _buyer.Buyers(1,page);
+            BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
+            {
+                GetResponseBuyers= responseBuyers
+            };
+            return View(buyerIndexViewModels);
         }
         [HttpGet]
         public ActionResult AddBuyer()

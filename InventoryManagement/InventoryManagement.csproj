@@ -229,7 +229,9 @@
     <Compile Include="Areas\Inventory\Models\SessionInvoice.cs" />
     <Compile Include="Areas\Inventory\Models\Supplier.cs" />
     <Compile Include="Areas\Inventory\Models\Unit.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
     <Compile Include="Areas\Inventory\Services\BuyerService.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
