@@ -12,10 +12,8 @@ namespace InventoryManagement.Areas.Inventory.Models
         public int BuyerID { get; set; }
         public string BuyerName { get; set; }
         [Required]
-        public string BuyerAddress { get; set; }
-        [Required]
-        public decimal BuyerBalance { get; set; }
-        [Required]
+        public string BuyerAddress { get; set; }        
+        public decimal BuyerBalance { get; set; }        
         public int ConcernID { get; set; }
         public string Description { get; set; }
         public System.DateTime CreationDate { get; set; }

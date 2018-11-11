@@ -6521,6 +6521,7 @@
     <Content Include="Content\dist\js\demo.js" />
     <Content Include="Content\dist\js\pages\dashboard.js" />
     <Content Include="Content\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -7032,6 +7033,11 @@
     <Content Include="Content\bower_components\select2\src\scss\_single.scss" />
     <Content Include="Content\dist\css\adminlte.css.map" />
     <Content Include="Content\dist\css\adminlte.min.css.map" />
+    <Content Include="Areas\Accounting\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Accounting\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Index.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Buyer.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -7077,8 +7083,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Accounting\Views\AccountingData\" />
-    <Folder Include="Areas\Accounting\Views\Shared\" />
     <Folder Include="Areas\Global\Controllers\" />
     <Folder Include="Areas\Global\Views\Shared\" />
     <Folder Include="Models\" />

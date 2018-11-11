@@ -20,6 +20,10 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             return View();
         }
+        public ActionResult Buyer()
+        {
+            return View();
+        }
         public ActionResult Buyers()
         {
             return View();
@@ -30,11 +34,18 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddBuyer(Buyer buyer)
+        //[ValidateAntiForgeryToken]
+        public JsonResult AddBuyer(Buyer buyer)
         {
-            _buyer.Add(buyer);
-            return View();
+            if (ModelState.IsValid)
+            {
+                _buyer.Add(buyer);
+                return Json("Added successfully", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("field required", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

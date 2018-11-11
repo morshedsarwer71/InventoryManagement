@@ -1,44 +1,123 @@
-﻿
-@{
-    ViewBag.Title = "AddBuyer";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{ 
+    Layout = null;
 }
+<section class="content-header">
+    <h1>
+        Add Buyer
+        <small>adding new buyer information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
 
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        @using (Html.BeginForm("AddBuyer", "InventoryData", new { Areas = "Inventory" }, FormMethod.Post))
-        {
-            @Html.AntiForgeryToken();
-            <div class="form-group">
-                <label class="col-form-label">Buyer Name</label>
-                <input type="text" name="BuyerName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Buyer Address</label>
-                <input type="text" name="BuyerAddress" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Mobile Number</label>
-                <input type="text" name="MobileNumber" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Alt. Number</label>
-                <input type="text" name="AlternateMobileNumber" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Buyer Previous Balance</label>
-                <input type="text" name="BuyerBalance" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Description</label>
-                <textarea class="form-control" name="Description"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" value="submit" class="btn btn-info">SUBMIT</button>
-            </div>
-        }
+<!-- Main content -->
+<section class="content">
+    <div id="dvLoader" class="LoadingDiv" style="display: none;">
+        <center>
+            <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+        </center>
     </div>
-    <div class="col-md-4"></div>
+    <div class="row">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-md-8 col-sm-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Name</label>
+                            <input id="txtName" type="text" name="BuyerName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Address</label>
+                            <input id="txtAddress" type="text" name="BuyerAddress" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Mobile Number</label>
+                            <input id="txtMobileNumber" type="text" name="MobileNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Alt. Number</label>
+                            <input id="txtAltMobileNumber" type="text" name="AlternateMobileNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Previous Balance</label>
+                            <input id="txtBuyerBalance" type="text" name="BuyerBalance" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Description</label>
+                            <textarea id="txtDescription" class="form-control" name="Description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button id="btnSave" type="submit" value="submit" class="btn btn-info">SUBMIT</button>
+                            <button id="btnClear" type="submit" value="submit" class="btn btn-primary">CLEAR</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- /.box -->
+        
+        <!-- /.col -->
+
+    </div>
+</section>
+
+
+<div id="dvLoader" class="LoadingDiv" style="display: none;">
+    <center>
+        <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+    </center>
 </div>
 
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnSave').click(function () {
+                var name = $('#txtName').val();
+                var address = $('#txtAddress').val();
+                var mobileNumber = $('#txtMobileNumber').val();
+                var altMobileNumber = $('#txtAltMobileNumber').val();
+                var buyerBalance = $('#txtBuyerBalance').val();
+                var description = $('#txtDescription').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/AddBuyer",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "BuyerName": name,
+                        "BuyerAddress": address,
+                        "BuyerBalance": buyerBalance,
+                        "MobileNumber": mobileNumber,
+                        "AlternateMobileNumber": altMobileNumber,
+                        "Description": description
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        $('#dvLoader').hide();
+                        alert(result);
+                        Clear();
+                    }
+                });
+
+            });
+
+            $('#btnClear').click(function () {
+                Clear();
+            });
+        });
+        function Clear() {
+            $('#txtName').val('');
+            $('#txtAddress').val('');
+            $('#txtMobileNumber').val('');
+            $('#txtAltMobileNumber').val('');
+            $('#txtBuyerBalance').val('');
+            $('#txtDescription').val('');
+        }
+    </script>
+
+}
