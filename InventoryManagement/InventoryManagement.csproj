@@ -211,6 +211,7 @@
     <Compile Include="Areas\Accounting\Models\AccountsHead.cs" />
     <Compile Include="Areas\Accounting\Models\Journal.cs" />
     <Compile Include="Areas\Accounting\Models\ReportHead.cs" />
+    <Compile Include="Areas\Global\Controllers\GlobalDalaController.cs" />
     <Compile Include="Areas\Global\GlobalAreaRegistration.cs" />
     <Compile Include="Areas\Global\Models\Concern.cs" />
     <Compile Include="Areas\Global\Models\SystemUser.cs" />
@@ -7040,6 +7041,9 @@
     <Content Include="Areas\Accounting\Views\AccountingData\Index.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\Index.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\Buyer.cshtml" />
+    <Content Include="Areas\Global\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Global\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalDala\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -7085,8 +7089,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Global\Controllers\" />
-    <Folder Include="Areas\Global\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
         <small>adding new buyer information</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
     </ol>
 </section>
 
@@ -22,7 +22,7 @@
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="col-md-8 col-sm-8">
+                    <div class="col-md-6 col-sm-8">
                         <div class="form-group">
                             <label class="col-form-label">Buyer Name</label>
                             <input id="txtName" type="text" name="BuyerName" class="form-control" />
@@ -57,9 +57,6 @@
 
                 </div>
             </div>
-            <!-- /.box -->
-        
-        <!-- /.col -->
 
     </div>
 </section>
@@ -71,11 +68,9 @@
     </center>
 </div>
 
-
-@section scripts{
-
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
+            alert("hi");
             $('#btnSave').click(function () {
                 var name = $('#txtName').val();
                 var address = $('#txtAddress').val();
@@ -119,5 +114,3 @@
             $('#txtDescription').val('');
         }
     </script>
-
-}
