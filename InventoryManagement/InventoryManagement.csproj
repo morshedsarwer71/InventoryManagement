@@ -7046,6 +7046,15 @@
     <Content Include="Areas\Global\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Global\Views\GlobalDala\Index.cshtml" />
     <Content Include="Areas\Global\Views\GlobalDala\LogIn.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Category.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Categories.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddCategory.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Unit.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Units.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddUnit.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Product.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Products.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddProduct.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

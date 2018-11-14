@@ -25,12 +25,12 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             return View();
         }
-        public ActionResult Buyers(int page=1)
+        public ActionResult Buyers(int page = 1)
         {
-            var responseBuyers = _buyer.Buyers(1,page);
+            var responseBuyers = _buyer.Buyers(1, page);
             BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
             {
-                GetResponseBuyers= responseBuyers
+                GetResponseBuyers = responseBuyers
             };
             return View(buyerIndexViewModels);
         }
@@ -52,6 +52,66 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             {
                 return Json("field required", JsonRequestBehavior.AllowGet);
             }
+        }
+        [HttpGet]
+        public ActionResult Unit()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Units()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult AddUnit()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddUnit(Unit unit)
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Category()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Categories()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult AddCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddCategory(Category category)
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Product()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Products()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult AddProduct()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddProduct(Product product)
+        {
+            return View();
         }
     }
 }

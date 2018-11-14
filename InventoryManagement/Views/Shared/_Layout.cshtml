@@ -332,8 +332,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/Areas/Accounting/AccountingData/Index"><i class="fa fa-circle-o"></i> Accounting</a></li>
-                            <li><a href=""><i class="fa fa-circle-o"></i> Inventory</a></li>
+                            <li><a href="@Url.Action("Index","AccountingData",new {Area="Accounting" })"><i class="fa fa-circle-o"></i> Accounting</a></li>
+                            <li><a href="@Url.Action("Index","InventoryData",new {Area="Inventory" })"><i class="fa fa-circle-o"></i> Inventory</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
