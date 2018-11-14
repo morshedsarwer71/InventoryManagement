@@ -50,11 +50,9 @@
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    success: function (result) {
+                    success: function () {
                         $('#dvLoader').hide();
-                        aler(result);
                         Clear();
-                        $('#firstTab').reload();
                     }
                 });
 
