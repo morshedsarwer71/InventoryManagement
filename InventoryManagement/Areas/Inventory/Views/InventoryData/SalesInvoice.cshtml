@@ -51,22 +51,8 @@
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    success: function (data) {   
-                        //var table_body = document.getElementById("tBody");
-                        var products = data.ResponseSessions;
-                        var tr = "";
-                        products.forEach(function (product) {
-                            tr += '<tr>';
-                            tr += '<td>' + product.Serial + '</td>';
-                            tr +='<td>' + product.ProductName + '</td>';
-                            tr += '<td>' + product.Quantity + '</td>';
-                            tr += '<td>' + product.Price + '</td>';
-                            tr += '<td>' + product.TotalPrice + '</td>';
-                            tr += "<td>" + product.SessionInvoiceId + '</td>';
-                            tr += '</tr>';
-   
-                        });
-                        $("#tBody").html(tr);
+                    success: function () {
+                        LoadSessionData();
                         $('#dvLoader').hide();
                         Clear();
                     }
@@ -115,7 +101,31 @@
                 loadPrice();
             });           
 
+            $(document).on('click', '.ClearById', function (event) {
+                event.preventDefault();
+                var product_id = $(this).attr('href');                
+                $('#dvLoader').show();
+                var result = confirm("Want to clear current invoice?");
+                if (result) {
+                    $.ajax({
+                        url: "/InventoryData/ClearById",
+                        type: "POST",
+                        data: JSON.stringify({
+                            "id": product_id
+                        }),
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            LoadSessionData();
+                            $('#dvLoader').hide();
+                            
+                        }
+                    });
+                }
+            });
+
         });
+
         function Clear() {
             $('#txtProduct').val('');
             $('#txtPrice').val('');
@@ -142,6 +152,7 @@
                 success: function (data) {
                     var products = data.ResponseSessions;
                     var tr = "";
+                    var total_price = 0;
                     products.forEach(function (product) {
                         tr += '<tr>';
                         tr += '<td>' + product.Serial + '</td>';
@@ -149,16 +160,18 @@
                         tr += '<td>' + product.Quantity + '</td>';
                         tr += '<td>' + product.Price + '</td>';
                         tr += '<td>' + product.TotalPrice + '</td>';
-                        tr += "<td>" + product.SessionInvoiceId + '</td>';
+                        tr += '<td><a class="ClearById" href="'+product.SessionInvoiceId+'"><i class="fa fa-trash"></i></a></td>';
                         tr += '</tr>';
-
+                        total_price += product.TotalPrice;
                     });
+                    $("#txtGrandTotal").val(total_price);
                     $("#tBody").html(tr);
                     $('#dvLoader').hide();
                     Clear();
                 }
             });
         }
+
     </script>
 
 }
