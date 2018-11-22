@@ -14,5 +14,6 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         void Delete(int userId,int concernId,int sessionId);
         void ClearSessionInvoice(int userId,int ConcernId);
         IEnumerable<ResponseSession> ResponseSessions(int concernId,int userId);
+        Product ProductPrice(int productId,int concernId);
     }
 }

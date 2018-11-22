@@ -18,8 +18,7 @@ namespace InventoryManagement.Areas.Inventory.Services
         public void AddSalesInvoice(SessionInvoice sessionInvoice, int userId, int concernId)
         {
             List<SalesInvoiceService> salesInvoices = new List<SalesInvoiceService>();
-            var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
-            
+            var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);            
             using (var transaction = _context.Database.BeginTransaction())
             {
                 var dateString = DateTime.Now.ToString("mmddfff");

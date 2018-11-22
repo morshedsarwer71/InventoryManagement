@@ -43,7 +43,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="col-form-label">Customer</label>
-                                    <select id="txtBuyerID" name="BuyerID" class="form-control select2" style="width: 100%;">
+                                    <select id="txtBuyerID" name="BuyerID" required="required" class="form-control select2" style="width: 100%;">
                                         @foreach (var item in Model.Buyers)
                                         {
                                             <option value="@item.BuyerID">@item.BuyerName</option>
@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Product</label>
                                     <select id="txtProduct" name="ProductID" class="form-control">
@@ -64,18 +64,29 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="col-form-label">Quantity</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-try"></i>
+                                        </div>
+                                        <input type="text" name="Quantity" required="required" class="form-control pull-right" id="txtQuantity">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="col-form-label">Price</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-try"></i>
                                         </div>
-                                        <input type="text" name="UnitPrice" class="form-control pull-right" id="txtPrice">
+                                        <input type="text" name="UnitPrice" required="required" class="form-control pull-right" id="txtPrice">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <button id="btnAdd" type="submit" value="submit" class="btn btn-info" style="margin-top:25px;"><i class="fa fa-plus"></i> New</button>
                                 </div>
@@ -153,7 +164,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <button id="btnClear" type="submit" value="submit" class="btn btn-danger">Clear</button>
+                                    <button id="btnClear" type="submit" value="submit" class="btn btn-danger">Clear Sales Invoice</button>
                                 </div>
                             </div>
                             <div class="col-md-4">

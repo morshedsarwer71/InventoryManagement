@@ -130,6 +130,16 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public JsonResult SessionInvoices()
+        {
+            var sessions = _session.ResponseSessions(1, 1);
+            SessionViewModels viewModels = new SessionViewModels()
+            {
+                ResponseSessions = sessions
+            };
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult AddSessionInvoice(SessionInvoice sessionInvoice)
         {
@@ -148,10 +158,15 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return Json("Deleted",JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult ClearById(int id)
+        public JsonResult ClearById(int id)
         {
             _session.Delete(1, 1, id);
-            return View();
+            return Json("Deleted", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult ProductPrice(int id)
+        {            
+            return Json(_session.ProductPrice(id,1),JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesInvoice()

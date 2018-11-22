@@ -43,6 +43,11 @@ namespace InventoryManagement.Areas.Inventory.Services
             _context.SaveChanges();
         }
 
+        public Product ProductPrice(int productId, int concernId)
+        {
+            return _context.Products.FirstOrDefault(m=>m.ProductID==productId);
+        }
+
         public IEnumerable<ResponseSession> ResponseSessions(int concernId, int userId)
         {
             List<ResponseSession> responses = new List<ResponseSession>();

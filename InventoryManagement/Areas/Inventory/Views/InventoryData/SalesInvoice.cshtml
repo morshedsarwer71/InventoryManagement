@@ -31,11 +31,13 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            LoadSessionData();
             $('#btnAdd').click(function () {
                 var date = $('#txtDate').val();
                 var buyerId = $('#txtBuyerID').val();
                 var productId = $('#txtProduct').val();
                 var price = $('#txtPrice').val();
+                var quantity = $('#txtQuantity').val();
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddSessionInvoice",
@@ -44,11 +46,27 @@
                         "Date": date,
                         "BuyerID": buyerId,
                         "ProductID": productId,
-                        "UnitPrice": price
+                        "UnitPrice": price,
+                        "Quantity": quantity
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    success: function () {                        
+                    success: function (data) {   
+                        //var table_body = document.getElementById("tBody");
+                        var products = data.ResponseSessions;
+                        var tr = "";
+                        products.forEach(function (product) {
+                            tr += '<tr>';
+                            tr += '<td>' + product.Serial + '</td>';
+                            tr +='<td>' + product.ProductName + '</td>';
+                            tr += '<td>' + product.Quantity + '</td>';
+                            tr += '<td>' + product.Price + '</td>';
+                            tr += '<td>' + product.TotalPrice + '</td>';
+                            tr += "<td>" + product.SessionInvoiceId + '</td>';
+                            tr += '</tr>';
+   
+                        });
+                        $("#tBody").html(tr);
                         $('#dvLoader').hide();
                         Clear();
                     }
@@ -71,13 +89,14 @@
                     success: function () {
                         $('#dvLoader').hide();
                         CashDesClear();
+                        $("#tBody").reload();
                     }
                 });
 
             });
             $('#btnClear').click(function () {
                 $('#dvLoader').show();
-                var result = confirm("Want to delete?");
+                var result = confirm("Want to clear current invoice?");
                 if (result) {
                     $.ajax({
                         url: "/InventoryData/ClearSession",
@@ -86,6 +105,7 @@
                             $('#dvLoader').hide();
                             CashDesClear();
                             Clear();
+                            LoadSessionData();
                         }
                     });
                 }
@@ -93,12 +113,13 @@
             });
             $('#txtCash').keyup(function () {
                 loadPrice();
-            });
+            });           
 
         });
         function Clear() {
             $('#txtProduct').val('');
             $('#txtPrice').val('');
+            $('#txtQuantity').val('');
         }
         function CashDesClear() {
             $('#txtCash').val('');
@@ -106,10 +127,37 @@
         }
         function loadPrice() {
             var grandTotal = $('#txtGrandTotal').val();
-            var CalCash = $('#txtCash').val();
+            var CalCash = $('#txtCash').val();            
             var total = grandTotal - CalCash;
             $('#txtDuePayment').val(total);
 
+        }
+        function LoadSessionData()
+        {
+            $.ajax({
+                url: "/InventoryData/SessionInvoices",
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    var products = data.ResponseSessions;
+                    var tr = "";
+                    products.forEach(function (product) {
+                        tr += '<tr>';
+                        tr += '<td>' + product.Serial + '</td>';
+                        tr += '<td>' + product.ProductName + '</td>';
+                        tr += '<td>' + product.Quantity + '</td>';
+                        tr += '<td>' + product.Price + '</td>';
+                        tr += '<td>' + product.TotalPrice + '</td>';
+                        tr += "<td>" + product.SessionInvoiceId + '</td>';
+                        tr += '</tr>';
+
+                    });
+                    $("#tBody").html(tr);
+                    $('#dvLoader').hide();
+                    Clear();
+                }
+            });
         }
     </script>
 
