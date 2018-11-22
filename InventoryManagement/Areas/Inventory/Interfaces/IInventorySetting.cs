@@ -29,5 +29,11 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         void UpdateProduct(Product product,int productId, int userId, int concernId);
         IEnumerable<ResponseProduct> Products(int concernId,int page);
 
+        //product and supplier and buyer data pull
+
+        IEnumerable<Product> Products(int concernId);
+        IEnumerable<Buyer> Buyers(int concernId);
+        IEnumerable<Supplier> Suppliers(int concernId);
+
     }
 }

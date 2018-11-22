@@ -14,11 +14,13 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly IBuyer _buyer;
         private readonly IInventorySetting _inventorySetting;
         private readonly ISession _session;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session)
+        private readonly ISalesInvoice _salesInvoice;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
             _session = session;
+            _salesInvoice = salesInvoice;
         }
         // GET: Inventory/InventoryData
         public ActionResult Index()
@@ -128,26 +130,10 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public ActionResult SalesInvoice()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult SalesInvoices()
-        {
-            return View();
-        }
-        
-        [HttpGet]
-        public ActionResult AddSalesInvoice()
-        {
-            return View();
-        }
         [HttpPost]
-        public JsonResult AddSalesInvoice(SessionInvoice sessionInvoice)
+        public JsonResult AddSessionInvoice(SessionInvoice sessionInvoice)
         {
-            _session.AddSessionInvoice(1,1, sessionInvoice);
+            _session.AddSessionInvoice(1, 1, sessionInvoice);
             var sessions = _session.ResponseSessions(1, 1);
             SessionViewModels viewModels = new SessionViewModels()
             {
@@ -167,5 +153,37 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _session.Delete(1, 1, id);
             return View();
         }
+        [HttpGet]
+        public ActionResult SalesInvoice()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult SalesInvoices()
+        {
+            return View();
+        }
+        
+        [HttpGet]
+        public ActionResult AddSalesInvoice()
+        {
+            var products = _inventorySetting.Products(1);
+            var buyers = _inventorySetting.Buyers(1);
+            var suppliers = _inventorySetting.Suppliers(1);
+            VendorsViewModels viewModels = new VendorsViewModels()
+            {
+                Products = products,
+                Buyers=buyers,
+                Suppliers=suppliers
+            };
+            return View(viewModels);
+        }
+        [HttpPost]
+        public JsonResult AddSalesInvoice(SessionInvoice sessionInvoice)
+        {
+            _salesInvoice.AddSalesInvoice(sessionInvoice, 1, 1);
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

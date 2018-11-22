@@ -19,6 +19,7 @@ namespace InventoryManagement
             container.RegisterType<IBuyer, BuyerService>();
             container.RegisterType<IInventorySetting, InventorySettingService>();
             container.RegisterType<ISession,SessionService>();
+            container.RegisterType<ISalesInvoice,SalesInvoiceService>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

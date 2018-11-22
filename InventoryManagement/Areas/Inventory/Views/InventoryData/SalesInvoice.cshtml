@@ -31,47 +31,62 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#btnSave').click(function () {
-                var name = $('#txtName').val();
-                var address = $('#txtAddress').val();
-                var mobileNumber = $('#txtMobileNumber').val();
-                var altMobileNumber = $('#txtAltMobileNumber').val();
-                var buyerBalance = $('#txtBuyerBalance').val();
-                var description = $('#txtDescription').val();
+            $('#btnAdd').click(function () {
+                var date = $('#txtDate').val();
+                var buyerId = $('#txtBuyerID').val();
+                var productId = $('#txtProduct').val();
+                var price = $('#txtPrice').val();
                 $('#dvLoader').show();
                 $.ajax({
-                    url: "/InventoryData/AddBuyer",
+                    url: "/InventoryData/AddSessionInvoice",
                     type: "POST",
                     data: JSON.stringify({
-                        "BuyerName": name,
-                        "BuyerAddress": address,
-                        "BuyerBalance": buyerBalance,
-                        "MobileNumber": mobileNumber,
-                        "AlternateMobileNumber": altMobileNumber,
-                        "Description": description
+                        "Date": date,
+                        "BuyerID": buyerId,
+                        "ProductID": productId,
+                        "UnitPrice": price
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    success: function (result) {
-                        $('#dvLoader').hide();
-                        alert(result);
+                    success: function () {
+                        $('#dvLoader').hide();                     
                         Clear();
                     }
                 });
 
             });
+            $('#btnContinue').click(function () {
+                var cash = $('#txtCash').val();
+                var des = $('#txtDes').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/AddSalesInvoice",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "txtCash": cash,
+                        "Description": des
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $('#dvLoader').hide();
+                        CashDesClear();
+                    }
+                });
 
+            });
+            
             $('#btnClear').click(function () {
                 Clear();
             });
         });
         function Clear() {
-            $('#txtName').val('');
-            $('#txtAddress').val('');
-            $('#txtMobileNumber').val('');
-            $('#txtAltMobileNumber').val('');
-            $('#txtBuyerBalance').val('');
-            $('#txtDescription').val('');
+            $('#txtProduct').val('');
+            $('#txtPrice').val('');
+        }
+        function CashDesClear() {
+            $('#txtCash').val('');
+            $('#txtDes').val('');
         }
     </script>
 

@@ -45,6 +45,11 @@ namespace InventoryManagement.Areas.Inventory.Services
             unit.IsDelete = 0;
         }
 
+        public IEnumerable<Buyer> Buyers(int concernId)
+        {
+            return _context.Buyers.Where(m=>m.ConcernID==concernId && m.IsDelete==0);
+        }
+
         public IEnumerable<Category> Categories(int concernId)
         {
             return _context.Categories.Where(m=>m.IsDelete==0 && m.ConcernID==concernId);
@@ -105,6 +110,16 @@ namespace InventoryManagement.Areas.Inventory.Services
                 command.Connection.Close();
             }
                 return responses;
+        }
+
+        public IEnumerable<Product> Products(int concernId)
+        {
+            return _context.Products.Where(m => m.ConcernID == concernId && m.IsDelete == 0);
+        }
+
+        public IEnumerable<Supplier> Suppliers(int concernId)
+        {
+            return _context.Suppliers.Where(m => m.ConcernID == concernId && m.IsDelete == 0);
         }
 
         public IEnumerable<Unit> Units(int concernId)
