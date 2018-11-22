@@ -59,5 +59,12 @@ namespace InventoryManagement.Areas.Inventory.Services
             }
                 return ResponseBuyers;
         }
+
+        public void Delete(int id, int concernId)
+        {
+            var buyer = _context.Buyers.FirstOrDefault(x=>x.BuyerID==id);
+            _context.Buyers.Remove(buyer);
+            _context.SaveChanges();
+        }
     }
 }

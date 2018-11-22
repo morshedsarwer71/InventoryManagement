@@ -14,7 +14,7 @@ namespace InventoryManagement.Areas.Inventory.Models
         public int ParentCategoryID { get; set; }
         public int ConcernID { get; set; }
         public string Description { get; set; }
-        public System.DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         public int Creator { get; set; }
         public int IsDelete { get; set; }
     }

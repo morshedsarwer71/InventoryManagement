@@ -12,5 +12,6 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
     {
         void Add(Buyer buyer);
         IEnumerable<ResponseBuyer> Buyers(int concernId,int page);
+        void Delete(int id,int concernId);
     }
 }

@@ -26,3 +26,40 @@
 
     </div>
 </section>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //add new buyer
+            $('#btnSave').click(function () {
+                var name = $('#txtUnitName').val();
+                var description = $('#txtDescription').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/AddUnit",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "BuyerName": name,
+                        "Description": description
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $('#dvLoader').hide();
+                        Clear();
+                        $('#firstTab').reload();
+                    }
+                });
+
+            });
+            //end add new buyer
+
+            $('#btnClear').click(function () {
+                Clear();
+            });
+        });
+        function Clear() {
+            $('#txtUnitName').val('');
+            $('#txtDescription').val('');
+        }
+    </script>
+}

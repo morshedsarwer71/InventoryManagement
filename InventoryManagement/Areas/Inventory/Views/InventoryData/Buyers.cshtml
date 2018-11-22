@@ -9,7 +9,7 @@
         <small>preview of buyers index</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
         <li><a href="#">Buyer</a></li>
         <li class="active">Buyers</li>
     </ol>
@@ -46,7 +46,7 @@
                                 <td>@item.AlternateMobileNumber</td>
                                 <td>@item.BuyerBalance</td>
                                 <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                                <td style="color:red"><a href="#"><i class="fa fa-trash"></i></a></td>
+                                <td style="color:red"><a href="" onclick="Delete('@item.BuyerID')"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             }
                         </tbody>                        

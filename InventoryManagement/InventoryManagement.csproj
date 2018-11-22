@@ -217,6 +217,8 @@
     <Compile Include="Areas\Global\Models\SystemUser.cs" />
     <Compile Include="Areas\Inventory\Controllers\InventoryDataController.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IBuyer.cs" />
+    <Compile Include="Areas\Inventory\Interfaces\IInventorySetting.cs" />
+    <Compile Include="Areas\Inventory\Interfaces\ISession.cs" />
     <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
     <Compile Include="Areas\Inventory\Models\Buyer.cs" />
     <Compile Include="Areas\Inventory\Models\Category.cs" />
@@ -231,8 +233,14 @@
     <Compile Include="Areas\Inventory\Models\Supplier.cs" />
     <Compile Include="Areas\Inventory\Models\Unit.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseSession.cs" />
     <Compile Include="Areas\Inventory\Services\BuyerService.cs" />
+    <Compile Include="Areas\Inventory\Services\InventorySettingService.cs" />
+    <Compile Include="Areas\Inventory\Services\SessionService.cs" />
     <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\SessionViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\UnitIndexViewModels.cs" />
     <Compile Include="Context\DataContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -7055,6 +7063,9 @@
     <Content Include="Areas\Inventory\Views\InventoryData\Product.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\Products.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddProduct.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoices.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddSalesInvoice.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

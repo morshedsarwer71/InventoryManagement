@@ -12,9 +12,13 @@ namespace InventoryManagement.Areas.Inventory.Controllers
     public class InventoryDataController : Controller
     {
         private readonly IBuyer _buyer;
-        public InventoryDataController(IBuyer buyer)
+        private readonly IInventorySetting _inventorySetting;
+        private readonly ISession _session;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session)
         {
             _buyer = buyer;
+            _inventorySetting = inventorySetting;
+            _session = session;
         }
         // GET: Inventory/InventoryData
         public ActionResult Index()
@@ -53,6 +57,12 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return Json("field required", JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public JsonResult DeleteBuyer(int id)
+        {
+            _buyer.Delete(id, 1);
+            return Json("Deleted", JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
         public ActionResult Unit()
         {
@@ -61,7 +71,12 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpGet]
         public ActionResult Units()
         {
-            return View();
+            var units = _inventorySetting.Units(1);
+            UnitIndexViewModels viewModels = new UnitIndexViewModels()
+            {
+                Units = units
+            };
+            return View(viewModels);
         }
         [HttpGet]
         public ActionResult AddUnit()
@@ -111,6 +126,45 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public ActionResult AddProduct(Product product)
         {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult SalesInvoice()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult SalesInvoices()
+        {
+            return View();
+        }
+        
+        [HttpGet]
+        public ActionResult AddSalesInvoice()
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult AddSalesInvoice(SessionInvoice sessionInvoice)
+        {
+            _session.AddSessionInvoice(1,1, sessionInvoice);
+            var sessions = _session.ResponseSessions(1, 1);
+            SessionViewModels viewModels = new SessionViewModels()
+            {
+                ResponseSessions = sessions
+            };
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult ClearSession()
+        {
+            _session.ClearSessionInvoice(1,1);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ClearById(int id)
+        {
+            _session.Delete(1, 1, id);
             return View();
         }
     }

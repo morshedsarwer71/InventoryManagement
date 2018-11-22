@@ -1,0 +1,183 @@
+﻿@{
+    Layout = null;
+}
+<section class="content-header">
+    <h1>
+        Sales Invoice
+        <small>adding new sales invoice</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div id="dvLoader" class="LoadingDiv" style="display: none;">
+        <center>
+            <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+        </center>
+    </div>
+    <div class="row">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sales Form</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="Date" class="form-control pull-right" id="txtDate">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Customer</label>
+                                <select id="txtCustomer" name="BuyerID" class="form-control select2" style="width: 100%;">
+                                    <option>Alaska</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">Product</label>
+                                <select id="txtProduct" name="productID" class="form-control">
+                                    <option>One</option>
+                                    <option>two</option>
+                                    <option>three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-try"></i>
+                                    </div>
+                                    <input type="text" name="Date" class="form-control pull-right" id="txtPrice">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnAdd" type="submit" value="submit" class="btn btn-info"><i class="fa fa-plus"></i> New</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                                <th style="width: 15px">Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-form-label">Description</label>
+                                <textarea id="txtDescription" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-form-label">Grand Total</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-try"></i>
+                                        </div>
+                                        <input type="text" readonly="readonly" name="Date" class="form-control pull-right" id="txtGrandTotal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-form-label">Cash</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-try"></i>
+                                        </div>
+                                        <input type="text" name="Date" class="form-control pull-right" id="txtCash">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-form-label">Due</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-try"></i>
+                                        </div>
+                                        <input type="text" readonly="readonly" name="Date" class="form-control pull-right" id="txtDue">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnClear" type="submit" value="submit" class="btn btn-danger">Clear</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnPrint" type="submit" value="submit" class="btn btn-primary">Print & Continue</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnContinue" type="submit" value="submit" class="btn btn-info">Continue</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- /.box -->
+        <!-- /.col -->
+
+    </div>
+</section>
+
+
+<div id="dvLoader" class="LoadingDiv" style="display: none;">
+    <center>
+        <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+    </center>
+</div>
