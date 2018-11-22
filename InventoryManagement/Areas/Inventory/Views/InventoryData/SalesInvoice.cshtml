@@ -48,8 +48,8 @@
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
-                    success: function () {
-                        $('#dvLoader').hide();                     
+                    success: function () {                        
+                        $('#dvLoader').hide();
                         Clear();
                     }
                 });
@@ -90,8 +90,11 @@
                     });
                 }
 
-            });           
-            
+            });
+            $('#txtCash').keyup(function () {
+                loadPrice();
+            });
+
         });
         function Clear() {
             $('#txtProduct').val('');
@@ -100,6 +103,13 @@
         function CashDesClear() {
             $('#txtCash').val('');
             $('#txtDes').val('');
+        }
+        function loadPrice() {
+            var grandTotal = $('#txtGrandTotal').val();
+            var CalCash = $('#txtCash').val();
+            var total = grandTotal - CalCash;
+            $('#txtDuePayment').val(total);
+
         }
     </script>
 
