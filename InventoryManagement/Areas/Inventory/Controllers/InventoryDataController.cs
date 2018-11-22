@@ -142,10 +142,10 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult ClearSession()
+        public JsonResult ClearSession()
         {
             _session.ClearSessionInvoice(1,1);
-            return View();
+            return Json("Deleted",JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult ClearById(int id)

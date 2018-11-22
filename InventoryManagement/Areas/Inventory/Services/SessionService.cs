@@ -31,9 +31,9 @@ namespace InventoryManagement.Areas.Inventory.Services
             var session = _context.SessionInvoices.Where(m=>m.UserID==userId && m.ConcernID==ConcernId);
             foreach (var item in session)
             {
-                _context.SessionInvoices.Remove(item);
-                _context.SaveChanges();
+                _context.SessionInvoices.Remove(item);                
             }
+            _context.SaveChanges();
         }
 
         public void Delete(int userId, int concernId, int sessionId)

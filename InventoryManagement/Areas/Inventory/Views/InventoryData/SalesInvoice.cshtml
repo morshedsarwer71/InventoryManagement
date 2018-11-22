@@ -75,10 +75,23 @@
                 });
 
             });
-            
             $('#btnClear').click(function () {
-                Clear();
-            });
+                $('#dvLoader').show();
+                var result = confirm("Want to delete?");
+                if (result) {
+                    $.ajax({
+                        url: "/InventoryData/ClearSession",
+                        type: "POST",
+                        success: function () {
+                            $('#dvLoader').hide();
+                            CashDesClear();
+                            Clear();
+                        }
+                    });
+                }
+
+            });           
+            
         });
         function Clear() {
             $('#txtProduct').val('');
