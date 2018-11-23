@@ -1,17 +1,17 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.PurchaseReturnIndexViewModels
 @{
     Layout = null;
 }
 
 <section class="content-header">
     <h1>
-        Sales Index
-        <small>preview of sales index</small>
+        purchase return Index
+        <small>preview of purchase return index</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li><a href="#">Sale Invoice</a></li>
-        <li class="active"><a href="@Url.Action("SalesInvoice","InventoryData")">Sales</a></li>
+        <li><a href="#">Purchase Invoice</a></li>
+        <li class="active"><a href="@Url.Action("PurchaseReturnInvoice","InventoryData")">Purchase Return</a></li>
     </ol>
 </section>
 
@@ -26,9 +26,9 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Sales Code</th>
-                                <th>Sales Date</th>
-                                <th>Buyer Name</th>
+                                <th>Purchase Return Code</th>
+                                <th>Purchase Return Date</th>
+                                <th>Supplier Name</th>
                                 <th>Total Price</th>
                                 <th>Cash</th>
                                 <th>Discount</th>
@@ -37,18 +37,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ResponseSales)
+                            @foreach (var item in Model.ResponsePurchaseReturns)
                             {
                                 <tr>
                                     <td>@item.Serial.</td>
-                                    <td>@item.SalesCode</td>
-                                    <td>@item.SalesDate.ToShortDateString()</td>
-                                    <td>@item.BuyerName</td>
+                                    <td>@item.PurchaseReturnCode</td>
+                                    <td>@item.PurchaseReturnDate.ToShortDateString()</td>
+                                    <td>@item.SupplierName</td>
                                     <td>@item.TotalPrice</td>
                                     <td>@item.Cash</td>
                                     <td>@item.Discount</td>
-                                    <td>@item.GrandTotal</td>
-                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
+                                    <td>@item.Due</td>
+                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.PurchaseReturnCode })"><i class="fa fa-info-circle"></i></a></td>
                                 </tr>
                             }
                         </tbody>

@@ -1,17 +1,17 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.DuePaymentViewModels
 @{
     Layout = null;
 }
 
 <section class="content-header">
     <h1>
-        Sales Index
-        <small>preview of sales index</small>
+        Buyers Index
+        <small>preview of buyers Payment index</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li><a href="#">Sale Invoice</a></li>
-        <li class="active"><a href="@Url.Action("SalesInvoice","InventoryData")">Sales</a></li>
+        <li><a href="#">Buyer</a></li>
+        <li class="active"><a href="@Url.Action("BuyerPayment","InventoryData")">Buyer Payments</a></li>
     </ol>
 </section>
 
@@ -26,29 +26,25 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Sales Code</th>
-                                <th>Sales Date</th>
-                                <th>Buyer Name</th>
-                                <th>Total Price</th>
-                                <th>Cash</th>
-                                <th>Discount</th>
-                                <th>Due</th>
-                                <th style="width: 15px">Details</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th style="width: 15px">Update</th>
+                                <th style="width: 15px">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ResponseSales)
+                            @foreach (var item in Model.ResponseDues)
                             {
                                 <tr>
                                     <td>@item.Serial.</td>
-                                    <td>@item.SalesCode</td>
-                                    <td>@item.SalesDate.ToShortDateString()</td>
-                                    <td>@item.BuyerName</td>
-                                    <td>@item.TotalPrice</td>
-                                    <td>@item.Cash</td>
-                                    <td>@item.Discount</td>
-                                    <td>@item.GrandTotal</td>
-                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
+                                    <td>@item.PaymentDate.ToShortDateString()</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Description</td>
+                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.PaymentId })"><i class="fa fa-pencil"></i></a></td>
+                                    <td style="color:red"><a href="" onclick="Delete(' @item.PaymentId ')"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             }
                         </tbody>
