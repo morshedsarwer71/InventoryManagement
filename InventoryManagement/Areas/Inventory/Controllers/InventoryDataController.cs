@@ -15,22 +15,26 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly IInventorySetting _inventorySetting;
         private readonly ISession _session;
         private readonly ISalesInvoice _salesInvoice;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice)
+        private readonly IPurchaseInvoice _purchase;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
             _session = session;
             _salesInvoice = salesInvoice;
+            _purchase = purchase;
         }
         // GET: Inventory/InventoryData
         public ActionResult Index()
         {
             return View();
         }
+        [HttpGet]
         public ActionResult Buyer()
         {
             return View();
         }
+        [HttpGet]
         public ActionResult Buyers(int page = 1)
         {
             var responseBuyers = _buyer.Buyers(1, page);
@@ -40,6 +44,17 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             };
             return View(buyerIndexViewModels);
         }
+        [HttpGet]
+        public JsonResult NewBuyers(int page)
+        {
+            var responseBuyers = _buyer.Buyers(1, page);
+            BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
+            {
+                GetResponseBuyers = responseBuyers
+            };
+            return Json(buyerIndexViewModels, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult AddBuyer()
         {
@@ -66,6 +81,17 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
+        public ActionResult UpdateBuyer(int id)
+        {
+            return View(_buyer.Buyer(id));
+        }
+        [HttpPost]
+        public ActionResult UpdateBuyer(int id, Buyer buyer)
+        {
+            _buyer.Update(id, buyer);
+            return RedirectToAction(nameof(Buyer));
+        }
+        [HttpGet]
         public ActionResult Unit()
         {
             return View();
@@ -87,6 +113,11 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         }
         [HttpPost]
         public ActionResult AddUnit(Unit unit)
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DeleteUnit()
         {
             return View();
         }
@@ -154,8 +185,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public JsonResult ClearSession()
         {
-            _session.ClearSessionInvoice(1,1);
-            return Json("Deleted",JsonRequestBehavior.AllowGet);
+            _session.ClearSessionInvoice(1, 1);
+            return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult ClearById(int id)
@@ -165,8 +196,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         }
         [HttpPost]
         public JsonResult ProductPrice(int id)
-        {            
-            return Json(_session.ProductPrice(id,1),JsonRequestBehavior.AllowGet);
+        {
+            return Json(_session.ProductPrice(id, 1), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesInvoice()
@@ -174,11 +205,16 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult SalesInvoices()
+        public ActionResult SalesInvoices(int page=1)
         {
-            return View();
+            var sales = _salesInvoice.ResponseSales(1, page, "0");
+            SalesIndexViewModels viewModels = new SalesIndexViewModels()
+            {
+                ResponseSales = sales
+            };
+            return View(viewModels);
         }
-        
+
         [HttpGet]
         public ActionResult AddSalesInvoice()
         {
@@ -188,8 +224,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             VendorsViewModels viewModels = new VendorsViewModels()
             {
                 Products = products,
-                Buyers=buyers,
-                Suppliers=suppliers
+                Buyers = buyers,
+                Suppliers = suppliers
             };
             return View(viewModels);
         }
@@ -199,6 +235,44 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _salesInvoice.AddSalesInvoice(sessionInvoice, 1, 1);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
-        
+        [HttpGet]
+        public ActionResult PurchaseInvoice()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult PurchaseInvoices(int page = 1)
+        {
+
+            var purchases = _purchase.ResponsePurchases(1, page, "0");
+            
+            PurchaseIndexViewModels viewModels = new PurchaseIndexViewModels()
+            {
+                ResponsePurchases=purchases
+            };
+            return View(viewModels);
+        }
+        [HttpGet]
+        public ActionResult AddPurchaseInvoice()
+        {
+            var products = _inventorySetting.Products(1);
+            var buyers = _inventorySetting.Buyers(1);
+            var suppliers = _inventorySetting.Suppliers(1);
+            VendorsViewModels viewModels = new VendorsViewModels()
+            {
+                Products = products,
+                Buyers = buyers,
+                Suppliers = suppliers
+            };
+            return View(viewModels);
+        }
+        [HttpPost]
+        public JsonResult AddPurchaseInvoice(SessionInvoice sessionInvoice)
+        {
+            _purchase.AddPurchaseInvoice(sessionInvoice, 1, 1);
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

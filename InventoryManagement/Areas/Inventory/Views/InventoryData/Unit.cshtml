@@ -38,7 +38,7 @@
                     url: "/InventoryData/AddUnit",
                     type: "POST",
                     data: JSON.stringify({
-                        "BuyerName": name,
+                        "UnitName": name,
                         "Description": description
                     }),
                     dataType: "json",
@@ -46,15 +46,9 @@
                     success: function () {
                         $('#dvLoader').hide();
                         Clear();
-                        $('#firstTab').reload();
                     }
                 });
 
-            });
-            //end add new buyer
-
-            $('#btnClear').click(function () {
-                Clear();
             });
         });
         function Clear() {

@@ -218,6 +218,7 @@
     <Compile Include="Areas\Inventory\Controllers\InventoryDataController.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IBuyer.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IInventorySetting.cs" />
+    <Compile Include="Areas\Inventory\Interfaces\IPurchaseInvoice.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISalesInvoice.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISession.cs" />
     <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
@@ -235,12 +236,18 @@
     <Compile Include="Areas\Inventory\Models\Unit.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchase.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseSales.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseSalesInvoice.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSession.cs" />
     <Compile Include="Areas\Inventory\Services\BuyerService.cs" />
     <Compile Include="Areas\Inventory\Services\InventorySettingService.cs" />
+    <Compile Include="Areas\Inventory\Services\PurchaseInvoiceService.cs" />
     <Compile Include="Areas\Inventory\Services\SalesInvoiceService.cs" />
     <Compile Include="Areas\Inventory\Services\SessionService.cs" />
     <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\PurchaseIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\SalesIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SessionViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\UnitIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\VendorsViewModels.cs" />
@@ -7069,6 +7076,10 @@
     <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoice.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoices.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddSalesInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\UpdateBuyer.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\PurchaseInvoice.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\PurchaseInvoices.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddPurchaseInvoice.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

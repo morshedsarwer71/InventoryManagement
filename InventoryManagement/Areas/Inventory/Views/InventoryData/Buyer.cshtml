@@ -28,8 +28,9 @@
 </section>
 @section Scripts{
     <script>
-        $(document).ready(function () {   
+        $(document).ready(function () {
             //add new buyer
+            //LoadSessionData();
             $('#btnSave').click(function () {
                 var name = $('#txtName').val();
                 var address = $('#txtAddress').val();
@@ -52,9 +53,10 @@
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function () {
+                        //$('#firstTab').reload();
+                        LoadSessionData()
                         $('#dvLoader').hide();
                         Clear();
-                        $('#firstTab').reload();
                     }
                 });
 
@@ -72,24 +74,53 @@
             $('#txtAltMobileNumber').val('');
             $('#txtBuyerBalance').val('');
             $('#txtDescription').val('');
-        }
-
-        function Delete(id)
-        {
+        }        
+        
+        function Delete(id) {
             //alert(id);
             var ans = confirm("Are you sure want to delete this record test");
-            if (ans)
-            {
+            if (ans) {
+                $('#dvLoader').show();
                 $.ajax({
-                    url: "/InventoryData/DeleteBuyer" + id,
+                    url: "/InventoryData/DeleteBuyer",
                     type: "POST",
+                    data: JSON.stringify({
+                        "id": id
+                    }),
                     contentType: "application/json;charset=UTF-8",
                     dataType: "json",
                     success: function () {
                         $('#firstTab').reload();
+                        $('#dvLoader').hide();
                     },
                 });
             }
+        }
+        function LoadSessionData() {
+            $.ajax({
+                url: "/InventoryData/NewBuyers",
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    var products = data.ResponseSessions;
+                    console.log(products);
+                    var tr = "";
+                    products.forEach(function (product) {
+                        tr += '<tr>';
+                        tr += '<td>' + product.Serial + '</td>';
+                        tr += '<td>' + product.BuyerName + '</td>';
+                        tr += '<td>' + product.BuyerAddress + '</td>';
+                        tr += '<td>' + product.MobileNumber + '</td>';
+                        tr += '<td>' + product.AlternateMobileNumber + '</td>';
+                        tr += '<td>' + product.BuyerBalance + '</td>';
+                        //tr += '<td><a class="ClearById" href="' + product.BuyerID + '"><i class="fa fa-trash"></i></a></td>';
+                        tr += '</tr>';
+                    });
+                    $("#tBody").html(tr);
+                    $('#dvLoader').hide();
+                }
+            });
         }
     </script>
 }

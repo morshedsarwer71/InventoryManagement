@@ -26,6 +26,11 @@ namespace InventoryManagement.Areas.Inventory.Services
             _context.SaveChanges();
         }
 
+        public Buyer Buyer(int id)
+        {
+            return _context.Buyers.FirstOrDefault(m=>m.BuyerID==id);
+        }
+
         public IEnumerable<ResponseBuyer> Buyers(int concernId,int page)
         {
             List<ResponseBuyer> ResponseBuyers = new List<ResponseBuyer>();
@@ -64,6 +69,17 @@ namespace InventoryManagement.Areas.Inventory.Services
         {
             var buyer = _context.Buyers.FirstOrDefault(x=>x.BuyerID==id);
             _context.Buyers.Remove(buyer);
+            _context.SaveChanges();
+        }
+
+        public void Update(int id, Buyer buyer)
+        {
+            var ubuyer = Buyer(id);
+            ubuyer.BuyerName = buyer.BuyerName;
+            ubuyer.AlternateMobileNumber = buyer.AlternateMobileNumber;
+            ubuyer.BuyerAddress = buyer.BuyerAddress;
+            ubuyer.BuyerBalance = buyer.BuyerBalance;
+            ubuyer.Description = buyer.Description;
             _context.SaveChanges();
         }
     }

@@ -10,16 +10,16 @@ using System.Web;
 
 namespace InventoryManagement.Areas.Inventory.Services
 {
-    public class SalesInvoiceService : ISalesInvoice
+    public class PurchaseInvoiceService : IPurchaseInvoice
     {
         private readonly DataContext _context;
-        public SalesInvoiceService(DataContext context)
+        public PurchaseInvoiceService(DataContext context)
         {
             _context = context;
         }
-        public void AddSalesInvoice(SessionInvoice sessionInvoice, int userId, int concernId)
+        public void AddPurchaseInvoice(SessionInvoice sessionInvoice, int userId, int concernId)
         {
-            List<SalesInvoice> salesInvoices = new List<SalesInvoice>();
+            List<PurchaseInvoice> purchaseInvoices = new List<PurchaseInvoice>();
             var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
             var dateString = DateTime.Now;
             var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;
@@ -27,8 +27,9 @@ namespace InventoryManagement.Areas.Inventory.Services
             {
                 foreach (var item in sessionData)
                 {
-                    salesInvoices.Add(new SalesInvoice() {
-                        BuyerID = item.BuyerID,
+                    purchaseInvoices.Add(new PurchaseInvoice()
+                    {
+                        SupplierID = item.BuyerID,
                         CashPayment = sessionInvoice.CashPayment,
                         ConcernID = concernId,
                         CreationDate = dateString,
@@ -36,15 +37,15 @@ namespace InventoryManagement.Areas.Inventory.Services
                         Description = sessionInvoice.Description,
                         Discount = sessionInvoice.Discount,
                         DuePayment = item.DuePayment,
-                        IsDelete=item.IsDelete,
-                        ProductID=item.ProductID,
-                        Quantity=item.Quantity,
-                        SalesDate=item.Date,
-                        SalesInvoiceCode= invoiceCode,
-                        SalesUnitPrice=item.UnitPrice                        
+                        IsDelete = item.IsDelete,
+                        ProductID = item.ProductID,
+                        Quantity = item.Quantity,
+                        PurchaseDate = item.Date,
+                        PurchaseInvoiceCode = invoiceCode,
+                        PurchaseUnitPrice = item.UnitPrice
                     });
                 }
-                _context.SalesInvoices.AddRange(salesInvoices);                
+                _context.PurchaseInvoices.AddRange(purchaseInvoices);
                 _context.SaveChanges();
                 _context.SessionInvoices.RemoveRange(sessionData);
                 _context.SaveChanges();
@@ -53,15 +54,15 @@ namespace InventoryManagement.Areas.Inventory.Services
             }
         }
 
-        public IEnumerable<ResponseSales> ResponseSales(int concernId, int page, string salesCode)
+        public IEnumerable<ResponsePurchase> ResponsePurchases(int concernId, int page, string purchaseCode)
         {
-            List<ResponseSales> responses = new List<ResponseSales>();
+            List<ResponsePurchase> responses = new List<ResponsePurchase>();
             using (var command=_context.Database.Connection.CreateCommand())
             {
-                command.CommandText = "usp_Inventory_StockManagement_SalesIndex @concernId,@PageNumber,@SalesCode";
+                command.CommandText = "usp_Inventory_StockManagement_PurchaseIndex @concernId,@PageNumber,@PurchaseInvoiceCode";
                 command.Parameters.Add(new SqlParameter("@concernId",concernId));
                 command.Parameters.Add(new SqlParameter("@PageNumber", page));
-                command.Parameters.Add(new SqlParameter("@SalesCode", salesCode));
+                command.Parameters.Add(new SqlParameter("@PurchaseInvoiceCode", purchaseCode));
                 _context.Database.Connection.Open();
                 using (var result=command.ExecuteReader())
                 {
@@ -69,24 +70,24 @@ namespace InventoryManagement.Areas.Inventory.Services
                     {
                         while (result.Read())
                         {
-                            responses.Add(new ResponseSales()
+                            responses.Add(new ResponsePurchase()
                             {
                                 Serial = Convert.ToInt32(result[0]),
-                                SalesCode = Convert.ToString(result[1]),
-                                SalesDate=Convert.ToDateTime(result[2]),
-                                BuyerName=Convert.ToString(result[3]),
-                                TotalPrice=Convert.ToDecimal(result[4]),
-                                Cash=Convert.ToDecimal(result[5]),
-                                Discount=Convert.ToDecimal(result[6]),
-                                GrandTotal=Convert.ToDecimal(result[7]),
-                                Rows=Convert.ToInt32(result[8]),
+                                PurchaseDate = Convert.ToDateTime(result[1]),
+                                PurchaseCode = Convert.ToString(result[2]),
+                                SupplierName = Convert.ToString(result[3]),
+                                TotalPrice = Convert.ToDecimal(result[4]),
+                                Cash = Convert.ToDecimal(result[5]),
+                                Discount = Convert.ToDecimal(result[6]),
+                                Due = Convert.ToDecimal(result[7]),
+                                Rows = Convert.ToInt32(result[8]),
                             });
                         }
                     }
                 }
-                _context.Database.Connection.Close();
+                    _context.Database.Connection.Close();
             }
-            return responses;
+                return responses;
         }
     }
 }

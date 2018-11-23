@@ -13,7 +13,7 @@ namespace InventoryManagement.Areas.Inventory.Models
         [Required]
         public string UnitName { get; set; }
         public string Description { get; set; }
-        public System.DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
         public int Creator { get; set; }
         public int IsDelete { get; set; }
         public int ConcernID { get; set; }

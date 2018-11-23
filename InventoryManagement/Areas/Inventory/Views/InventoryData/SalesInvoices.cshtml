@@ -1,17 +1,74 @@
-﻿
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
+<section class="content-header">
+    <h1>
+        Sales Index
+        <small>preview of sales index</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li><a href="#">Sale Invoice</a></li>
+        <li class="active"><a href="@Url.Action("SalesInvoice","InventoryData")">Sales</a></li>
+    </ol>
+</section>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>SalesInvoices</title>
-</head>
-<body>
-    <div> 
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Sales Code</th>
+                                <th>Sales Date</th>
+                                <th>Buyer Name</th>
+                                <th>Total Price</th>
+                                <th>Cash</th>
+                                <th>Discount</th>
+                                <th>Grand Total</th>
+                                <th style="width: 15px">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ResponseSales)
+                            {
+                                <tr>
+                                    <td>@item.Serial.</td>
+                                    <td>@item.SalesCode</td>
+                                    <td>@item.SalesDate.ToShortDateString()</td>
+                                    <td>@item.BuyerName</td>
+                                    <td>@item.TotalPrice</td>
+                                    <td>@item.Cash</td>
+                                    <td>@item.Discount</td>
+                                    <td>@item.GrandTotal</td>
+                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
     </div>
-</body>
-</html>
+</section>

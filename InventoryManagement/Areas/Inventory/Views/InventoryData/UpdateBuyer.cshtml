@@ -1,0 +1,55 @@
+﻿@model InventoryManagement.Areas.Inventory.Models.Buyer
+<section class="content-header">
+    <h1>
+        Update Buyer
+        <small>updating buyer information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="box">
+            <!-- /.box-header -->
+            @using (Html.BeginForm("UpdateBuyer", "InventoryData"))
+            {
+                <div class="box-body">
+                    <div class="col-md-6 col-sm-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Name</label>
+                            <input id="txtName" value="@Model.BuyerName" type="text" name="BuyerName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Address</label>
+                            <input id="txtAddress" value="@Model.BuyerAddress" type="text" name="BuyerAddress" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Mobile Number</label>
+                            <input id="txtMobileNumber" value="@Model.MobileNumber" type="text" name="MobileNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Alt. Number</label>
+                            <input id="txtAltMobileNumber" value="@Model.AlternateMobileNumber" type="text" name="AlternateMobileNumber" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Buyer Previous Balance</label>
+                            <input id="txtBuyerBalance" value="@Model.BuyerBalance" type="text" name="BuyerBalance" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Description</label>
+                            <textarea id="txtDescription" class="form-control" name="Description">@Model.Description</textarea>
+                        </div>
+                        <div class="form-group">
+                            <button id="btnSave" type="submit" value="submit" class="btn btn-info">UPDATE</button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</section>

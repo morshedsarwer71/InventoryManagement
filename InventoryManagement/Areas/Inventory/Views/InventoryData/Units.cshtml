@@ -26,16 +26,21 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Unit Name</th>
+                                <th style="width: 50px">Unit Name</th>
                                 <th>Description</th>
                                 <th style="width: 15px">Update</th>
                                 <th style="width: 15px">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @{
+                                var serial = 0;
+                             }
                             @foreach (var item in Model.Units)
                             {
+                                serial++;
                                 <tr>
+                                    <td>@serial</td>
                                     <td>@item.UnitName</td>
                                     <td>@item.Description</td>
                                     <td><a href="@Url.Action("","",new {id=@item.UnitID })"></a></td>
