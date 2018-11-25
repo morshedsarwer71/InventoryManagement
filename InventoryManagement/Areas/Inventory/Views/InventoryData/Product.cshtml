@@ -26,4 +26,50 @@
 
     </div>
 </section>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //add new buyer
+            $('#btnSave').click(function () {
+                var name = $('#txtProductName').val();
+                var cate = $('#txtCategory').val();
+                var unit = $('#txtUnit').val();
+                var sales = $('#txtSalesPrice').val();
+                var purchase = $('#txtPurchasePrice').val();
+                var quan = $('#txtQuantity').val();
+                var des = $('#txtDescription').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/AddProduct",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "ProductName": name,
+                        "CategoryID": cate,
+                        "UnitID": unit,
+                        "SalesPrice": sales,
+                        "PurchasePrice": purchase,
+                        "Quantity": quan,
+                        "Description": des,
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        $('#dvLoader').hide();
+                        Clear();
+                    }
+                });
+
+            });
+        });
+        function Clear() {
+            $('#txtProductName').val('');
+            $('#txtCategory').val('');
+            $('#txtUnit').val('');
+            $('#txtSalesPrice').val('');
+            $('#txtPurchasePrice').val('');
+            $('#txtQuantity').val('');
+            $('#txtDescription').val('');
+        }
+    </script>
+}
 

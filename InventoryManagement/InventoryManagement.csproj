@@ -211,10 +211,14 @@
     <Compile Include="Areas\Accounting\Models\AccountsHead.cs" />
     <Compile Include="Areas\Accounting\Models\Journal.cs" />
     <Compile Include="Areas\Accounting\Models\ReportHead.cs" />
-    <Compile Include="Areas\Global\Controllers\GlobalDalaController.cs" />
+    <Compile Include="Areas\Global\Controllers\GlobalDataController.cs" />
     <Compile Include="Areas\Global\GlobalAreaRegistration.cs" />
+    <Compile Include="Areas\Global\Interfaces\ISystemUser.cs" />
     <Compile Include="Areas\Global\Models\Concern.cs" />
     <Compile Include="Areas\Global\Models\SystemUser.cs" />
+    <Compile Include="Areas\Global\Password\Helper.cs" />
+    <Compile Include="Areas\Global\Services\SystemUserService.cs" />
+    <Compile Include="Areas\Global\ViewModels\SystemUserViewModels.cs" />
     <Compile Include="Areas\Inventory\Controllers\InventoryDataController.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IBuyer.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IDuePayment.cs" />
@@ -254,7 +258,9 @@
     <Compile Include="Areas\Inventory\Services\SalesReturnService.cs" />
     <Compile Include="Areas\Inventory\Services\SessionService.cs" />
     <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\CategoryViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\DuePaymentViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\ProductIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseReturnIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SalesIndexViewModels.cs" />
@@ -7073,8 +7079,6 @@
     <Content Include="Areas\Inventory\Views\InventoryData\Buyer.cshtml" />
     <Content Include="Areas\Global\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Global\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Global\Views\GlobalDala\Index.cshtml" />
-    <Content Include="Areas\Global\Views\GlobalDala\LogIn.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\Category.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\Categories.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddCategory.cshtml" />
@@ -7103,6 +7107,11 @@
     <Content Include="Areas\Inventory\Views\InventoryData\SupplierPayment.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\SupplierPayments.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddSupplierPayment.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalData\Registration.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalData\AddUser.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalData\Users.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalData\LogIn.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -7122,7 +7131,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

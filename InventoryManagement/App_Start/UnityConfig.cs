@@ -1,3 +1,5 @@
+using InventoryManagement.Areas.Global.Interfaces;
+using InventoryManagement.Areas.Global.Services;
 using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Services;
 using System.Web.Mvc;
@@ -24,6 +26,7 @@ namespace InventoryManagement
             container.RegisterType<IPurchaseReturn,PurchaseReturnService>();
             container.RegisterType<ISalesReturn, SalesReturnService>();
             container.RegisterType<IDuePayment, DuePaymentService>();
+            container.RegisterType<ISystemUser, SystemUserService>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

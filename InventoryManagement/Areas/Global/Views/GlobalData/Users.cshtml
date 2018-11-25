@@ -1,17 +1,17 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.DuePaymentViewModels
+﻿@model InventoryManagement.Areas.Global.ViewModels.SystemUserViewModels
 @{
     Layout = null;
 }
 
 <section class="content-header">
     <h1>
-        Buyers Index
-        <small>preview of buyers Payment index</small>
+        User Index
+        <small>preview of users index</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li><a href="#">Buyer</a></li>
-        <li class="active"><a href="@Url.Action("BuyerPayment","InventoryData")">Buyer Payments</a></li>
+        <li><a href="#">User</a></li>
+        <li class="active">Users</li>
     </ol>
 </section>
 
@@ -26,25 +26,23 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Date</th>
                                 <th>Name</th>
-                                <th>Amount</th>
-                                <th>Description</th>
+                                <th>Email</th>
                                 <th style="width: 15px">Update</th>
                                 <th style="width: 15px">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ResponseDues)
+                            @{ var sl = 0;}
+                            @foreach (var item in Model.SystemUsers)
                             {
+                                sl++;
                                 <tr>
-                                    <td>@item.Serial.</td>
-                                    <td>@item.PaymentDate.ToShortDateString()</td>
+                                    <td>@sl</td>
                                     <td>@item.Name</td>
-                                    <td>@item.Amount</td>
-                                    <td>@item.Description</td>
-                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                                    <td style="color:red"><a href="#"><i class="fa fa-trash"></i></a></td>
+                                    <td>@item.EmailAddress</td>
+                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.UserID })"><i class="fa fa-pencil"></i></a></td>
+                                    <td style="color:red"><a href="" onclick="Delete(' @item.UserID ')"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             }
                         </tbody>

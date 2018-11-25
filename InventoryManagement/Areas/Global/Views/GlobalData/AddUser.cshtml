@@ -3,8 +3,8 @@
 }
 <section class="content-header">
     <h1>
-        Add Category
-        <small>adding new category information</small>
+        Add Buyer
+        <small>adding new buyer information</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -24,19 +24,27 @@
             <div class="box-body">
                 <div class="col-md-6 col-sm-8">
                     <div class="form-group">
-                        <label class="col-form-label">Category Name</label>
-                        <input id="txtCategoryName" type="text" name="UnitName" class="form-control" />
+                        <label class="col-form-label">User Name</label>
+                        <input id="txtName" type="text" class="form-control" />
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label">Description</label>
-                        <textarea id="txtDescription" class="form-control" name="Description"></textarea>
+                        <label class="col-form-label">User Email</label>
+                        <input id="txtEmail" type="text" class="form-control" />
                     </div>
-                    <button id="btnSave" type="submit" value="submit" class="btn btn-info">SUBMIT</button>
-                    <button id="btnClear" type="submit" value="submit" class="btn btn-primary">CLEAR</button>
+                    <div class="form-group">
+                        <label class="col-form-label">User Password</label>
+                        <input id="txtPassword" type="password" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button id="btnSave" type="submit" value="submit" class="btn btn-info">SUBMIT</button>
+                    </div>
+
                 </div>
+
 
             </div>
         </div>
+
     </div>
 </section>
 

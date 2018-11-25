@@ -77,7 +77,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             }
             else
             {
-                return Json("field required", JsonRequestBehavior.AllowGet);
+                return Json("cannot added", JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]
@@ -118,12 +118,23 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddUnit(Unit unit)
+        public JsonResult AddUnit(Unit unit)
         {
-            return View();
+            _inventorySetting.AddUnit(unit, 1, 1);
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult DeleteUnit()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult UpdateUnit(int id)
+        {            
+            return View();
+        }
+        [HttpPost]
+        public ActionResult UpdateUnit(int id,Unit unit)
         {
             return View();
         }
@@ -135,7 +146,12 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpGet]
         public ActionResult Categories()
         {
-            return View();
+            var category = _inventorySetting.Categories(1);
+            CategoryViewModels viewModels = new CategoryViewModels()
+            {
+                Categories = category
+            };
+            return View(viewModels);
         }
         [HttpGet]
         public ActionResult AddCategory()
@@ -143,9 +159,10 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddCategory(Category category)
+        public JsonResult AddCategory(Category category)
         {
-            return View();
+            _inventorySetting.AddCategory(category, 1, 1);
+            return Json("addded",JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Product()
@@ -153,19 +170,32 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Products()
+        public ActionResult Products(int page=1)
         {
-            return View();
+            var products = _inventorySetting.Products(1,page);
+            ProductIndexViewModels viewModels = new ProductIndexViewModels()
+            {
+                Products=products
+            };
+            return View(viewModels);
         }
         [HttpGet]
         public ActionResult AddProduct()
         {
-            return View();
+            var unit = _inventorySetting.Units(1);
+            var category = _inventorySetting.Categories(1);
+            VendorsViewModels viewModels = new VendorsViewModels()
+            {
+                Units=unit,
+                Categories=category
+            };
+            return View(viewModels);
         }
         [HttpPost]
-        public ActionResult AddProduct(Product product)
+        public JsonResult AddProduct(Product product)
         {
-            return View();
+            _inventorySetting.AddProduct(product,1,1);
+            return Json("addded", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult SessionInvoices()
@@ -254,7 +284,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             {
                 ResponseSalesReturn = returns
             };
-            return View();
+            return View(viewModels);
         }
 
         [HttpGet]

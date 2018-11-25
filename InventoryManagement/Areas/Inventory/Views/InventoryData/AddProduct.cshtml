@@ -1,5 +1,79 @@
-﻿
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.VendorsViewModels
 @{
     Layout = null;
 }
-<h1>Add Product</h1>
+<section class="content-header">
+    <h1>
+        Add Product
+        <small>adding new product information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div id="dvLoader" class="LoadingDiv" style="display: none;">
+        <center>
+            <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+        </center>
+    </div>
+    <div class="row">
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-6 col-sm-8">
+                    <div class="form-group">
+                        <label class="col-form-label">Product Name</label>
+                        <input id="txtProductName" type="text"  class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Category</label>
+                        <select class="form-control" id="txtCategory">
+                            @foreach (var item in Model.Categories)
+                            {
+                                <option value="@item.CategoryID">@item.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Unit</label>
+                        <select class="form-control" id="txtUnit">
+                            @foreach (var item in Model.Units)
+                            {
+                                <option value="@item.UnitID">@item.UnitName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Sales Price</label>
+                        <input id="txtSalesPrice" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Purchase Price</label>
+                        <input id="txtPurchasePrice" type="text"  class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Quantity</label>
+                        <input id="txtQuantity" type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Description</label>
+                        <textarea id="txtDescription" class="form-control" name="Description"></textarea>
+                    </div>
+                    <button id="btnSave" type="submit" value="submit" class="btn btn-info">SUBMIT</button>
+                    <button id="btnClear" type="submit" value="submit" class="btn btn-primary">CLEAR</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div id="dvLoader" class="LoadingDiv" style="display: none;">
+    <center>
+        <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+    </center>
+</div>

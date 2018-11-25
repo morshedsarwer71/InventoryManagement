@@ -13,7 +13,7 @@ namespace InventoryManagement.Areas.Inventory.Services
     public class SalesReturnService : ISalesReturn
     {
         private readonly DataContext _context;
-        private readonly IDuePayment _payment;
+        private readonly IDuePayment _payment;        
         public SalesReturnService(DataContext context, IDuePayment payment)
         {
             _context = context;
@@ -26,7 +26,18 @@ namespace InventoryManagement.Areas.Inventory.Services
             var dateString = DateTime.Now;
             var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;            
             using (var transaction = _context.Database.BeginTransaction())
-            {                
+            {
+                SalesDuePayment salesDue = new SalesDuePayment();
+                salesDue.PaymentDate = dateString;
+                salesDue.CreationDate = dateString;
+                salesDue.BuyerID = sessionInvoice.BuyerID;
+                salesDue.Description = "sales payments" + " " +dateString;
+                salesDue.IsDelete = 0;
+                salesDue.PaymentAmount = sessionInvoice.DuePayment;
+                salesDue.ConcernID = concernId;
+                salesDue.Creator = userId;
+                _context.SalesDuePayments.Add(salesDue);
+                _context.SaveChanges();
                 foreach (var item in sessionData)
                 {
                     salesInvoices.Add(new SalesReturnInvoice()

@@ -6,12 +6,8 @@ using System.Web;
 
 namespace InventoryManagement.Areas.Inventory.ViewModels
 {
-    public class VendorsViewModels
+    public class CategoryViewModels
     {
-        public IEnumerable<Product> Products { get; set; }
-        public IEnumerable<Supplier> Suppliers { get; set; }
-        public IEnumerable<Buyer> Buyers { get; set; }
-        public IEnumerable<Unit> Units { get; set; }
         public IEnumerable<Category> Categories { get; set; }
     }
 }

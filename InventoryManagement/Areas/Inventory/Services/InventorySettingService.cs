@@ -33,6 +33,7 @@ namespace InventoryManagement.Areas.Inventory.Services
             product.ConcernID = concernId;
             product.CreationDate = DateTime.Now;
             product.IsDelete = 0;
+            product.ProductCode = DateTime.Now.ToString("mmddfff");
             _context.Products.Add(product);
             _context.SaveChanges();
         }
@@ -55,6 +56,11 @@ namespace InventoryManagement.Areas.Inventory.Services
             return _context.Categories.Where(m=>m.IsDelete==0 && m.ConcernID==concernId);
         }
 
+        public Category Category(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteCategory(int categoryId, int userId, int concernId)
         {
             var category = _context.Categories.FirstOrDefault(m=>m.CategoryID==categoryId && m.IsDelete==0);
@@ -74,6 +80,11 @@ namespace InventoryManagement.Areas.Inventory.Services
         public void DeleteUnit(int unitId, int concernId, int userId)
         {
             var unit = _context.Units.FirstOrDefault();
+        }
+
+        public Product Product(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ResponseProduct> Products(int concernId,int page)
@@ -120,6 +131,11 @@ namespace InventoryManagement.Areas.Inventory.Services
         public IEnumerable<Supplier> Suppliers(int concernId)
         {
             return _context.Suppliers.Where(m => m.ConcernID == concernId && m.IsDelete == 0);
+        }
+
+        public Unit Unit(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Unit> Units(int concernId)

@@ -38,6 +38,7 @@
                 var productId = $('#txtProduct').val();
                 var price = $('#txtPrice').val();
                 var quantity = $('#txtQuantity').val();
+                var due = $('#txtGrandTotal').val();
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddSessionInvoice",
@@ -47,7 +48,8 @@
                         "BuyerID": buyerId,
                         "ProductID": productId,
                         "UnitPrice": price,
-                        "Quantity": quantity
+                        "Quantity": quantity,
+                        "DuePayment": due,
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",

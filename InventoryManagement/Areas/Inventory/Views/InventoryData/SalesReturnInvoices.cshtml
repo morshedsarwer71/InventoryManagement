@@ -1,4 +1,4 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesReturnIndexViewModels
 @{
     Layout = null;
 }
@@ -30,14 +30,11 @@
                                 <th>Sales Return Date</th>
                                 <th>Buyer Name</th>
                                 <th>Total Price</th>
-                                <th>Cash</th>
-                                <th>Discount</th>
-                                <th>Due</th>
                                 <th style="width: 15px">Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ResponseSales)
+                            @foreach (var item in Model.ResponseSalesReturn)
                             {
                                 <tr>
                                     <td>@item.Serial.</td>
@@ -45,10 +42,8 @@
                                     <td>@item.SalesDate.ToShortDateString()</td>
                                     <td>@item.BuyerName</td>
                                     <td>@item.TotalPrice</td>
-                                    <td>@item.Cash</td>
-                                    <td>@item.Discount</td>
-                                    <td>@item.GrandTotal</td>
-                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
+                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                                    <td><a href="#"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             }
                         </tbody>
