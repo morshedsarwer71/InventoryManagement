@@ -30,6 +30,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label class="col-form-label">Invoice Code</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@DateTime.Now.ToString("mmddfff")" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="col-form-label">Date</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">

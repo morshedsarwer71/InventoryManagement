@@ -27,6 +27,7 @@ namespace InventoryManagement
             container.RegisterType<ISalesReturn, SalesReturnService>();
             container.RegisterType<IDuePayment, DuePaymentService>();
             container.RegisterType<ISystemUser, SystemUserService>();
+            container.RegisterType<IReport, ReportService>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

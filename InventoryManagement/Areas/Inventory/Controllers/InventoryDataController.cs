@@ -19,7 +19,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly IPurchaseReturn _purchaseReturn;
         private readonly ISalesReturn _salesReturn;
         private readonly IDuePayment _payment;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment)
+        private readonly IReport _report;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment,IReport report)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
@@ -29,11 +30,17 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _purchaseReturn = purchaseReturn;
             _salesReturn = salesReturn;
             _payment = payment;
+            _report = report;
         }
         // GET: Inventory/InventoryData
-        public ActionResult Index()
+        public ActionResult Index(int page=1)
         {
-            return View();
+            var stocks = _report.ResponseStockReports(1, page);
+            StockReportViewModels viewModels = new StockReportViewModels()
+            {
+                stockReports = stocks
+            };
+            return View(viewModels);
         }
         [HttpGet]
         public ActionResult Buyer()
@@ -441,6 +448,18 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return Json("Added", JsonRequestBehavior.AllowGet);
         }
 
+        // REPORTING SECTION
+
+        [HttpGet]
+        public ActionResult StockReport(int page=1)
+        {
+            var stocks = _report.ResponseStockReports(1,page);
+            StockReportViewModels viewModels = new StockReportViewModels()
+            {
+                stockReports=stocks
+            };
+            return View(viewModels);
+        }
 
     }
 }

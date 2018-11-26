@@ -225,6 +225,7 @@
     <Compile Include="Areas\Inventory\Interfaces\IInventorySetting.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IPurchaseInvoice.cs" />
     <Compile Include="Areas\Inventory\Interfaces\IPurchaseReturn.cs" />
+    <Compile Include="Areas\Inventory\Interfaces\IReport.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISalesInvoice.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISalesReturn.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISession.cs" />
@@ -249,11 +250,13 @@
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSales.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSalesInvoice.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSession.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseStockReport.cs" />
     <Compile Include="Areas\Inventory\Services\BuyerService.cs" />
     <Compile Include="Areas\Inventory\Services\DuePaymentService.cs" />
     <Compile Include="Areas\Inventory\Services\InventorySettingService.cs" />
     <Compile Include="Areas\Inventory\Services\PurchaseInvoiceService.cs" />
     <Compile Include="Areas\Inventory\Services\PurchaseReturnService.cs" />
+    <Compile Include="Areas\Inventory\Services\ReportService.cs" />
     <Compile Include="Areas\Inventory\Services\SalesInvoiceService.cs" />
     <Compile Include="Areas\Inventory\Services\SalesReturnService.cs" />
     <Compile Include="Areas\Inventory\Services\SessionService.cs" />
@@ -266,6 +269,7 @@
     <Compile Include="Areas\Inventory\ViewModels\SalesIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SalesReturnIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SessionViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\StockReportViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\UnitIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\VendorsViewModels.cs" />
     <Compile Include="Context\DataContext.cs" />
@@ -7111,6 +7115,7 @@
     <Content Include="Areas\Global\Views\GlobalData\AddUser.cshtml" />
     <Content Include="Areas\Global\Views\GlobalData\Users.cshtml" />
     <Content Include="Areas\Global\Views\GlobalData\LogIn.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\StockReport.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

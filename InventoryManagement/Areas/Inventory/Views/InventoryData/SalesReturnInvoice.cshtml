@@ -38,7 +38,7 @@
                 var productId = $('#txtProduct').val();
                 var price = $('#txtPrice').val();
                 var quantity = $('#txtQuantity').val();
-                var due = $('#txtGrandTotal').val();
+                
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddSessionInvoice",
@@ -48,8 +48,7 @@
                         "BuyerID": buyerId,
                         "ProductID": productId,
                         "UnitPrice": price,
-                        "Quantity": quantity,
-                        "DuePayment": due,
+                        "Quantity": quantity,                        
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
@@ -65,6 +64,9 @@
                 var cash = $('#txtCash').val();
                 var des = $('#txtDes').val();
                 var dis = $('#txtDiscount').val();
+                var due = $('#txtGrandTotal').val();
+                var buyerId = $('#txtBuyerID').val();
+                var code = $('#txtInvoiceCode').val();
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddSalesReturnInvoice",
@@ -72,7 +74,11 @@
                     data: JSON.stringify({
                         "CashPayment": cash,
                         "Description": des,
-                        "Discount":dis
+                        "Discount": dis,
+                        "DuePayment": due,
+                        "BuyerID": buyerId,
+                        "Code": code,
+
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",

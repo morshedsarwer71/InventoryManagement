@@ -22,7 +22,6 @@ namespace InventoryManagement.Areas.Inventory.Services
             List<SalesInvoice> salesInvoices = new List<SalesInvoice>();
             var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
             var dateString = DateTime.Now;
-            var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;
             using (var transaction = _context.Database.BeginTransaction())
             {
                 foreach (var item in sessionData)
@@ -40,11 +39,11 @@ namespace InventoryManagement.Areas.Inventory.Services
                         ProductID=item.ProductID,
                         Quantity=item.Quantity,
                         SalesDate=item.Date,
-                        SalesInvoiceCode= invoiceCode,
+                        SalesInvoiceCode= sessionInvoice.Code,
                         SalesUnitPrice=item.UnitPrice                        
                     });
                 }
-                _context.SalesInvoices.AddRange(salesInvoices);                
+                _context.SalesInvoices.AddRange(salesInvoices);             
                 _context.SaveChanges();
                 _context.SessionInvoices.RemoveRange(sessionData);
                 _context.SaveChanges();

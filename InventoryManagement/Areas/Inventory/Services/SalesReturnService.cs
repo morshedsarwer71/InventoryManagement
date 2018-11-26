@@ -24,14 +24,14 @@ namespace InventoryManagement.Areas.Inventory.Services
             List<SalesReturnInvoice> salesInvoices = new List<SalesReturnInvoice>();
             var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
             var dateString = DateTime.Now;
-            var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;            
+            var invoiceCode = DateTime.Now.ToString("mmddfff");
             using (var transaction = _context.Database.BeginTransaction())
             {
                 SalesDuePayment salesDue = new SalesDuePayment();
                 salesDue.PaymentDate = dateString;
                 salesDue.CreationDate = dateString;
                 salesDue.BuyerID = sessionInvoice.BuyerID;
-                salesDue.Description = "sales payments" + " " +dateString;
+                salesDue.Description = "Sales Return Code: " + " " +sessionInvoice.Code;
                 salesDue.IsDelete = 0;
                 salesDue.PaymentAmount = sessionInvoice.DuePayment;
                 salesDue.ConcernID = concernId;
@@ -54,7 +54,7 @@ namespace InventoryManagement.Areas.Inventory.Services
                         SRProductID = item.ProductID,
                         SRQuantity = item.Quantity,
                         SRDate = item.Date,
-                        SalesInvoiceCode = invoiceCode,
+                        SRInvoiceCode = sessionInvoice.Code,
                         SRUnitPrice = item.UnitPrice
                     });
                 }
