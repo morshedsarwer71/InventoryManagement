@@ -30,6 +30,9 @@ namespace InventoryManagement.Context
         public DbSet<SessionInvoice> SessionInvoices { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<ExpenseName> ExpenseNames { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<ExpenseType> ExpenseTypes { get; set; }
 
         //Global Context class
         public DbSet<Concern> Concerns { get; set; }

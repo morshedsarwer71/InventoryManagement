@@ -13,5 +13,7 @@ namespace InventoryManagement.Areas.Inventory.ViewModels
         public IEnumerable<Buyer> Buyers { get; set; }
         public IEnumerable<Unit> Units { get; set; }
         public IEnumerable<Category> Categories { get; set; }
+        public IEnumerable<ExpenseType> ExpenseTypes { get; set; }
+        public IEnumerable<ExpenseName> ExpenseNames { get; set; }
     }
 }

@@ -232,6 +232,9 @@
     <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
     <Compile Include="Areas\Inventory\Models\Buyer.cs" />
     <Compile Include="Areas\Inventory\Models\Category.cs" />
+    <Compile Include="Areas\Inventory\Models\Expense.cs" />
+    <Compile Include="Areas\Inventory\Models\ExpenseName.cs" />
+    <Compile Include="Areas\Inventory\Models\ExpenseType.cs" />
     <Compile Include="Areas\Inventory\Models\Product.cs" />
     <Compile Include="Areas\Inventory\Models\PurchaseDuePayment.cs" />
     <Compile Include="Areas\Inventory\Models\PurchaseInvoice.cs" />
@@ -244,6 +247,7 @@
     <Compile Include="Areas\Inventory\Models\Unit.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseDuePayment.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseExpenses.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchase.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchaseReturn.cs" />
@@ -280,6 +284,38 @@
     <Compile Include="Migrations\201811092148504_initialcreate.cs" />
     <Compile Include="Migrations\201811092148504_initialcreate.Designer.cs">
       <DependentUpon>201811092148504_initialcreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811271819499_expense.cs" />
+    <Compile Include="Migrations\201811271819499_expense.Designer.cs">
+      <DependentUpon>201811271819499_expense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811280647201_updateExpense.cs" />
+    <Compile Include="Migrations\201811280647201_updateExpense.Designer.cs">
+      <DependentUpon>201811280647201_updateExpense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811280649455_updateExpense2.cs" />
+    <Compile Include="Migrations\201811280649455_updateExpense2.Designer.cs">
+      <DependentUpon>201811280649455_updateExpense2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811280655137_updateExpense3.cs" />
+    <Compile Include="Migrations\201811280655137_updateExpense3.Designer.cs">
+      <DependentUpon>201811280655137_updateExpense3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811280706110_updateExpense4.cs" />
+    <Compile Include="Migrations\201811280706110_updateExpense4.Designer.cs">
+      <DependentUpon>201811280706110_updateExpense4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811281113317_updateExpense5.cs" />
+    <Compile Include="Migrations\201811281113317_updateExpense5.Designer.cs">
+      <DependentUpon>201811281113317_updateExpense5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811281117457_updateExpense6.cs" />
+    <Compile Include="Migrations\201811281117457_updateExpense6.Designer.cs">
+      <DependentUpon>201811281117457_updateExpense6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811281125496_updateExpense7.cs" />
+    <Compile Include="Migrations\201811281125496_updateExpense7.Designer.cs">
+      <DependentUpon>201811281125496_updateExpense7.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7116,6 +7152,9 @@
     <Content Include="Areas\Global\Views\GlobalData\Users.cshtml" />
     <Content Include="Areas\Global\Views\GlobalData\LogIn.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\StockReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\ExpenseName.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\ExpenseNames.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddExpenseName.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -7149,8 +7188,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -7181,6 +7218,30 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811092148504_initialcreate.resx">
       <DependentUpon>201811092148504_initialcreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811271819499_expense.resx">
+      <DependentUpon>201811271819499_expense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811280647201_updateExpense.resx">
+      <DependentUpon>201811280647201_updateExpense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811280649455_updateExpense2.resx">
+      <DependentUpon>201811280649455_updateExpense2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811280655137_updateExpense3.resx">
+      <DependentUpon>201811280655137_updateExpense3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811280706110_updateExpense4.resx">
+      <DependentUpon>201811280706110_updateExpense4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811281113317_updateExpense5.resx">
+      <DependentUpon>201811281113317_updateExpense5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811281117457_updateExpense6.resx">
+      <DependentUpon>201811281117457_updateExpense6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811281125496_updateExpense7.resx">
+      <DependentUpon>201811281125496_updateExpense7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

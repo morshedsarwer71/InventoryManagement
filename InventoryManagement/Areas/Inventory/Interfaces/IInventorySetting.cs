@@ -39,5 +39,13 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         IEnumerable<Buyer> Buyers(int concernId);
         IEnumerable<Supplier> Suppliers(int concernId);
 
+        //expense
+
+        void AddExpenseName(ExpenseName expenseName,int concernId,int userId);
+        IEnumerable<ExpenseName> ExpenseNames(int concernId);
+        void AddExpense(Expense expense,int concernId,int userId);
+        IEnumerable<ResponseExpenses> ResponseExpenses(int concernId);
+        IEnumerable<ExpenseType> ExpenseTypes(int concernId);
+
     }
 }

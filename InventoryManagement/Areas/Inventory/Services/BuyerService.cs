@@ -17,11 +17,11 @@ namespace InventoryManagement.Areas.Inventory.Services
         {
             _context = context;
         }
-        public void Add(Buyer buyer)
+        public void Add(Buyer buyer,int concernId,int userId)
         {
-            buyer.ConcernID = 1;
+            buyer.ConcernID = concernId;
             buyer.CreationDate = DateTime.Now;
-            buyer.Creator = 1;
+            buyer.Creator = userId;
             _context.Buyers.Add(buyer);
             _context.SaveChanges();
         }

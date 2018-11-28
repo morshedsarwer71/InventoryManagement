@@ -339,20 +339,20 @@
                         </ul>
                     </li>
                     @*<li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-files-o"></i>
-                                <span>Layout Options</span>
-                                <span class="pull-right-container">
-                                    <span class="label label-primary pull-right">4</span>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-                            </ul>
-                        </li>*@
+            <a href="#">
+                <i class="fa fa-files-o"></i>
+                <span>Layout Options</span>
+                <span class="pull-right-container">
+                    <span class="label label-primary pull-right">4</span>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+            </ul>
+        </li>*@
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
@@ -366,10 +366,33 @@
                             <li><a href="@Url.Action("Product","InventoryData")"><i class="fa fa-circle-o"></i> Product</a></li>
                             <li><a href="@Url.Action("Category","InventoryData")"><i class="fa fa-circle-o"></i> Category</a></li>
                             <li><a href="@Url.Action("Unit","InventoryData")"><i class="fa fa-circle-o"></i> Unit</a></li>
+                            <li><a href="@Url.Action("ExpenseName","InventoryData")"><i class="fa fa-circle-o"></i> Expense</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Invoice</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
                             <li><a href="@Url.Action("SalesInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Return Invoice</a></li>
                             <li><a href="@Url.Action("SalesReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Return Invoice</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Payment</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">                            
                             <li><a href="@Url.Action("BuyerPayment","InventoryData")"><i class="fa fa-circle-o"></i> Buyer Payment</a></li>
                             <li><a href="@Url.Action("SupplierPayment","InventoryData")"><i class="fa fa-circle-o"></i> Supplier Payment</a></li>
                         </ul>

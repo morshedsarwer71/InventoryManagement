@@ -29,8 +29,12 @@
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-            @using (Html.BeginForm("LogIn","GlobalData",FormMethod.Post))
+            @using (Html.BeginForm("LogIn", "GlobalData", FormMethod.Post))
             {
+                if (ViewBag.error != null)
+                {
+                    <span style="color:red">email or passwors error !! </span>
+                }
                 <div class="form-group has-feedback">
                     <input type="email" name="EmailAddress" class="form-control" placeholder="Email">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

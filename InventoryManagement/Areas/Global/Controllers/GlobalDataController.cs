@@ -33,8 +33,23 @@ namespace InventoryManagement.Areas.Global.Controllers
         [HttpPost]
         public ActionResult LogIn(SystemUser systemUser)
         {
+            var getuser = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress);
+            if (getuser != null)
+            {
+                Helper helper = new Helper();
+                var hashSalt = getuser.HashSalt;
+                var password = helper.HashPasswordUsingSHA2(systemUser.Password,hashSalt);
+                var query = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress && m.Password==password);
+                if (query != null)
+                {
+                    Session["ConcernId"] = Convert.ToInt32(query.ConcernID);
+                    Session["UserId"] = Convert.ToInt32(query.UserID);
+                    return RedirectToAction("Index","InventoryData",new { Area="Inventory"});
+                }
+                ViewBag.error = "email or password wrong !";
+            }
 
-            return RedirectToAction("Index", "Home");
+            return View();
         }
         //[HttpPost]
         //public JsonResult LogIn(SystemUser systemUser)
@@ -61,24 +76,27 @@ namespace InventoryManagement.Areas.Global.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddUser(SystemUser systemUser)
+        public JsonResult AddUser(SystemUser systemUser,int userName)
         {
-            var chkUser = (from s in _context.SystemUsers where s.EmailAddress == systemUser.EmailAddress select s).FirstOrDefault();
+            var chkUser = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress);
             if (chkUser == null)
             {
+                var userId = Convert.ToInt32(Session["UserId"]);
                 Helper helper = new Helper();
                 var hashSalt = helper.GenerateRandomSalt();
                 var password = helper.HashPasswordUsingSHA2(systemUser.Password, hashSalt);
                 systemUser.Password = password;
-                systemUser.CreatorId = 1;
+                systemUser.CreatorId = userId;
                 systemUser.ConcernID = 1;
-                //systemUser.CreationDate = DateTime.Now;
+                systemUser.CreationDate = DateTime.Now;
+                systemUser.LoginDate = DateTime.Now;
                 systemUser.HashSalt = hashSalt;
+                systemUser.ActivationDate = DateTime.Now;
                 _context.SystemUsers.Add(systemUser);
                 _context.SaveChanges();
                 return Json("added successfully", JsonRequestBehavior.AllowGet);
             }
-            return Json("all ready exists",JsonRequestBehavior.AllowGet);
+            return Json("User name or email already exists",JsonRequestBehavior.AllowGet);
         }
     }
 }

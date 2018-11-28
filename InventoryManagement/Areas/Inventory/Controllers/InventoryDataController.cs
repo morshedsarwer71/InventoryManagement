@@ -20,7 +20,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly ISalesReturn _salesReturn;
         private readonly IDuePayment _payment;
         private readonly IReport _report;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment,IReport report)
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
@@ -33,34 +33,56 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _report = report;
         }
         // GET: Inventory/InventoryData
-        public ActionResult Index(int page=1)
+        public ActionResult Index(int page = 1)
         {
-            var stocks = _report.ResponseStockReports(1, page);
-            StockReportViewModels viewModels = new StockReportViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                stockReports = stocks
-            };
-            return View(viewModels);
+                var stocks = _report.ResponseStockReports(concernId, page);
+                StockReportViewModels viewModels = new StockReportViewModels()
+                {
+                    stockReports = stocks
+                };
+                return View(viewModels);
+            }
+            return View();
         }
         [HttpGet]
         public ActionResult Buyer()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult Buyers(int page = 1)
         {
-            var responseBuyers = _buyer.Buyers(1, page);
-            BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                GetResponseBuyers = responseBuyers
-            };
-            return View(buyerIndexViewModels);
+                var responseBuyers = _buyer.Buyers(concernId, page);
+                BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
+                {
+                    GetResponseBuyers = responseBuyers
+                };
+                return View(buyerIndexViewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public JsonResult NewBuyers(int page)
         {
-            var responseBuyers = _buyer.Buyers(1, page);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+
+            var responseBuyers = _buyer.Buyers(concernId, page);
             BuyerIndexViewModels buyerIndexViewModels = new BuyerIndexViewModels()
             {
                 GetResponseBuyers = responseBuyers
@@ -71,15 +93,23 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpGet]
         public ActionResult AddBuyer()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public JsonResult AddBuyer(Buyer buyer)
         {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
             if (ModelState.IsValid)
             {
-                _buyer.Add(buyer);
+                _buyer.Add(buyer,concernId,userId);
                 return Json("Added successfully", JsonRequestBehavior.AllowGet);
             }
             else
@@ -90,13 +120,22 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public JsonResult DeleteBuyer(int id)
         {
-            _buyer.Delete(id, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _buyer.Delete(id,concernId);
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult UpdateBuyer(int id)
         {
-            return View(_buyer.Buyer(id));
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View(_buyer.Buyer(id));
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpPost]
         public ActionResult UpdateBuyer(int id, Buyer buyer)
@@ -107,107 +146,191 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpGet]
         public ActionResult Unit()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult Units()
         {
-            var units = _inventorySetting.Units(1);
-            UnitIndexViewModels viewModels = new UnitIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Units = units
-            };
-            return View(viewModels);
+                var units = _inventorySetting.Units(concernId);
+                UnitIndexViewModels viewModels = new UnitIndexViewModels()
+                {
+                    Units = units
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult AddUnit()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpPost]
         public JsonResult AddUnit(Unit unit)
         {
-            _inventorySetting.AddUnit(unit, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _inventorySetting.AddUnit(unit,userId,concernId);
             return Json("Success", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult DeleteUnit()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult UpdateUnit(int id)
-        {            
-            return View();
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpPost]
-        public ActionResult UpdateUnit(int id,Unit unit)
+        public ActionResult UpdateUnit(int id, Unit unit)
         {
             return View();
         }
         [HttpGet]
         public ActionResult Category()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult Categories()
         {
-            var category = _inventorySetting.Categories(1);
-            CategoryViewModels viewModels = new CategoryViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Categories = category
-            };
-            return View(viewModels);
+                var category = _inventorySetting.Categories(concernId);
+                CategoryViewModels viewModels = new CategoryViewModels()
+                {
+                    Categories = category
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult AddCategory()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpPost]
         public JsonResult AddCategory(Category category)
         {
-            _inventorySetting.AddCategory(category, 1, 1);
-            return Json("addded",JsonRequestBehavior.AllowGet);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _inventorySetting.AddCategory(category,userId,concernId);
+            return Json("addded", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Product()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });            
         }
         [HttpGet]
-        public ActionResult Products(int page=1)
+        public ActionResult Products(int page = 1)
         {
-            var products = _inventorySetting.Products(1,page);
-            ProductIndexViewModels viewModels = new ProductIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Products=products
-            };
-            return View(viewModels);
+                var products = _inventorySetting.Products(concernId, page);
+                ProductIndexViewModels viewModels = new ProductIndexViewModels()
+                {
+                    Products = products
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult AddProduct()
         {
-            var unit = _inventorySetting.Units(1);
-            var category = _inventorySetting.Categories(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Units=unit,
-                Categories=category
-            };
-            return View(viewModels);
+                var unit = _inventorySetting.Units(1);
+                var category = _inventorySetting.Categories(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Units = unit,
+                    Categories = category
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddProduct(Product product)
         {
-            _inventorySetting.AddProduct(product,1,1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _inventorySetting.AddProduct(product,userId,concernId);
             return Json("addded", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult SessionInvoices()
         {
-            var sessions = _session.ResponseSessions(1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            var sessions = _session.ResponseSessions(concernId,userId);
             SessionViewModels viewModels = new SessionViewModels()
             {
                 ResponseSessions = sessions
@@ -217,7 +340,9 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public JsonResult AddSessionInvoice(SessionInvoice sessionInvoice)
         {
-            _session.AddSessionInvoice(1, 1, sessionInvoice);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _session.AddSessionInvoice(userId,concernId, sessionInvoice);
             var sessions = _session.ResponseSessions(1, 1);
             SessionViewModels viewModels = new SessionViewModels()
             {
@@ -228,19 +353,25 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public JsonResult ClearSession()
         {
-            _session.ClearSessionInvoice(1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _session.ClearSessionInvoice(userId,concernId);
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult ClearById(int id)
         {
-            _session.Delete(1, 1, id);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _session.Delete(userId,concernId, id);
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult ProductPrice(int id)
         {
-            return Json(_session.ProductPrice(id, 1), JsonRequestBehavior.AllowGet);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            return Json(_session.ProductPrice(id,concernId), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesInvoice()
@@ -248,63 +379,99 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult SalesInvoices(int page=1)
+        public ActionResult SalesInvoices(int page = 1)
         {
-            var sales = _salesInvoice.ResponseSales(1, page, "0");
-            SalesIndexViewModels viewModels = new SalesIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponseSales = sales
-            };
-            return View(viewModels);
+                var sales = _salesInvoice.ResponseSales(concernId, page, "0");
+                SalesIndexViewModels viewModels = new SalesIndexViewModels()
+                {
+                    ResponseSales = sales
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
 
         [HttpGet]
         public ActionResult AddSalesInvoice()
         {
-            var products = _inventorySetting.Products(1);
-            var buyers = _inventorySetting.Buyers(1);
-            var suppliers = _inventorySetting.Suppliers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Products = products,
-                Buyers = buyers,
-                Suppliers = suppliers
-            };
-            return View(viewModels);
+                var products = _inventorySetting.Products(concernId);
+                var buyers = _inventorySetting.Buyers(concernId);
+                var suppliers = _inventorySetting.Suppliers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Products = products,
+                    Buyers = buyers,
+                    Suppliers = suppliers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddSalesInvoice(SessionInvoice sessionInvoice)
         {
-            _salesInvoice.AddSalesInvoice(sessionInvoice, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _salesInvoice.AddSalesInvoice(sessionInvoice,userId,concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesReturnInvoice()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });           
         }
         [HttpGet]
         public ActionResult SalesReturnInvoices(int page = 1)
         {
-            var returns = _salesReturn.ResponseSales(1, page, "0");
-            SalesReturnIndexViewModels viewModels = new SalesReturnIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponseSalesReturn = returns
-            };
-            return View(viewModels);
+                var returns = _salesReturn.ResponseSales(concernId, page, "0");
+                SalesReturnIndexViewModels viewModels = new SalesReturnIndexViewModels()
+                {
+                    ResponseSalesReturn = returns
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
 
         [HttpGet]
         public ActionResult AddSalesReturnInvoice()
         {
-            var products = _inventorySetting.Products(1);
-            var buyers = _inventorySetting.Buyers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Products = products,
-                Buyers = buyers
-            };
-            return View(viewModels);
+                var products = _inventorySetting.Products(concernId);
+                var buyers = _inventorySetting.Buyers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Products = products,
+                    Buyers = buyers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddSalesReturnInvoice(SessionInvoice sessionInvoice)
@@ -315,150 +482,298 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpGet]
         public ActionResult PurchaseInvoice()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {               
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult PurchaseInvoices(int page = 1)
         {
-
-            var purchases = _purchase.ResponsePurchases(1, page, "0");
-            
-            PurchaseIndexViewModels viewModels = new PurchaseIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponsePurchases=purchases
-            };
-            return View(viewModels);
+                var purchases = _purchase.ResponsePurchases(concernId, page, "0");
+
+                PurchaseIndexViewModels viewModels = new PurchaseIndexViewModels()
+                {
+                    ResponsePurchases = purchases
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult AddPurchaseInvoice()
         {
-            var products = _inventorySetting.Products(1);
-            var buyers = _inventorySetting.Buyers(1);
-            var suppliers = _inventorySetting.Suppliers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Products = products,
-                Buyers = buyers,
-                Suppliers = suppliers
-            };
-            return View(viewModels);
+                var products = _inventorySetting.Products(concernId);
+                var buyers = _inventorySetting.Buyers(concernId);
+                var suppliers = _inventorySetting.Suppliers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Products = products,
+                    Buyers = buyers,
+                    Suppliers = suppliers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddPurchaseInvoice(SessionInvoice sessionInvoice)
         {
-            _purchase.AddPurchaseInvoice(sessionInvoice, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _purchase.AddPurchaseInvoice(sessionInvoice,userId,concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult PurchaseReturnInvoice()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {               
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult PurchaseReturnInvoices(int page = 1)
         {
-            var returns = _purchaseReturn.ResponsePurchases(1, page, "0");
-            PurchaseReturnIndexViewModels viewModels = new PurchaseReturnIndexViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponsePurchaseReturns= returns
-            };
-            return View(viewModels);
+                var returns = _purchaseReturn.ResponsePurchases(concernId, page, "0");
+                PurchaseReturnIndexViewModels viewModels = new PurchaseReturnIndexViewModels()
+                {
+                    ResponsePurchaseReturns = returns
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult AddPurchaseReturnInvoice()
         {
-            var products = _inventorySetting.Products(1);
-            var suppliers = _inventorySetting.Suppliers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Products = products,
-                Suppliers = suppliers
-            };
-            return View(viewModels);
+
+                var products = _inventorySetting.Products(concernId);
+                var suppliers = _inventorySetting.Suppliers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Products = products,
+                    Suppliers = suppliers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddPurchaseReturnInvoice(SessionInvoice sessionInvoice)
         {
-            _purchaseReturn.AddPurchaseInvoice(sessionInvoice, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _purchaseReturn.AddPurchaseInvoice(sessionInvoice,userId,concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult BuyerPayment()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
-        public ActionResult BuyerPayments(int page=1)
+        public ActionResult BuyerPayments(int page = 1)
         {
-            var paymnets = _payment.BuyerDuePayments(1, 1);
-            DuePaymentViewModels viewModels = new DuePaymentViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponseDues= paymnets
-            };
-            return View(viewModels);
+                var paymnets = _payment.BuyerDuePayments(concernId,page);
+                DuePaymentViewModels viewModels = new DuePaymentViewModels()
+                {
+                    ResponseDues = paymnets
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult AddBuyerPayment()
         {
-            var buyers = _inventorySetting.Buyers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Buyers = buyers
-            };
-            return View(viewModels);
+                var buyers = _inventorySetting.Buyers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Buyers = buyers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddBuyerPayment(SalesDuePayment salesDuePayment)
         {
-            _payment.AddBuyerPayment(salesDuePayment, 1, 1);
-            return Json("Added",JsonRequestBehavior.AllowGet);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _payment.AddBuyerPayment(salesDuePayment,concernId,userId);
+            return Json("Added", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult SupplierPayment()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {               
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult SupplierPayments(int page = 1)
         {
-            var paymnets = _payment.SupplierDuePayments(1, 1);
-            DuePaymentViewModels viewModels = new DuePaymentViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                ResponseDues = paymnets
-            };
-            return View(viewModels);
+                var paymnets = _payment.SupplierDuePayments(concernId, page);
+                DuePaymentViewModels viewModels = new DuePaymentViewModels()
+                {
+                    ResponseDues = paymnets
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public ActionResult AddSupplierPayment()
         {
-            var suppliers = _inventorySetting.Suppliers(1);
-            VendorsViewModels viewModels = new VendorsViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                Suppliers = suppliers
-            };
-            return View(viewModels);
+                var suppliers = _inventorySetting.Suppliers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Suppliers = suppliers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpPost]
         public JsonResult AddSupplierPayment(PurchaseDuePayment DuePayment)
         {
-            _payment.AddSupplierPayment(DuePayment, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _payment.AddSupplierPayment(DuePayment,concernId,userId);
             return Json("Added", JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult ExpenseName()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {                
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpGet]
+        public ActionResult ExpenseNames()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var expenseNames = _inventorySetting.ExpenseNames(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    ExpenseNames=expenseNames
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpGet]
+        public ActionResult AddExpenseName()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var expense = _inventorySetting.ExpenseTypes(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    ExpenseTypes=expense
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult AddExpenseName(ExpenseName expenseName)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _inventorySetting.AddExpenseName(expenseName, concernId, userId);
+            return Json("added successfully",JsonRequestBehavior.AllowGet);
         }
 
         // REPORTING SECTION
 
         [HttpGet]
-        public ActionResult StockReport(int page=1)
+        public ActionResult StockReport(int page = 1)
         {
-            var stocks = _report.ResponseStockReports(1,page);
-            StockReportViewModels viewModels = new StockReportViewModels()
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
             {
-                stockReports=stocks
-            };
-            return View(viewModels);
+                var stocks = _report.ResponseStockReports(concernId, page);
+                StockReportViewModels viewModels = new StockReportViewModels()
+                {
+                    stockReports = stocks
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
 
     }

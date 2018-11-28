@@ -27,6 +27,24 @@ namespace InventoryManagement.Areas.Inventory.Services
             _context.SaveChanges();
         }
 
+        public void AddExpense(Expense expense,int concernId, int userId)
+        {
+            expense.Creator = userId;
+            expense.CreationDate = DateTime.Now;
+            expense.ConcernId = concernId;
+            _context.Expenses.Add(expense);
+            _context.SaveChanges();
+        }
+
+        public void AddExpenseName(ExpenseName expenseName,int concernId, int userId)
+        {
+            expenseName.ConcerInId = concernId;
+            expenseName.Creator = userId;
+            expenseName.CreationDate = DateTime.Now;
+            _context.ExpenseNames.Add(expenseName);
+            _context.SaveChanges();
+        }
+
         public void AddProduct(Product product, int userId, int concernId)
         {
             product.CategoryID = userId;
@@ -82,6 +100,16 @@ namespace InventoryManagement.Areas.Inventory.Services
             var unit = _context.Units.FirstOrDefault();
         }
 
+        public IEnumerable<ExpenseName> ExpenseNames(int concernId)
+        {
+            return _context.ExpenseNames.Where(m=>m.ConcerInId==concernId);
+        }
+
+        public IEnumerable<ExpenseType> ExpenseTypes(int concernId)
+        {
+            return _context.ExpenseTypes.Where(x=>x.ConcernId== concernId);
+        }
+
         public Product Product(int id)
         {
             throw new NotImplementedException();
@@ -126,6 +154,11 @@ namespace InventoryManagement.Areas.Inventory.Services
         public IEnumerable<Product> Products(int concernId)
         {
             return _context.Products.Where(m => m.ConcernID == concernId && m.IsDelete == 0);
+        }
+
+        public IEnumerable<ResponseExpenses> ResponseExpenses(int concernId)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Supplier> Suppliers(int concernId)

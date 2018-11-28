@@ -10,7 +10,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
 {
     public interface IBuyer
     {
-        void Add(Buyer buyer);
+        void Add(Buyer buyer,int concernId,int userId);
         IEnumerable<ResponseBuyer> Buyers(int concernId,int page);
         void Delete(int id,int concernId);
         Buyer Buyer(int id);
