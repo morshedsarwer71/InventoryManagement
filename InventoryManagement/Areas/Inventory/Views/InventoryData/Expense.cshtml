@@ -7,7 +7,7 @@
     <div class="row">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Buyer Payment Info</h3>
+                <h3 class="box-title">Expense Info</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -16,8 +16,8 @@
                     <li><a data-toggle="tab" href="#secondTab">Add New</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="firstTab" class="tab-pane fade in active">@Html.Action("SupplierPayments")</div>
-                    <div id="secondTab" class="tab-pane fade in">@Html.Action("AddSupplierPayment")</div>
+                    <div id="firstTab" class="tab-pane fade in active">@Html.Action("Expenses")</div>
+                    <div id="secondTab" class="tab-pane fade in">@Html.Action("AddExpense")</div>
                 </div>
             </div>
         </div>
@@ -33,61 +33,31 @@
             //LoadSessionData();
             $('#btnSave').click(function () {
                 var date = $('#txtDate').val();
-                var buyer = $('#txtBuyer').val();
+                var expenseType = $('#txtExpense').val();
                 var amount = $('#txtAmount').val();
-                var des = $('#txtDes').val();
                 $('#dvLoader').show();
                 $.ajax({
-                    url: "/InventoryData/AddSupplierPayment",
+                    url: "/InventoryData/AddExpense",
                     type: "POST",
                     data: JSON.stringify({
-                        "PaymentDate": date,
-                        "SupplierID": buyer,
-                        "PaymentAmount": amount,
-                        "Description": des
+                        "ExpenseDate": date,
+                        "ExpenseNameId": expenseType,
+                        "Payment": amount
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function () {
-                        //$('#firstTab').reload();
                         $('#dvLoader').hide();
                         Clear();
                     }
                 });
 
             });
-            //end add new buyer
-
-            $('#btnClear').click(function () {
-                Clear();
-            });
         });
         function Clear() {
-            $('#txtBuyer').val('');
+            $('#txtDate').val('');
+            $('#txtExpense').val('');
             $('#txtAmount').val('');
-            $('#txtDes').val('');
-        }
-
-        function Delete(id) {
-            //alert(id);
-            var ans = confirm("Are you sure want to delete this record test");
-            if (ans) {
-                $('#dvLoader').show();
-                $.ajax({
-                    url: "/InventoryData/DeleteBuyer",
-                    type: "POST",
-                    data: JSON.stringify({
-                        "id": id
-                    }),
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function () {
-                        $('#firstTab').reload();
-                        $('#dvLoader').hide();
-                    },
-                });
-            }
         }
     </script>
 }
-

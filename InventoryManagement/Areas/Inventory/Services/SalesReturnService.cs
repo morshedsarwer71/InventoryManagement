@@ -31,7 +31,7 @@ namespace InventoryManagement.Areas.Inventory.Services
                 salesDue.PaymentDate = dateString;
                 salesDue.CreationDate = dateString;
                 salesDue.BuyerID = sessionInvoice.BuyerID;
-                salesDue.Description = "Sales Return Code: " + " " +sessionInvoice.Code;
+                salesDue.Description = "Sales Return Code : " + " " +sessionInvoice.Code;
                 salesDue.IsDelete = 0;
                 salesDue.PaymentAmount = sessionInvoice.DuePayment;
                 salesDue.ConcernID = concernId;

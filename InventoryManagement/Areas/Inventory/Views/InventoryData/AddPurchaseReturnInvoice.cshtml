@@ -5,7 +5,7 @@
 <section class="content-header">
     <h1>
         Purchase Invoice
-        <small>adding new purchase invoice</small>
+        <small>adding new purchase return invoice</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Purchase Form</h3>
+                <h3 class="box-title">Purchase return Form</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -144,7 +144,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-try"></i>
                                         </div>
-                                        <input type="text" name="Discount" class="form-control pull-right" id="txtDiscount">
+                                        <input type="text" readonly="readonly" name="Discount" class="form-control pull-right" id="txtDiscount">
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-try"></i>
                                         </div>
-                                        <input type="text" id="txtCash" name="CashPayment" class="form-control pull-right">
+                                        <input type="text" readonly="readonly" id="txtCash" name="CashPayment" class="form-control pull-right">
                                     </div>
                                 </div>
                             </div>

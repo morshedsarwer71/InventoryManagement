@@ -15,6 +15,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         void AddBuyerPayment(SalesDuePayment salesDuePayment,int concernId,int userId);
         IEnumerable<ResponseDuePayment> BuyerDuePayments(int concernId,int page);
 
+
         //supplier payment
 
         void AddSupplierPayment(PurchaseDuePayment purchaseDuePayment, int concernId, int userId);

@@ -1,17 +1,17 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.SupplierIndexViewModels
 @{
     Layout = null;
 }
 
 <section class="content-header">
     <h1>
-        Sales Index
-        <small>preview of sales index</small>
+        Supplier Index
+        <small>preview of suppliers index</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li><a href="#">Sale Invoice</a></li>
-        <li class="active"><a href="@Url.Action("SalesInvoice","InventoryData")">Sales</a></li>
+        <li><a href="#">Suppliers</a></li>
+        <li class="active">Supplier</li>
     </ol>
 </section>
 
@@ -26,29 +26,27 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Sales Code</th>
-                                <th>Sales Date</th>
-                                <th>Buyer Name</th>
-                                <th>Total Price</th>
-                                <th>Cash</th>
-                                <th>Discount</th>
-                                <th>Due</th>
-                                <th style="width: 15px">Details</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Mobile Num.</th>
+                                <th>Alt Mobile Num.</th>
+                                <th>Prev. Balance</th>
+                                <th style="width: 15px">Update</th>
+                                <th style="width: 15px">Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach (var item in Model.ResponseSales)
+                        <tbody id="tBody">
+                            @foreach (var item in Model.ResponseSuppliers)
                             {
                                 <tr>
                                     <td>@item.Serial.</td>
-                                    <td>@item.SalesCode</td>
-                                    <td>@item.SalesDate.ToShortDateString()</td>
-                                    <td>@item.BuyerName</td>
-                                    <td>@item.TotalPrice</td>
-                                    <td>@item.Cash</td>
-                                    <td>@item.Discount</td>
-                                    <td>@item.GrandTotal</td>
-                                    <td><a href="@Url.Action("SalesInvoiceByCode","InventoryData",new {code=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
+                                    <td>@item.SupplierName</td>
+                                    <td>@item.SupplierAddress</td>
+                                    <td>@item.MobileNumber</td>
+                                    <td>@item.AlternateMobileNumber</td>
+                                    <td>@item.SupplierBalance</td>
+                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                                    <td style="color:red"><a href="#"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             }
                         </tbody>

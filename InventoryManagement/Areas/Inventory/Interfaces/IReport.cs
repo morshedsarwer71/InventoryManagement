@@ -10,5 +10,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
     public interface IReport
     {
         IEnumerable<ResponseStockReport> ResponseStockReports(int concernId,int page);
+        IEnumerable<ResponseDuesSummary> ResponseBuyerDuesSummaries(int concernId);
+        IEnumerable<ResponseDuesSummary> ResponseSupplierDuesSummaries(int concernId);
     }
 }

@@ -51,6 +51,11 @@ namespace InventoryManagement.Areas.Global.Controllers
 
             return View();
         }
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            return RedirectToAction(nameof(LogIn));
+        }
         //[HttpPost]
         //public JsonResult LogIn(SystemUser systemUser)
         //{

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Accounting | Dashboard</title>
+    <title>Inventory | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -287,7 +287,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="@Url.Action("LogOut","GlobalData")" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -334,8 +334,9 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="@Url.Action("Index","AccountingData")"><i class="fa fa-circle-o"></i> Accounting</a></li>
+                            <li><a href="@Url.Action("Index","AccountingData",new {Area="Accounting" })"><i class="fa fa-circle-o"></i> Accounting</a></li>
                             <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-circle-o"></i> Inventory</a></li>
+                            <li><a href="@Url.Action("Registration","GlobalData",new {Area="Global" })"><i class="fa fa-circle-o"></i> Global</a></li>
                         </ul>
                     </li>
                     @*<li class="treeview">
@@ -363,10 +364,12 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="@Url.Action("Buyer","InventoryData")"><i class="fa fa-circle-o"></i> Buyer</a></li>
+                            <li><a href="@Url.Action("Supplier","InventoryData")"><i class="fa fa-circle-o"></i> Supplier</a></li>
                             <li><a href="@Url.Action("Product","InventoryData")"><i class="fa fa-circle-o"></i> Product</a></li>
                             <li><a href="@Url.Action("Category","InventoryData")"><i class="fa fa-circle-o"></i> Category</a></li>
                             <li><a href="@Url.Action("Unit","InventoryData")"><i class="fa fa-circle-o"></i> Unit</a></li>
-                            <li><a href="@Url.Action("ExpenseName","InventoryData")"><i class="fa fa-circle-o"></i> Expense</a></li>
+                            <li><a href="@Url.Action("ExpenseName","InventoryData")"><i class="fa fa-circle-o"></i> Expense Name</a></li>
+                            
                         </ul>
                     </li>
                     <li class="treeview">
@@ -381,7 +384,7 @@
                             <li><a href="@Url.Action("SalesInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Return Invoice</a></li>
-                            <li><a href="@Url.Action("SalesReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Return Invoice</a></li>
+                            <li><a href="@Url.Action("SalesReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Return Invoice</a></li>                            
                         </ul>
                     </li>
                     <li class="treeview">
@@ -392,9 +395,10 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">                            
+                        <ul class="treeview-menu">
                             <li><a href="@Url.Action("BuyerPayment","InventoryData")"><i class="fa fa-circle-o"></i> Buyer Payment</a></li>
                             <li><a href="@Url.Action("SupplierPayment","InventoryData")"><i class="fa fa-circle-o"></i> Supplier Payment</a></li>
+                            <li><a href="@Url.Action("Expense","InventoryData")"><i class="fa fa-circle-o"></i> Expense</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -407,6 +411,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="@Url.Action("StockReport","InventoryData")"><i class="fa fa-circle-o"></i> Stocks </a></li>
+                            <li><a href="@Url.Action("BuyerDues","InventoryData")"><i class="fa fa-circle-o"></i> Buyer Dues </a></li>
+                            <li><a href="@Url.Action("SupplierDues","InventoryData")"><i class="fa fa-circle-o"></i> Suppliers Dues </a></li>
                         </ul>
                     </li>
                 </ul>
@@ -416,7 +422,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            @RenderBody();
+            @RenderBody()
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">

@@ -87,5 +87,44 @@ namespace InventoryManagement.Areas.Inventory.Services
             }
             return responses;
         }
+
+        public IEnumerable<ResponseSales> SalesInvoiceByCode(string code, int concernId)
+        {
+            List<ResponseSales> responses = new List<ResponseSales>();
+            using (var command = _context.Database.Connection.CreateCommand())
+            {
+                command.CommandText = "usp_StockManagement_SalesInvoiceDetailsByInvoiceCode @InvoiceCode,@concernID";
+                command.Parameters.Add(new SqlParameter("@InvoiceCode", code));
+                command.Parameters.Add(new SqlParameter("@concernID", concernId));
+                _context.Database.Connection.Open();
+                using (var result=command.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            responses.Add(new ResponseSales()
+                            {
+                                Serial = Convert.ToInt32(result[0]),
+                                SalesCode = Convert.ToString(result[1]),
+                                SalesDate = Convert.ToDateTime(result[2]),
+                                ProductName = Convert.ToString(result[3]),
+                                BuyerName = Convert.ToString(result[4]),
+                                Quantity = Convert.ToDecimal(result[5]),
+                                SalesPrice = Convert.ToDecimal(result[6]),
+                                TotalPrice = Convert.ToDecimal(result[7]),
+                                Cash = Convert.ToDecimal(result[8]),
+                                Discount = Convert.ToDecimal(result[9]),
+                                GrandTotal= Convert.ToDecimal(result[10]),
+                                Saler = Convert.ToString(result[11]),
+
+                            });
+                        }
+                    }
+                }
+                    _context.Database.Connection.Close();
+            }
+                return responses;
+        }
     }
 }

@@ -20,7 +20,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly ISalesReturn _salesReturn;
         private readonly IDuePayment _payment;
         private readonly IReport _report;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report)
+        private readonly ISupplier  _supplier;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report, ISupplier supplier)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
@@ -31,6 +32,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _salesReturn = salesReturn;
             _payment = payment;
             _report = report;
+            _supplier = supplier;
         }
         // GET: Inventory/InventoryData
         public ActionResult Index(int page = 1)
@@ -142,6 +144,47 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             _buyer.Update(id, buyer);
             return RedirectToAction(nameof(Buyer));
+        }
+        [HttpGet]
+        public ActionResult Supplier()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Suppliers(int page=1)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var suppliers = _supplier.ResponseSuppliers(concernId, page);
+                SupplierIndexViewModels viewModels = new SupplierIndexViewModels()
+                {
+                    ResponseSuppliers = suppliers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
+        }
+        [HttpGet]
+        public ActionResult AddSupplier()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {               
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult AddSupplier(Supplier supplier)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _supplier.AddSupplier(supplier,concernId,userId);
+            return Json("added successfully",JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Unit()
@@ -426,6 +469,22 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return Json("success", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
+        public ActionResult SalesInvoiceByCode(string code)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var InvoiceDetails = _salesInvoice.SalesInvoiceByCode(code, concernId);
+                SalesIndexViewModels viewModels = new SalesIndexViewModels()
+                {
+                    ResponseSales=InvoiceDetails
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpGet]
         public ActionResult SalesReturnInvoice()
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
@@ -476,7 +535,9 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public JsonResult AddSalesReturnInvoice(SessionInvoice sessionInvoice)
         {
-            _salesReturn.AddSalesReturnInvoice(sessionInvoice, 1, 1);
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _salesReturn.AddSalesReturnInvoice(sessionInvoice,userId,concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -755,6 +816,57 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _inventorySetting.AddExpenseName(expenseName, concernId, userId);
             return Json("added successfully",JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult Expense()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpGet]
+        public ActionResult Expenses(int page=1)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var expense = _inventorySetting.ResponseExpenses(concernId,page);
+                ExpenseIndexViewModels viewModels = new ExpenseIndexViewModels()
+                {
+                    ResponseExpenses=expense
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpGet]
+        public ActionResult AddExpense()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var expenseNames = _inventorySetting.ExpenseNames(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    ExpenseNames = expenseNames
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult AddExpense(Expense expense)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            _inventorySetting.AddExpense(expense, concernId, userId);
+            return Json("Added successfully",JsonRequestBehavior.AllowGet);
+        }
 
         // REPORTING SECTION
 
@@ -774,6 +886,40 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
             
+        }
+        [HttpGet]
+        public ActionResult BuyerDues()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var payments = _report.ResponseBuyerDuesSummaries(concernId);
+                ReportDuePayment duePayment = new ReportDuePayment()
+                {
+                    ResponseDues= payments
+                };
+                return View(duePayment);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
+        }
+        [HttpGet]
+        public ActionResult SupplierDues()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var payments = _report.ResponseSupplierDuesSummaries(concernId);
+                ReportDuePayment duePayment = new ReportDuePayment()
+                {
+                    ResponseDues = payments
+                };
+                return View(duePayment);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
 
     }

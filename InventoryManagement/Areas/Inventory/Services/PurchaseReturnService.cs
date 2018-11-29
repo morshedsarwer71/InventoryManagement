@@ -22,28 +22,38 @@ namespace InventoryManagement.Areas.Inventory.Services
             List<PurchaseReturnInvoice> purchaseInvoices = new List<PurchaseReturnInvoice>();
             var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
             var dateString = DateTime.Now;
-            var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;
+            //var invoiceCode = DateTime.Now.ToString("mmddfff") + "" + userId + "" + concernId;
             using (var transaction = _context.Database.BeginTransaction())
             {
+                PurchaseDuePayment purchaseDue = new PurchaseDuePayment();
+                purchaseDue.PaymentDate = dateString;
+                purchaseDue.CreationDate = dateString;
+                purchaseDue.SupplierID = sessionInvoice.BuyerID;
+                purchaseDue.Description= "Sales Return Code : " + " " + sessionInvoice.Code;
+                purchaseDue.IsDelete = 0;
+                purchaseDue.PaymentAmount = sessionInvoice.DuePayment;
+                purchaseDue.ConcernID = concernId;
+                purchaseDue.Creator = userId;
+                _context.PurchaseDuePayments.Add(purchaseDue);
+                _context.SaveChanges();
                 foreach (var item in sessionData)
                 {
                     purchaseInvoices.Add(new PurchaseReturnInvoice()
                     {
-                        PRSupplierID = item.BuyerID,
+                        PRSupplierID = sessionInvoice.BuyerID,
                         PRCashPayment = sessionInvoice.CashPayment,
                         ConcernID = concernId,
                         CreationDate = dateString,
                         Creator = userId,
                         Description = sessionInvoice.Description,
                         PRDiscount = sessionInvoice.Discount,
-                        PRDuePayment = item.DuePayment,
                         IsDelete = item.IsDelete,
                         PRProductID = item.ProductID,
                         PRQuantity = item.Quantity,
                         PRDate = item.Date,
-                        PurchaseInvoiceCode = invoiceCode,
+                        PurchaseInvoiceCode = sessionInvoice.Code,
                         PRUnitPrice = item.UnitPrice,
-                        PRInvoiceCode= invoiceCode
+                        PRInvoiceCode= sessionInvoice.Code
                     });
                 }
                 _context.PurchaseReturnInvoices.AddRange(purchaseInvoices);

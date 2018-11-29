@@ -229,6 +229,7 @@
     <Compile Include="Areas\Inventory\Interfaces\ISalesInvoice.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISalesReturn.cs" />
     <Compile Include="Areas\Inventory\Interfaces\ISession.cs" />
+    <Compile Include="Areas\Inventory\Interfaces\ISupplier.cs" />
     <Compile Include="Areas\Inventory\InventoryAreaRegistration.cs" />
     <Compile Include="Areas\Inventory\Models\Buyer.cs" />
     <Compile Include="Areas\Inventory\Models\Category.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Areas\Inventory\Models\Unit.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseDuePayment.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseDuesSummary.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseExpenses.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchase.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSalesInvoice.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseSession.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseStockReport.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseSupplier.cs" />
     <Compile Include="Areas\Inventory\Services\BuyerService.cs" />
     <Compile Include="Areas\Inventory\Services\DuePaymentService.cs" />
     <Compile Include="Areas\Inventory\Services\InventorySettingService.cs" />
@@ -264,16 +267,20 @@
     <Compile Include="Areas\Inventory\Services\SalesInvoiceService.cs" />
     <Compile Include="Areas\Inventory\Services\SalesReturnService.cs" />
     <Compile Include="Areas\Inventory\Services\SessionService.cs" />
+    <Compile Include="Areas\Inventory\Services\SupplierService.cs" />
     <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\CategoryViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\DuePaymentViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\ExpenseIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\ProductIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseReturnIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\ReportDuePayment.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SalesIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SalesReturnIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\SessionViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\StockReportViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\SupplierIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\UnitIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\VendorsViewModels.cs" />
     <Compile Include="Context\DataContext.cs" />
@@ -316,6 +323,10 @@
     <Compile Include="Migrations\201811281125496_updateExpense7.cs" />
     <Compile Include="Migrations\201811281125496_updateExpense7.Designer.cs">
       <DependentUpon>201811281125496_updateExpense7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811281457328_payment.cs" />
+    <Compile Include="Migrations\201811281457328_payment.Designer.cs">
+      <DependentUpon>201811281457328_payment.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7155,6 +7166,15 @@
     <Content Include="Areas\Inventory\Views\InventoryData\ExpenseName.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\ExpenseNames.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddExpenseName.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Expense.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Expenses.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddExpense.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\BuyerDues.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SupplierDues.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Supplier.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\Suppliers.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\AddSupplier.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoiceByCode.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -7242,6 +7262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811281125496_updateExpense7.resx">
       <DependentUpon>201811281125496_updateExpense7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811281457328_payment.resx">
+      <DependentUpon>201811281457328_payment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

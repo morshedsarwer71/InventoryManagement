@@ -19,6 +19,7 @@ namespace InventoryManagement
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IBuyer, BuyerService>();
+            container.RegisterType<ISupplier, SupplierService>();
             container.RegisterType<IInventorySetting, InventorySettingService>();
             container.RegisterType<ISession,SessionService>();
             container.RegisterType<ISalesInvoice,SalesInvoiceService>();

@@ -44,7 +44,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         void AddExpenseName(ExpenseName expenseName,int concernId,int userId);
         IEnumerable<ExpenseName> ExpenseNames(int concernId);
         void AddExpense(Expense expense,int concernId,int userId);
-        IEnumerable<ResponseExpenses> ResponseExpenses(int concernId);
+        IEnumerable<ResponseExpenses> ResponseExpenses(int concernId,int Page);
         IEnumerable<ExpenseType> ExpenseTypes(int concernId);
 
     }

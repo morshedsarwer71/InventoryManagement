@@ -47,7 +47,7 @@ namespace InventoryManagement.Areas.Inventory.Services
 
         public void AddProduct(Product product, int userId, int concernId)
         {
-            product.CategoryID = userId;
+            product.Creator = userId;
             product.ConcernID = concernId;
             product.CreationDate = DateTime.Now;
             product.IsDelete = 0;
@@ -62,6 +62,8 @@ namespace InventoryManagement.Areas.Inventory.Services
             unit.ConcernID = concernId;
             unit.CreationDate = DateTime.Now;
             unit.IsDelete = 0;
+            _context.Units.Add(unit);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Buyer> Buyers(int concernId)
@@ -156,9 +158,35 @@ namespace InventoryManagement.Areas.Inventory.Services
             return _context.Products.Where(m => m.ConcernID == concernId && m.IsDelete == 0);
         }
 
-        public IEnumerable<ResponseExpenses> ResponseExpenses(int concernId)
+        public IEnumerable<ResponseExpenses> ResponseExpenses(int concernId, int Page)
         {
-            throw new NotImplementedException();
+            List<ResponseExpenses> responses = new List<ResponseExpenses>();
+            using (var command=_context.Database.Connection.CreateCommand())
+            {
+                command.CommandText = "usp_Inventory_StockManagement_ExpenseIndex @concernId,@Page";
+                command.Parameters.Add(new SqlParameter("@concernId",concernId));
+                command.Parameters.Add(new SqlParameter("@Page", Page));
+                _context.Database.Connection.Open();
+                using (var result=command.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            responses.Add(new ResponseExpenses()
+                            {
+                                Serial = Convert.ToInt32(result[0]),
+                                ExpenseName = Convert.ToString(result[2]),
+                                ExpenseDate = Convert.ToDateTime(result[3]),
+                                Payment = Convert.ToDecimal(result[4]),
+                                Rows = Convert.ToInt32(result[5])
+                            });
+                        }
+                    }
+                }
+                    _context.Database.Connection.Close();
+            }
+                return responses;
         }
 
         public IEnumerable<Supplier> Suppliers(int concernId)

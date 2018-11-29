@@ -63,6 +63,9 @@
                 var cash = $('#txtCash').val();
                 var des = $('#txtDes').val();
                 var dis = $('#txtDiscount').val();
+                var due = $('#txtGrandTotal').val();
+                var buyerId = $('#txtBuyerID').val();
+                var code = $('#txtInvoiceCode').val();
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddPurchaseReturnInvoice",
@@ -70,7 +73,10 @@
                     data: JSON.stringify({
                         "CashPayment": cash,
                         "Description": des,
-                        "Discount":dis
+                        "Discount":dis,
+                        "DuePayment": due,
+                        "BuyerID": buyerId,
+                        "Code": code,
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",

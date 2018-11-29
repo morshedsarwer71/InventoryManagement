@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace InventoryManagement.Areas.Inventory.Interfaces
 {
-    public interface ISalesInvoice
+    public interface ISupplier
     {
-        void AddSalesInvoice(SessionInvoice sessionInvoice,int userId,int concernId);
-        IEnumerable<ResponseSales> ResponseSales(int concernId,int page,string salesCode);
-        IEnumerable<ResponseSales> SalesInvoiceByCode(string code,int concernId);
-
+        void AddSupplier(Supplier supplier,int concernId, int userId);
+        IEnumerable<ResponseSupplier> ResponseSuppliers(int concernId,int Page);
     }
 }

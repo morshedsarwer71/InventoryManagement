@@ -1,0 +1,169 @@
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+<!-- Main content -->
+<section class="content">
+    @{
+        var Code = "";
+        var date="";
+        var customer = "";
+        decimal Total = 0;
+        decimal cash = 0;
+        decimal discount = 0;
+        decimal due = 0;
+        string saler = "";
+     }
+    @foreach (var item in Model.ResponseSales)
+    {
+        Code = item.SalesCode;
+        date = Convert.ToString(item.SalesDate);
+        customer = item.BuyerName;
+        cash = item.Cash;
+        discount = item.Discount;
+        due = item.Due;
+        saler = item.Saler;
+    }
+    <div class="row">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sales Invoice</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">Invoice Code</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@Code" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@date" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-form-label">Customer</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@customer" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.ResponseSales)
+                                            {
+                                                Total += item.TotalPrice;
+                                                <tr>
+                                                    <td>@item.Serial</td>
+                                                    <td>@item.ProductName</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.SalesPrice</td>
+                                                    <td>@item.TotalPrice</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label">Total</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@Total" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label">Cash</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@cash" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label">Discount</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@discount" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-form-label">Saler</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" value="@saler" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <a href="@Url.Action("SalesInvoice","InventoryData")" class="btn btn-info">Close</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box -->
+        <!-- /.col -->
+
+    </div>
+</section>
+
+
+<div id="dvLoader" class="LoadingDiv" style="display: none;">
+    <center>
+        <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+    </center>
+</div>
