@@ -12,5 +12,6 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
     {
         void AddPurchaseInvoice(SessionInvoice sessionInvoice, int userId, int concernId);
         IEnumerable<ResponsePurchase> ResponsePurchases(int concernId, int page, string purchaseCode);
+        IEnumerable<ResponsePurchase> ResponsePurchasesByCode(int concernId,string purchaseCode);
     }
 }

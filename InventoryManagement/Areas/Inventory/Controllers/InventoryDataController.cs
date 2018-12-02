@@ -20,7 +20,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly ISalesReturn _salesReturn;
         private readonly IDuePayment _payment;
         private readonly IReport _report;
-        private readonly ISupplier  _supplier;
+        private readonly ISupplier _supplier;
         public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report, ISupplier supplier)
         {
             _buyer = buyer;
@@ -101,7 +101,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            return RedirectToAction("LogIn", "GlobalData", new { Area = "Global" });
         }
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -109,14 +109,21 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            if (ModelState.IsValid)
+            if (concernId > 0 & userId > 0)
             {
-                _buyer.Add(buyer,concernId,userId);
-                return Json("Added successfully", JsonRequestBehavior.AllowGet);
+                if (ModelState.IsValid)
+                {
+                    _buyer.Add(buyer, concernId, userId);
+                    return Json("Added successfully", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("record cannot added", JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                return Json("cannot added", JsonRequestBehavior.AllowGet);
+                return Json(new { redirectUrl = Url.Action("LogIn", "GlobalData",new { Area = "Global" }), isRedirect = true });
             }
         }
         [HttpPost]
@@ -124,8 +131,15 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _buyer.Delete(id,concernId);
-            return Json("Deleted", JsonRequestBehavior.AllowGet);
+            if (concernId > 0 & userId > 0)
+            {
+                _buyer.Delete(id, concernId);
+                return Json("Deleted", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { redirectUrl = Url.Action("LogIn", "GlobalData"), isRedirect = true });
+            }
         }
         [HttpGet]
         public ActionResult UpdateBuyer(int id)
@@ -142,8 +156,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         [HttpPost]
         public ActionResult UpdateBuyer(int id, Buyer buyer)
         {
-            _buyer.Update(id, buyer);
-            return RedirectToAction(nameof(Buyer));
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 & userId > 0)
+            {
+                _buyer.Update(id, buyer);
+                return RedirectToAction(nameof(Buyer));
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult Supplier()
@@ -151,7 +171,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Suppliers(int page=1)
+        public ActionResult Suppliers(int page = 1)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
@@ -165,7 +185,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddSupplier()
@@ -173,7 +193,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
-            {               
+            {
                 return View();
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
@@ -183,8 +203,19 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _supplier.AddSupplier(supplier,concernId,userId);
-            return Json("added successfully",JsonRequestBehavior.AllowGet);
+            _supplier.AddSupplier(supplier, concernId, userId);
+            if (concernId > 0 && userId>0)
+            {
+                if (ModelState.IsValid)
+                {
+                    return Json("added successfully", JsonRequestBehavior.AllowGet);
+                }
+                return Json("can not added", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { redirectUrl = Url.Action("LogIn", "GlobalData", new { Area = "Global" }), isRedirect = true });
+            }
         }
         [HttpGet]
         public ActionResult Unit()
@@ -232,8 +263,15 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _inventorySetting.AddUnit(unit,userId,concernId);
-            return Json("Success", JsonRequestBehavior.AllowGet);
+            if (concernId > 0 && userId > 0)
+            {
+                _inventorySetting.AddUnit(unit, userId, concernId);
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { redirectUrl = Url.Action("LogIn", "GlobalData", new { Area = "Global" }), isRedirect = true });
+            }
         }
         [HttpPost]
         public ActionResult DeleteUnit()
@@ -310,8 +348,15 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _inventorySetting.AddCategory(category,userId,concernId);
-            return Json("addded", JsonRequestBehavior.AllowGet);
+            if (concernId > 0 && userId > 0)
+            {
+                _inventorySetting.AddCategory(category, userId, concernId);
+                return Json("addded", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { redirectUrl = Url.Action("LogIn", "GlobalData", new { Area = "Global" }), isRedirect = true });
+            }
         }
         [HttpGet]
         public ActionResult Product()
@@ -322,7 +367,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });            
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult Products(int page = 1)
@@ -339,7 +384,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddProduct()
@@ -358,14 +403,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddProduct(Product product)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _inventorySetting.AddProduct(product,userId,concernId);
+            _inventorySetting.AddProduct(product, userId, concernId);
             return Json("addded", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -373,19 +418,19 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            var sessions = _session.ResponseSessions(concernId,userId);
-            SessionViewModels viewModels = new SessionViewModels()
-            {
-                ResponseSessions = sessions
-            };
-            return Json(viewModels, JsonRequestBehavior.AllowGet);
+                var sessions = _session.ResponseSessions(concernId, userId);
+                SessionViewModels viewModels = new SessionViewModels()
+                {
+                    ResponseSessions = sessions
+                };
+                return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult AddSessionInvoice(SessionInvoice sessionInvoice)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _session.AddSessionInvoice(userId,concernId, sessionInvoice);
+            _session.AddSessionInvoice(userId, concernId, sessionInvoice);
             var sessions = _session.ResponseSessions(1, 1);
             SessionViewModels viewModels = new SessionViewModels()
             {
@@ -398,7 +443,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _session.ClearSessionInvoice(userId,concernId);
+            _session.ClearSessionInvoice(userId, concernId);
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -406,7 +451,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _session.Delete(userId,concernId, id);
+            _session.Delete(userId, concernId, id);
             return Json("Deleted", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -414,12 +459,19 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            return Json(_session.ProductPrice(id,concernId), JsonRequestBehavior.AllowGet);
+            return Json(_session.ProductPrice(id, concernId), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesInvoice()
         {
-            return View();
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+
         }
         [HttpGet]
         public ActionResult SalesInvoices(int page = 1)
@@ -436,7 +488,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
 
         [HttpGet]
@@ -458,14 +510,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddSalesInvoice(SessionInvoice sessionInvoice)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _salesInvoice.AddSalesInvoice(sessionInvoice,userId,concernId);
+            _salesInvoice.AddSalesInvoice(sessionInvoice, userId, concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -478,7 +530,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 var InvoiceDetails = _salesInvoice.SalesInvoiceByCode(code, concernId);
                 SalesIndexViewModels viewModels = new SalesIndexViewModels()
                 {
-                    ResponseSales=InvoiceDetails
+                    ResponseSales = InvoiceDetails
                 };
                 return View(viewModels);
             }
@@ -493,7 +545,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });           
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult SalesReturnInvoices(int page = 1)
@@ -510,7 +562,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
 
         [HttpGet]
@@ -530,15 +582,31 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddSalesReturnInvoice(SessionInvoice sessionInvoice)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _salesReturn.AddSalesReturnInvoice(sessionInvoice,userId,concernId);
+            _salesReturn.AddSalesReturnInvoice(sessionInvoice, userId, concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult SalesReturnInvoiceByCode(string code)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var InvoiceDetails = _salesReturn.ResponseSalesReturns(concernId, code);
+                SalesIndexViewModels viewModels = new SalesIndexViewModels()
+                {
+                    ResponseSales = InvoiceDetails
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
         public ActionResult PurchaseInvoice()
@@ -546,11 +614,11 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
-            {               
+            {
                 return View();
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult PurchaseInvoices(int page = 1)
@@ -568,7 +636,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddPurchaseInvoice()
@@ -589,28 +657,43 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddPurchaseInvoice(SessionInvoice sessionInvoice)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _purchase.AddPurchaseInvoice(sessionInvoice,userId,concernId);
+            _purchase.AddPurchaseInvoice(sessionInvoice, userId, concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
-
+        [HttpGet]
+        public ActionResult PurchaseInvoiceByCode(string code)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var InvoiceDetails = _purchase.ResponsePurchasesByCode(concernId, code);
+                PurchaseIndexViewModels viewModels = new PurchaseIndexViewModels()
+                {
+                    ResponsePurchases = InvoiceDetails
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
         [HttpGet]
         public ActionResult PurchaseReturnInvoice()
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
-            {               
+            {
                 return View();
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult PurchaseReturnInvoices(int page = 1)
@@ -627,7 +710,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddPurchaseReturnInvoice()
@@ -647,17 +730,32 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddPurchaseReturnInvoice(SessionInvoice sessionInvoice)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _purchaseReturn.AddPurchaseInvoice(sessionInvoice,userId,concernId);
+            _purchaseReturn.AddPurchaseInvoice(sessionInvoice, userId, concernId);
             return Json("success", JsonRequestBehavior.AllowGet);
         }
-
+        [HttpGet]
+        public ActionResult PurchaseReturnByCode(string code)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var InvoiceDetails = _purchaseReturn.ResponsePurchasesByCode(concernId, code);
+                PurchaseIndexViewModels viewModels = new PurchaseIndexViewModels()
+                {
+                    ResponsePurchases = InvoiceDetails
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
         [HttpGet]
         public ActionResult BuyerPayment()
         {
@@ -676,7 +774,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
             {
-                var paymnets = _payment.BuyerDuePayments(concernId,page);
+                var paymnets = _payment.BuyerDuePayments(concernId, page);
                 DuePaymentViewModels viewModels = new DuePaymentViewModels()
                 {
                     ResponseDues = paymnets
@@ -684,7 +782,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddBuyerPayment()
@@ -701,14 +799,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddBuyerPayment(SalesDuePayment salesDuePayment)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _payment.AddBuyerPayment(salesDuePayment,concernId,userId);
+            _payment.AddBuyerPayment(salesDuePayment, concernId, userId);
             return Json("Added", JsonRequestBehavior.AllowGet);
         }
 
@@ -718,7 +816,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
-            {               
+            {
                 return View();
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
@@ -738,7 +836,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpGet]
         public ActionResult AddSupplierPayment()
@@ -755,14 +853,14 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 return View(viewModels);
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+
         }
         [HttpPost]
         public JsonResult AddSupplierPayment(PurchaseDuePayment DuePayment)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            _payment.AddSupplierPayment(DuePayment,concernId,userId);
+            _payment.AddSupplierPayment(DuePayment, concernId, userId);
             return Json("Added", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -771,7 +869,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
-            {                
+            {
                 return View();
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
@@ -786,7 +884,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 var expenseNames = _inventorySetting.ExpenseNames(concernId);
                 VendorsViewModels viewModels = new VendorsViewModels()
                 {
-                    ExpenseNames=expenseNames
+                    ExpenseNames = expenseNames
                 };
                 return View(viewModels);
             }
@@ -802,7 +900,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 var expense = _inventorySetting.ExpenseTypes(concernId);
                 VendorsViewModels viewModels = new VendorsViewModels()
                 {
-                    ExpenseTypes=expense
+                    ExpenseTypes = expense
                 };
                 return View(viewModels);
             }
@@ -814,7 +912,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             _inventorySetting.AddExpenseName(expenseName, concernId, userId);
-            return Json("added successfully",JsonRequestBehavior.AllowGet);
+            return Json("added successfully", JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Expense()
@@ -828,16 +926,16 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
         }
         [HttpGet]
-        public ActionResult Expenses(int page=1)
+        public ActionResult Expenses(int page = 1)
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
             {
-                var expense = _inventorySetting.ResponseExpenses(concernId,page);
+                var expense = _inventorySetting.ResponseExpenses(concernId, page);
                 ExpenseIndexViewModels viewModels = new ExpenseIndexViewModels()
                 {
-                    ResponseExpenses=expense
+                    ResponseExpenses = expense
                 };
                 return View(viewModels);
             }
@@ -865,7 +963,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
             _inventorySetting.AddExpense(expense, concernId, userId);
-            return Json("Added successfully",JsonRequestBehavior.AllowGet);
+            return Json("Added successfully", JsonRequestBehavior.AllowGet);
         }
 
         // REPORTING SECTION
@@ -884,8 +982,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 };
                 return View(viewModels);
             }
-            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
-            
+            return RedirectToAction("Login", "GlobalData");
+
         }
         [HttpGet]
         public ActionResult BuyerDues()
@@ -897,7 +995,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
                 var payments = _report.ResponseBuyerDuesSummaries(concernId);
                 ReportDuePayment duePayment = new ReportDuePayment()
                 {
-                    ResponseDues= payments
+                    ResponseDues = payments
                 };
                 return View(duePayment);
             }

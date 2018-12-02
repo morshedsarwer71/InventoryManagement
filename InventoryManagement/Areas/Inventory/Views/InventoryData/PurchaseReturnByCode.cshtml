@@ -1,21 +1,21 @@
-﻿@model InventoryManagement.Areas.Inventory.ViewModels.SalesIndexViewModels
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.PurchaseIndexViewModels
 <!-- Main content -->
 <section class="content">
     @{
         var Code = "";
-        var date="";
+        var date = "";
         var customer = "";
         decimal Total = 0;
         decimal cash = 0;
         decimal discount = 0;
         decimal due = 0;
         string saler = "";
-     }
-    @foreach (var item in Model.ResponseSales)
+    }
+    @foreach (var item in Model.ResponsePurchases)
     {
-        Code = item.SalesCode;
-        date = Convert.ToString(item.SalesDate.ToLongDateString());
-        customer = item.BuyerName;
+        Code = item.PurchaseCode;
+        date = Convert.ToString(item.PurchaseDate.ToShortDateString());
+        customer = item.SupplierName;
         cash = item.Cash;
         discount = item.Discount;
         due = item.Due;
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Sales Invoice</h3>
+                <h3 class="box-title">Purchase Return Invoice</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="col-form-label">Customer</label>
+                                <label class="col-form-label">Supplier</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -80,14 +80,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in Model.ResponseSales)
+                                            @foreach (var item in Model.ResponsePurchases)
                                             {
                                                 Total += item.TotalPrice;
                                                 <tr>
                                                     <td>@item.Serial</td>
                                                     <td>@item.ProductName</td>
                                                     <td>@item.Quantity</td>
-                                                    <td>@item.SalesPrice</td>
+                                                    <td>@item.UnitPrice</td>
                                                     <td>@item.TotalPrice</td>
                                                 </tr>
                                             }
@@ -148,7 +148,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <a href="@Url.Action("SalesInvoice","InventoryData")" class="btn btn-info">Close</a>
+                                <a href="@Url.Action("PurchaseReturnInvoice","InventoryData")" class="btn btn-info">Close</a>
                             </div>
                         </div>
                     </div>

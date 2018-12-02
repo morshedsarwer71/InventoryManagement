@@ -7175,6 +7175,10 @@
     <Content Include="Areas\Inventory\Views\InventoryData\Suppliers.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\AddSupplier.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoiceByCode.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesReturnInvoiceByCode.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\PurchaseInvoiceByCode.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\PurchaseReturnByCode.cshtml" />
+    <Content Include="Areas\Global\Views\GlobalData\LogOut.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

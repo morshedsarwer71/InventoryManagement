@@ -48,7 +48,7 @@
                                     <td>@item.Cash</td>
                                     <td>@item.Discount</td>
                                     <td>@item.Due</td>
-                                    <td><a href="@Url.Action("UpdateBuyer","InventoryData",new {id=item.PurchaseDate })"><i class="fa fa-info-circle"></i></a></td>
+                                    <td><a href="@Url.Action("PurchaseInvoiceByCode","InventoryData",new {code=item.PurchaseCode })"><i class="fa fa-info-circle"></i></a></td>
                                 </tr>
                             }
                         </tbody>

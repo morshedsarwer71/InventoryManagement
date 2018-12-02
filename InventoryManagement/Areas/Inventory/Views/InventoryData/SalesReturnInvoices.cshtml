@@ -42,8 +42,7 @@
                                     <td>@item.SalesDate.ToShortDateString()</td>
                                     <td>@item.BuyerName</td>
                                     <td>@item.TotalPrice</td>
-                                    <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                                    <td><a href="#"><i class="fa fa-trash"></i></a></td>
+                                    <td><a href="@Url.Action("SalesReturnInvoiceByCode","InventoryData",new {code=item.SalesCode })"><i class="fa fa-info-circle"></i></a></td>
                                 </tr>
                             }
                         </tbody>

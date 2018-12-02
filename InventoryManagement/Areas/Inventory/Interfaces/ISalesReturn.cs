@@ -12,5 +12,6 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
     {
         void AddSalesReturnInvoice(SessionInvoice sessionInvoice, int userId, int concernId);
         IEnumerable<ResponseSales> ResponseSales(int concernId, int page, string salesCode);
+        IEnumerable<ResponseSales> ResponseSalesReturns(int concernId, string salesCode);
     }
 }
