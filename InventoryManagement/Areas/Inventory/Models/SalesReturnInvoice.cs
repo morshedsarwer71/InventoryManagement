@@ -16,7 +16,7 @@ namespace InventoryManagement.Areas.Inventory.Models
         [Required]
         public decimal SRQuantity { get; set; }
         [Required]
-        public decimal SRUnitPrice { get; set; }
+        public double SRUnitPrice { get; set; }
         public decimal SRCashPayment { get; set; }
         public decimal SRDuePayment { get; set; }
         public decimal SRDiscount { get; set; }

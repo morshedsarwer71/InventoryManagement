@@ -9,6 +9,7 @@ namespace InventoryManagement.Areas.Inventory.Models
     {
         public int ExpenseId { get; set; }
         public int ExpenseNameId { get; set; }
+        public string ExpensesCode { get; set; }
         public DateTime ExpenseDate { get; set; }
         public decimal Payment { get; set; }
         public int Creator { get; set; }

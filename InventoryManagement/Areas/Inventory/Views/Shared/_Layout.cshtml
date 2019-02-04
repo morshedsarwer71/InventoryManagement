@@ -15,6 +15,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/Content/Site.css">
+    <link href="~/Content/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">
@@ -251,10 +252,14 @@
                             </ul>
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
+                        @{
+                            var name = Convert.ToString(Session["Name"]);
+                            var date = Convert.ToDateTime(Session["Date"]);
+                        }
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="~/Content/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <span class="hidden-xs">@name</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -262,8 +267,8 @@
                                     <img src="~/Content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Morshed Sarwer - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        @name
+                                        <small>Member since Nov. @date.Year</small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -307,7 +312,7 @@
                         <img src="~/Content/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Morshed Sarwer</p>
+                        <p>@name</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -340,20 +345,20 @@
                         </ul>
                     </li>
                     @*<li class="treeview">
-            <a href="#">
-                <i class="fa fa-files-o"></i>
-                <span>Layout Options</span>
-                <span class="pull-right-container">
-                    <span class="label label-primary pull-right">4</span>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-            </ul>
-        </li>*@
+                            <a href="#">
+                                <i class="fa fa-files-o"></i>
+                                <span>Layout Options</span>
+                                <span class="pull-right-container">
+                                    <span class="label label-primary pull-right">4</span>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="../layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+                                <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+                                <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+                                <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+                            </ul>
+                        </li>*@
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
@@ -369,7 +374,7 @@
                             <li><a href="@Url.Action("Category","InventoryData")"><i class="fa fa-circle-o"></i> Category</a></li>
                             <li><a href="@Url.Action("Unit","InventoryData")"><i class="fa fa-circle-o"></i> Unit</a></li>
                             <li><a href="@Url.Action("ExpenseName","InventoryData")"><i class="fa fa-circle-o"></i> Expense Name</a></li>
-                            
+
                         </ul>
                     </li>
                     <li class="treeview">
@@ -384,7 +389,7 @@
                             <li><a href="@Url.Action("SalesInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Invoice</a></li>
                             <li><a href="@Url.Action("PurchaseReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Return Invoice</a></li>
-                            <li><a href="@Url.Action("SalesReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Return Invoice</a></li>                            
+                            <li><a href="@Url.Action("SalesReturnInvoice","InventoryData")"><i class="fa fa-circle-o"></i> Sales Return Invoice</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -413,6 +418,10 @@
                             <li><a href="@Url.Action("StockReport","InventoryData")"><i class="fa fa-circle-o"></i> Stocks </a></li>
                             <li><a href="@Url.Action("BuyerDues","InventoryData")"><i class="fa fa-circle-o"></i> Buyer Dues </a></li>
                             <li><a href="@Url.Action("SupplierDues","InventoryData")"><i class="fa fa-circle-o"></i> Suppliers Dues </a></li>
+                            <li><a href="@Url.Action("SalesInvoiceReport","InventoryData")"><i class="fa fa-circle-o"></i> Sales Report </a></li>
+                            <li><a href="@Url.Action("PurchaseInvoiceReport","InventoryData")"><i class="fa fa-circle-o"></i> Purchase Report </a></li>
+                            <li><a href="@Url.Action("ExpenseNameReport","InventoryData")"><i class="fa fa-circle-o"></i> Expense Name Report</a></li>
+                            <li><a href="@Url.Action("ExpenseHeadReport","InventoryData")"><i class="fa fa-circle-o"></i> Expense Head Report</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -447,6 +456,10 @@
     <script src="~/Content/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/Content/dist/js/demo.js"></script>
+    <script src="~/Content/bower_components/moment/min/moment.min.js"></script>
+    <script src="~/Content/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="~/Content/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

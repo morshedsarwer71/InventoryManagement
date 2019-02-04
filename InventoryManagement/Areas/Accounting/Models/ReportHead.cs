@@ -10,13 +10,17 @@ namespace InventoryManagement.Areas.Accounting.Models
     {
         [Key]
         public int ReportHeadId { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Account Head reqiured in English")]
         public string ReportHeadNameEN { get; set; }
-        public int ReportType { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Account Head reqiured in Arabic")]
         public string ReportHeadNameAR { get; set; }
-        public System.DateTime CreationDate { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Report type required")]
+        public int ReportType { get; set; }
+        public DateTime CreationDate { get; set; }
         public int CreatorId { get; set; }
-        public int IsDelete { get; set; }
-        public System.DateTime ModificationDate { get; set; }
+        public int ConcernId { get; set; }
+        public DateTime ModificationDate { get; set; }
         public int ModifierId { get; set; }
+        public int IsDelete { get; set; }
     }
 }

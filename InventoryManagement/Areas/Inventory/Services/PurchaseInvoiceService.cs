@@ -1,4 +1,6 @@
-﻿using InventoryManagement.Areas.Inventory.Interfaces;
+﻿using InventoryManagement.Areas.Accounting.Interfaces;
+using InventoryManagement.Areas.Accounting.Models;
+using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Models;
 using InventoryManagement.Areas.Inventory.ResponseModels;
 using InventoryManagement.Context;
@@ -13,9 +15,11 @@ namespace InventoryManagement.Areas.Inventory.Services
     public class PurchaseInvoiceService : IPurchaseInvoice
     {
         private readonly DataContext _context;
-        public PurchaseInvoiceService(DataContext context)
+        private readonly IJournal _journal;
+        public PurchaseInvoiceService(DataContext context, IJournal journal)
         {
             _context = context;
+            _journal = journal;
         }
         public void AddPurchaseInvoice(SessionInvoice sessionInvoice, int userId, int concernId)
         {
@@ -44,6 +48,46 @@ namespace InventoryManagement.Areas.Inventory.Services
                         PurchaseInvoiceCode = invoiceCode,
                         PurchaseUnitPrice = item.UnitPrice
                     });
+                }
+                //Journal 
+                if (sessionInvoice.DuePayment > 0)
+                {
+                    //Journal Input-- Cash
+                    Journal journalCash = new Journal();
+                    journalCash.DebitAccountsHeadId = 2;
+                    journalCash.CreditAccountsHeadId = 10;
+                    journalCash.DebitJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.CreditJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.JournalEntryDate = dateString;
+                    journalCash.VoucherCode = sessionInvoice.Code;
+                    journalCash.Description = "Purchase";
+                    _journal.AddJournal(journalCash, userId, concernId);
+
+                    //Journal Input-- Due
+                    Journal journalDue = new Journal();
+                    journalDue.DebitAccountsHeadId = 2;
+                    journalDue.CreditAccountsHeadId = 8;
+                    journalDue.DebitJournalAmount = sessionInvoice.DuePayment;
+                    journalDue.CreditJournalAmount = sessionInvoice.DuePayment;
+                    journalDue.JournalEntryDate = dateString;
+                    journalDue.VoucherCode = sessionInvoice.Code;
+                    journalDue.Description = "Purchase";
+                    _journal.AddJournal(journalDue, userId, concernId);
+
+                }
+                else
+                {
+
+                    //Journal Input-- Cash
+                    Journal journalCash = new Journal();
+                    journalCash.DebitAccountsHeadId = 2;
+                    journalCash.CreditAccountsHeadId = 10;
+                    journalCash.DebitJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.CreditJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.JournalEntryDate = dateString;
+                    journalCash.VoucherCode = sessionInvoice.Code;
+                    journalCash.Description = "Purchase";
+                    _journal.AddJournal(journalCash, userId, concernId);
                 }
                 _context.PurchaseInvoices.AddRange(purchaseInvoices);
                 _context.SaveChanges();

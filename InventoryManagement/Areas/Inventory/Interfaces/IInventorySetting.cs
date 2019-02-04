@@ -47,5 +47,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         IEnumerable<ResponseExpenses> ResponseExpenses(int concernId,int Page);
         IEnumerable<ExpenseType> ExpenseTypes(int concernId);
 
+        //
+
     }
 }

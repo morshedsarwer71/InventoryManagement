@@ -1,6 +1,7 @@
 ﻿using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Models;
 using InventoryManagement.Areas.Inventory.ViewModels;
+using InventoryManagement.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         private readonly IDuePayment _payment;
         private readonly IReport _report;
         private readonly ISupplier _supplier;
-        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report, ISupplier supplier)
+        private readonly DataContext _context;
+        public InventoryDataController(IBuyer buyer, IInventorySetting inventorySetting, ISession session, ISalesInvoice salesInvoice, IPurchaseInvoice purchase, IPurchaseReturn purchaseReturn, ISalesReturn salesReturn, IDuePayment payment, IReport report, ISupplier supplier, DataContext context)
         {
             _buyer = buyer;
             _inventorySetting = inventorySetting;
@@ -33,6 +35,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             _payment = payment;
             _report = report;
             _supplier = supplier;
+            _context = context;
         }
         // GET: Inventory/InventoryData
         public ActionResult Index(int page = 1)
@@ -393,7 +396,7 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var userId = Convert.ToInt32(Session["UserId"]);
             if (concernId > 0 && userId > 0)
             {
-                var unit = _inventorySetting.Units(1);
+                var unit = _inventorySetting.Units(concernId);
                 var category = _inventorySetting.Categories(concernId);
                 VendorsViewModels viewModels = new VendorsViewModels()
                 {
@@ -412,6 +415,39 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             var userId = Convert.ToInt32(Session["UserId"]);
             _inventorySetting.AddProduct(product, userId, concernId);
             return Json("addded", JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult UpdateProduct(int id)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var unit = _inventorySetting.Units(concernId);
+                var category = _inventorySetting.Categories(concernId);
+                var prod = _inventorySetting.Product(id);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Units = unit,
+                    Categories = category,
+                    Product=prod
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public ActionResult UpdateProduct(int id,Product product)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                _inventorySetting.UpdateProduct(product, id, userId, concernId);
+                return RedirectToAction(nameof(Product));
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+            
         }
         [HttpGet]
         public JsonResult SessionInvoices()
@@ -459,7 +495,8 @@ namespace InventoryManagement.Areas.Inventory.Controllers
         {
             var concernId = Convert.ToInt32(Session["ConcernId"]);
             var userId = Convert.ToInt32(Session["UserId"]);
-            return Json(_session.ProductPrice(id, concernId), JsonRequestBehavior.AllowGet);
+            var price = _session.ProductPrice(id, concernId);
+            return Json(price, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult SalesInvoice()
@@ -1018,6 +1055,126 @@ namespace InventoryManagement.Areas.Inventory.Controllers
             }
             return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
 
+        }
+        [HttpGet]
+        public ActionResult SalesReport()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult SalesInvoiceReport()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var buyers = _inventorySetting.Buyers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Buyers = buyers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult SalesInvoiceReport(string fromDate,string toDate,int buyerId,int status,int salesType)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            var salesReport = _report.ResponseInvoiceReports(concernId,fromDate,toDate, buyerId, status, salesType);
+            InvoiceReportViewModels viewModels = new InvoiceReportViewModels()
+            {
+                ResponseInvoices= salesReport
+            };
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult PurchaseInvoiceReport()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var buyers = _inventorySetting.Buyers(concernId);
+                VendorsViewModels viewModels = new VendorsViewModels()
+                {
+                    Buyers = buyers
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult PurchaseInvoiceReport(string fromDate, string toDate, int buyerId, int status, int salesType)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            var salesReport = _report.ResponsePurchaseInvoiceReports(concernId, fromDate, toDate, buyerId, status, salesType);
+            InvoiceReportViewModels viewModels = new InvoiceReportViewModels()
+            {
+                ResponseInvoices = salesReport
+            };
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult ExpenseNameReport()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var names = _context.ExpenseNames.ToList();
+                ExpenseViewModels viewModels = new ExpenseViewModels()
+                {
+                    ExpenseNames= names
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult ExpenseNameReport(string fromDate, string toDate, int id)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            var expense = _report.ResponseExpensesName(concernId, id, fromDate, toDate);
+            ExpenseViewModels viewModels = new ExpenseViewModels()
+            {
+                ResponseExpenses= expense
+            };
+
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult ExpenseHeadReport()
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            if (concernId > 0 && userId > 0)
+            {
+                var names = _context.ExpenseTypes.ToList();
+                ExpenseViewModels viewModels = new ExpenseViewModels()
+                {
+                    ExpenseTypes = names
+                };
+                return View(viewModels);
+            }
+            return RedirectToAction("Login", "GlobalData", new { Area = "Global" });
+        }
+        [HttpPost]
+        public JsonResult ExpenseHeadReport(string fromDate, string toDate, int id)
+        {
+            var concernId = Convert.ToInt32(Session["ConcernId"]);
+            var userId = Convert.ToInt32(Session["UserId"]);
+            var expense = _report.ResponseExpensesHead(concernId, id, fromDate, toDate);
+            ExpenseViewModels viewModels = new ExpenseViewModels()
+            {
+                ResponseExpenses = expense
+            };
+
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
         }
 
     }

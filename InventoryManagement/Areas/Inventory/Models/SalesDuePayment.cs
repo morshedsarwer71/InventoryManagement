@@ -10,6 +10,7 @@ namespace InventoryManagement.Areas.Inventory.Models
     {
         [Key]
         public int SalesDuePaymentID { get; set; }
+        public string Code { get; set; }
         public DateTime PaymentDate { get; set; }
         public int BuyerID { get; set; }
         public int ConcernID { get; set; }

@@ -114,7 +114,7 @@ namespace InventoryManagement.Areas.Inventory.Services
 
         public Product Product(int id)
         {
-            throw new NotImplementedException();
+            return _context.Products.FirstOrDefault(x=>x.ProductID==id);
         }
 
         public IEnumerable<ResponseProduct> Products(int concernId,int page)

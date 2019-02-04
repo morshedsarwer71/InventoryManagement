@@ -28,9 +28,22 @@
                             @foreach (var item in Model.stockReports)
                             {
                                 <tr>
-                                    <td>@item.Serial.</td>
-                                    <td>@item.ProductName</td>
-                                    <td>@item.InStock</td>
+
+                                    @if (item.InStock <= 2000)
+                                    {
+                                        <td style="color:red">@item.Serial.</td>
+                                        <td style="color:red">@item.ProductName</td>
+                                        <td style="color:red">@item.InStock</td>
+
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Serial.</td>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.InStock</td>
+
+                                    }
+
                                 </tr>
                             }
                         </tbody>

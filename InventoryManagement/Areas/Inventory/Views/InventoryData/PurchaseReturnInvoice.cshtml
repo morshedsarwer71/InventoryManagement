@@ -107,6 +107,7 @@
             });
             $('#txtCash').keyup(function () {
                 loadPrice();
+                
             });
 
             $(document).on('click', '.ClearById', function (event) {
@@ -174,7 +175,8 @@
                         tr += '</tr>';
                         total_price += product.TotalPrice;
                     });
-                    $("#txtGrandTotal").val(total_price);
+                    $("#txtGrandTotal").val(total_price);                    
+                    $("#txtDiscount").val(0);
                     $("#tBody").html(tr);
                     $('#dvLoader').hide();
                     Clear();

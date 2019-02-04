@@ -1,0 +1,252 @@
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.VendorsViewModels
+<section class="content-header">
+    <h1>
+        Sales Report
+        <small>preview of sales report</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div id="dvLoader" class="LoadingDiv" style="display: none;">
+        <center>
+            <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+        </center>
+    </div>
+    <div class="row">
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label> From Date:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="fromDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>To Date:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="toDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Customer:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <select class="form-control" id="buyerId">
+                                <option value="0">All</option>
+                                @foreach (var item in Model.Buyers)
+                                {
+                                    <option value="@item.BuyerID">@item.BuyerName</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Status:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <select class="form-control" id="status">
+                                <option value="0">All</option>
+                                <option value="1">Cash</option>
+                                <option value="2">Due</option>
+                            </select>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Type:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <select class="form-control" id="salesType">
+                                <option value="0">All</option>
+                                <option value="1">Sales</option>
+                                <option value="2">Sales Return</option>
+                            </select>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnView">View Report</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Date</th>
+                            <th>Invoice Code</th>
+                            <th>Buyer Name</th>
+                            <th>Total Items</th>
+                            <th>Total Price</th>
+                            <th>Cash</th>
+                            <th>Discount</th>
+                            <th>Due</th>
+                            <th>Sales Type Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBody"></tbody>
+                </table>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label> Total Price:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-try"></i>
+                                </div>
+                                <input type="text" readonly="readonly" class="form-control pull-right" id="valPrice">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Total Cash:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-try"></i>
+                                </div>
+                                <input type="text" readonly="readonly" class="form-control pull-right" id="valCash">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label> Total Due:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-try"></i>
+                                </div>
+                                <input type="text" readonly="readonly" class="form-control pull-right" id="valDue">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label> Total Discount:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-try"></i>
+                                </div>
+                                <input type="text" readonly="readonly" class="form-control pull-right" id="valDiscount">
+                            </div>
+                            <!-- /.input group -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/Content/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#fromDate").datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose:true
+                });
+                $("#toDate").datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose:true
+                });
+            });
+            $('#btnView').click(function () {
+                var fDate = $('#fromDate').val();
+                var tDate = $('#toDate').val();
+                var id = $('#buyerId').val();
+                var pay = $('#status').val();
+                var salesType = $('#salesType').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/SalesInvoiceReport",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "fromDate": fDate,
+                        "toDate": tDate,
+                        "buyerId": id,
+                        "status": pay,
+                        "salesType": salesType,
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //console.log(data);
+                        var result = data.ResponseInvoices;
+                        var tr = "";
+                        var gcash = 0;
+                        var gtotalPrice = 0;
+                        var gdue = 0;
+                        var gdiscount = 0;
+                        var sl = 0;
+                        result.forEach(function (result) {
+                            sl++;
+                            tr += '<tr>';
+                            tr += '<td>' + sl + '</td>';
+                            tr += '<td>' + result.Date + '</td>';
+                            tr += '<td>' + result.Code + '</td>';
+                            tr += '<td>' + result.Name + '</td>';
+                            tr += '<td>' + result.Items + '</td>';
+                            tr += '<td>' + result.TotalPrice + '</td>';
+                            tr += '<td>' + result.Cash + '</td>';
+                            tr += '<td>' + result.Discount + '</td>';
+                            tr += '<td>' + result.Dues + '</td>';
+                            tr += '<td>' + result.SalesTypeName + '</td>';
+                            tr += '</tr>';
+                            gcash += result.Cash;
+                            gtotalPrice += result.TotalPrice;
+                            gdue += result.Dues;
+                            gdiscount += result.Discount;
+                        });
+                        $("#tBody").html(tr);
+
+                        $("#valCash").val(gcash);
+                        $("#valPrice").val(gtotalPrice);
+                        $("#valDue").val(gdue);
+                        $("#valDiscount").val(gdiscount);
+                        $('#dvLoader').hide();
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}

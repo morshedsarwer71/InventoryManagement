@@ -33,7 +33,7 @@ namespace InventoryManagement.Areas.Global.Controllers
         [HttpPost]
         public ActionResult LogIn(SystemUser systemUser)
         {
-            var getuser = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress);
+            var getuser = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress && m.IsDelete==0);
             if (getuser != null)
             {
                 Helper helper = new Helper();
@@ -42,8 +42,10 @@ namespace InventoryManagement.Areas.Global.Controllers
                 var query = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress && m.Password==password);
                 if (query != null)
                 {
-                    Session["ConcernId"] = Convert.ToInt32(query.ConcernID);
+                    Session["ConcernId"] = 1;
                     Session["UserId"] = Convert.ToInt32(query.UserID);
+                    Session["Name"] = query.Name;
+                    Session["Date"] = query.CreationDate;
                     return RedirectToAction("Index","InventoryData",new { Area="Inventory"});
                 }
                 ViewBag.error = "email or password wrong !";
@@ -82,18 +84,19 @@ namespace InventoryManagement.Areas.Global.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult AddUser(SystemUser systemUser,int userName)
+        public JsonResult AddUser(SystemUser systemUser)
         {
             var chkUser = _context.SystemUsers.FirstOrDefault(m=>m.EmailAddress==systemUser.EmailAddress);
             if (chkUser == null)
             {
+                var concernId = Convert.ToInt32(Session["ConcernId"]);
                 var userId = Convert.ToInt32(Session["UserId"]);
                 Helper helper = new Helper();
                 var hashSalt = helper.GenerateRandomSalt();
                 var password = helper.HashPasswordUsingSHA2(systemUser.Password, hashSalt);
                 systemUser.Password = password;
                 systemUser.CreatorId = userId;
-                systemUser.ConcernID = 1;
+                systemUser.ConcernID = concernId;
                 systemUser.CreationDate = DateTime.Now;
                 systemUser.LoginDate = DateTime.Now;
                 systemUser.HashSalt = hashSalt;

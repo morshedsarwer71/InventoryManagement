@@ -13,8 +13,8 @@ namespace InventoryManagement.Areas.Inventory.Models
         public string PurchaseInvoiceCode { get; set; }
         public int ProductID { get; set; }
         public decimal Quantity { get; set; }
-        public decimal PurchaseUnitPrice { get; set; }
-        public decimal SalesUnitPrice { get; set; }
+        public double PurchaseUnitPrice { get; set; }
+        public double SalesUnitPrice { get; set; }
         public int SupplierID { get; set; }
         public int ConcernID { get; set; }
         public string Description { get; set; }

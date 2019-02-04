@@ -9,6 +9,7 @@ namespace InventoryManagement.Areas.Inventory.ViewModels
     public class VendorsViewModels
     {
         public IEnumerable<Product> Products { get; set; }
+        public Product Product { get; set; }
         public IEnumerable<Supplier> Suppliers { get; set; }
         public IEnumerable<Buyer> Buyers { get; set; }
         public IEnumerable<Unit> Units { get; set; }

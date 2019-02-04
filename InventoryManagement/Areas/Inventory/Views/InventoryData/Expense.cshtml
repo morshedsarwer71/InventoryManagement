@@ -27,10 +27,14 @@
     </div>
 </section>
 @section Scripts{
+    <script src="~/Content/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script>
         $(document).ready(function () {
-            //add new buyer
-            //LoadSessionData();
+            $('#txtDate').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+
             $('#btnSave').click(function () {
                 var date = $('#txtDate').val();
                 var expenseType = $('#txtExpense').val();

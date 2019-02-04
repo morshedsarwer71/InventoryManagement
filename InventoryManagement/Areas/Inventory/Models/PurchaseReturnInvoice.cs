@@ -14,8 +14,8 @@ namespace InventoryManagement.Areas.Inventory.Models
         public string PurchaseInvoiceCode { get; set; }
         public int PRProductID { get; set; }
         public decimal PRQuantity { get; set; }
-        public decimal PRUnitPrice { get; set; }
-        public decimal SalesUnitPrice { get; set; }
+        public double PRUnitPrice { get; set; }
+        public double SalesUnitPrice { get; set; }
         public int PRSupplierID { get; set; }
         public System.DateTime PRDate { get; set; }
         public decimal PRCashPayment { get; set; }

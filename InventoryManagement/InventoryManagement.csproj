@@ -208,9 +208,28 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Accounting\AccountingAreaRegistration.cs" />
     <Compile Include="Areas\Accounting\Controllers\AccountingDataController.cs" />
+    <Compile Include="Areas\Accounting\Interfaces\IJournal.cs" />
+    <Compile Include="Areas\Accounting\Interfaces\IAccountReport.cs" />
+    <Compile Include="Areas\Accounting\Interfaces\ISettings.cs" />
     <Compile Include="Areas\Accounting\Models\AccountsHead.cs" />
     <Compile Include="Areas\Accounting\Models\Journal.cs" />
     <Compile Include="Areas\Accounting\Models\ReportHead.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\BalanceSheet.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\IncomeStatement.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\ResponseAccountHeads.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\ResponseJournal.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\ResponseLedger.cs" />
+    <Compile Include="Areas\Accounting\ResponseModels\TrialBalance.cs" />
+    <Compile Include="Areas\Accounting\Services\JournalService.cs" />
+    <Compile Include="Areas\Accounting\Services\AccountReportService.cs" />
+    <Compile Include="Areas\Accounting\Services\SettingsServices.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\AccountHeadsViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\BalanceSheetViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\IncomeStatementViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\JournalIndexViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\LedgerViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\ReportHeadViewModels.cs" />
+    <Compile Include="Areas\Accounting\ViewModels\TrailaBalanceViewModels.cs" />
     <Compile Include="Areas\Global\Controllers\GlobalDataController.cs" />
     <Compile Include="Areas\Global\GlobalAreaRegistration.cs" />
     <Compile Include="Areas\Global\Interfaces\ISystemUser.cs" />
@@ -249,7 +268,9 @@
     <Compile Include="Areas\Inventory\ResponseModels\ResponseBuyer.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseDuePayment.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseDuesSummary.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseExpense.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseExpenses.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponseInvoiceReport.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchase.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchaseReturn.cs" />
@@ -268,10 +289,13 @@
     <Compile Include="Areas\Inventory\Services\SalesReturnService.cs" />
     <Compile Include="Areas\Inventory\Services\SessionService.cs" />
     <Compile Include="Areas\Inventory\Services\SupplierService.cs" />
+    <Compile Include="Areas\Inventory\StaticModels\TransactionType.cs" />
     <Compile Include="Areas\Inventory\ViewModels\BuyerIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\CategoryViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\DuePaymentViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\ExpenseIndexViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\ExpenseViewModels.cs" />
+    <Compile Include="Areas\Inventory\ViewModels\InvoiceReportViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\ProductIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseIndexViewModels.cs" />
     <Compile Include="Areas\Inventory\ViewModels\PurchaseReturnIndexViewModels.cs" />
@@ -327,6 +351,26 @@
     <Compile Include="Migrations\201811281457328_payment.cs" />
     <Compile Include="Migrations\201811281457328_payment.Designer.cs">
       <DependentUpon>201811281457328_payment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901021820396_changeDataType.cs" />
+    <Compile Include="Migrations\201901021820396_changeDataType.Designer.cs">
+      <DependentUpon>201901021820396_changeDataType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902031714515_updateJournalss.cs" />
+    <Compile Include="Migrations\201902031714515_updateJournalss.Designer.cs">
+      <DependentUpon>201902031714515_updateJournalss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902031828085_updateJournalssdd.cs" />
+    <Compile Include="Migrations\201902031828085_updateJournalssdd.Designer.cs">
+      <DependentUpon>201902031828085_updateJournalssdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902042016520_updatingDuePayments.cs" />
+    <Compile Include="Migrations\201902042016520_updatingDuePayments.Designer.cs">
+      <DependentUpon>201902042016520_updatingDuePayments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902042044111_updatingDuePaymentss.cs" />
+    <Compile Include="Migrations\201902042044111_updatingDuePaymentss.Designer.cs">
+      <DependentUpon>201902042044111_updatingDuePaymentss.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -7179,6 +7223,25 @@
     <Content Include="Areas\Inventory\Views\InventoryData\PurchaseInvoiceByCode.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\PurchaseReturnByCode.cshtml" />
     <Content Include="Areas\Global\Views\GlobalData\LogOut.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesInvoiceReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SalesReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\UpdateProduct.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\PurchaseInvoiceReport.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\AccountHead.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\AccountHeads.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\AddAccountHead.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\AddJournal.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\AddReportHead.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\BalanceSheet.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\IncomeStatement.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\Journal.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\Journals.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\Ledger.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\ReportHead.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\ReportHeads.cshtml" />
+    <Content Include="Areas\Accounting\Views\AccountingData\TrialBalance.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\ExpenseNameReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\ExpenseHeadReport.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -7269,6 +7332,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811281457328_payment.resx">
       <DependentUpon>201811281457328_payment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901021820396_changeDataType.resx">
+      <DependentUpon>201901021820396_changeDataType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031714515_updateJournalss.resx">
+      <DependentUpon>201902031714515_updateJournalss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031828085_updateJournalssdd.resx">
+      <DependentUpon>201902031828085_updateJournalssdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902042016520_updatingDuePayments.resx">
+      <DependentUpon>201902042016520_updatingDuePayments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902042044111_updatingDuePaymentss.resx">
+      <DependentUpon>201902042044111_updatingDuePaymentss.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -40,18 +40,18 @@
                         <tbody>
                             @foreach (var item in Model.Products)
                             {
-                            <tr>
-                                <td>@item.Serial</td>
-                                <td>@item.ProductName</td>
-                                <td>@item.ProductCode</td>
-                                <td>@item.UnitName</td>
-                                <td>@item.CategoryName</td>
-                                <td>@item.Quantity</td>
-                                <td>@item.SalesPrice</td>
-                                <td>@item.PurchasePrice</td>
-                                <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                                <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                            </tr>
+                                <tr>
+                                    <td>@item.Serial</td>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.ProductCode</td>
+                                    <td>@item.UnitName</td>
+                                    <td>@item.CategoryName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.SalesPrice</td>
+                                    <td>@item.PurchasePrice</td>
+                                    <td><a href="@Url.Action("UpdateProduct","InventoryData",new { id=item.ProductId})"><i class="fa fa-pencil"></i></a></td>
+                                    <td><a href="#"><i class="fa fa-trash"></i></a></td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -71,6 +71,5 @@
             <!-- /.box -->
         </div>
         <!-- /.col -->
-
     </div>
 </section>

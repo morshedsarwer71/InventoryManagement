@@ -1,4 +1,6 @@
-﻿using InventoryManagement.Areas.Inventory.Interfaces;
+﻿using InventoryManagement.Areas.Accounting.Interfaces;
+using InventoryManagement.Areas.Accounting.Models;
+using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Models;
 using InventoryManagement.Areas.Inventory.ResponseModels;
 using InventoryManagement.Context;
@@ -13,9 +15,11 @@ namespace InventoryManagement.Areas.Inventory.Services
     public class SalesInvoiceService : ISalesInvoice
     {
         private readonly DataContext _context;
-        public SalesInvoiceService(DataContext context)
+        private readonly IJournal _journal;
+        public SalesInvoiceService(DataContext context, IJournal journal)
         {
             _context = context;
+            _journal = journal;
         }
         public void AddSalesInvoice(SessionInvoice sessionInvoice, int userId, int concernId)
         {
@@ -43,8 +47,49 @@ namespace InventoryManagement.Areas.Inventory.Services
                         SalesUnitPrice=item.UnitPrice                        
                     });
                 }
-                _context.SalesInvoices.AddRange(salesInvoices);             
+                //Sales Invoice Data Insert
+                _context.SalesInvoices.AddRange(salesInvoices);
                 _context.SaveChanges();
+                if (sessionInvoice.DuePayment > 0)
+                {  
+                    //Journal Input-- Cash
+                    Journal journalCash = new Journal();
+                    journalCash.DebitAccountsHeadId = 10;
+                    journalCash.CreditAccountsHeadId = 1;
+                    journalCash.DebitJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.CreditJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.JournalEntryDate = dateString;
+                    journalCash.VoucherCode = sessionInvoice.Code;
+                    journalCash.Description = "Sales";
+                    _journal.AddJournal(journalCash, userId, concernId);
+
+                    //Journal Input-- Due
+                    Journal journalDue = new Journal();
+                    journalDue.DebitAccountsHeadId = 7;
+                    journalDue.CreditAccountsHeadId = 1;
+                    journalDue.DebitJournalAmount = sessionInvoice.DuePayment;
+                    journalDue.CreditJournalAmount = sessionInvoice.DuePayment;
+                    journalDue.JournalEntryDate = dateString;
+                    journalDue.VoucherCode = sessionInvoice.Code;
+                    journalDue.Description = "Sales";
+                    _journal.AddJournal(journalDue, userId, concernId);                    
+                    
+                }
+                else
+                {
+
+                    //Journal Input-- Cash
+                    Journal journalCash = new Journal();
+                    journalCash.DebitAccountsHeadId = 10;
+                    journalCash.CreditAccountsHeadId = 1;
+                    journalCash.DebitJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.CreditJournalAmount = sessionInvoice.CashPayment;
+                    journalCash.JournalEntryDate = dateString;
+                    journalCash.VoucherCode = sessionInvoice.Code;
+                    journalCash.Description = "Sales";
+                    _journal.AddJournal(journalCash, userId, concernId);                    
+                }
+                //Remove Session Data
                 _context.SessionInvoices.RemoveRange(sessionData);
                 _context.SaveChanges();
                 transaction.Commit();

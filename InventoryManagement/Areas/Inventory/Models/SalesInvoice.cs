@@ -15,7 +15,7 @@ namespace InventoryManagement.Areas.Inventory.Models
         public int ProductID { get; set; }
         [Required]
         public decimal Quantity { get; set; }
-        public decimal SalesUnitPrice { get; set; }
+        public double SalesUnitPrice { get; set; }
         public int BuyerID { get; set; }
         public int ConcernID { get; set; }
         public string Description { get; set; }

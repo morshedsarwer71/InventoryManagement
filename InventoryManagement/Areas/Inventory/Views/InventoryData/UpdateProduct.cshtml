@@ -1,0 +1,66 @@
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.VendorsViewModels
+<section class="content-header">
+    <h1>
+        Updating @Model.Product.ProductName
+        <small>Updating @Model.Product.ProductName information</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+                @using (Html.BeginForm("UpdateProduct", "InventoryData", FormMethod.Post))
+                {
+                    <div class="col-md-6 col-sm-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Product Name</label>
+                            <input value="@Model.Product.ProductName" name="ProductName" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Category</label>
+                            <select class="form-control" name="CategoryID">
+                                @foreach (var item in Model.Categories)
+                                {
+                                    <option value="@item.CategoryID">@item.CategoryName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Unit</label>
+                            <select class="form-control" name="UnitID">
+                                @foreach (var item in Model.Units)
+                                {
+                                    <option value="@item.UnitID">@item.UnitName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Sales Price</label>
+                            <input type="text" value="@Model.Product.SalesPrice" name="SalesPrice" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Purchase Price</label>
+                            <input type="text" value="@Model.Product.PurchasePrice" name="PurchasePrice" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Quantity</label>
+                            <input type="text" value="@Model.Product.Quantity" name="Quantity" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Description</label>
+                            <textarea class="form-control" value="@Model.Product.Description" name="Description"></textarea>
+                        </div>
+                        <button type="submit" value="submit" class="btn btn-info">UPDATE</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

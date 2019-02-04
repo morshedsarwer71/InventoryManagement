@@ -37,7 +37,7 @@
                 var buyerId = $('#txtBuyerID').val();
                 var productId = $('#txtProduct').val();
                 var price = $('#txtPrice').val();
-                var quantity = $('#txtQuantity').val();
+                var quantity = $('#txtQuantity').val();                
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddSessionInvoice",
@@ -63,6 +63,7 @@
                 var cash = $('#txtCash').val();
                 var des = $('#txtDes').val();
                 var dis = $('#txtDiscount').val();
+                var due = $('#txtDuePayment').val();
                 $('#dvLoader').show();
                 $.ajax({
                     url: "/InventoryData/AddPurchaseInvoice",
@@ -70,7 +71,8 @@
                     data: JSON.stringify({
                         "CashPayment": cash,
                         "Description": des,
-                        "Discount":dis
+                        "Discount": dis,
+                        "DuePayment": due
                     }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
@@ -102,7 +104,6 @@
             $('#txtCash').keyup(function () {
                 loadPrice();
             });
-
             $(document).on('click', '.ClearById', function (event) {
                 event.preventDefault();
                 var product_id = $(this).attr('href');
@@ -124,6 +125,26 @@
                         }
                     });
                 }
+            });
+            $('#txtProduct').change(function () {
+                var productId = $('#txtProduct').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/ProductPrice",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "id": productId
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //var data = data;
+                        //console.log(data.SalesPrice);
+                        $("#txtPrice").val(data.PurchasePrice);
+                        $('#dvLoader').hide();
+                    }
+                });
+
             });
 
         });
@@ -168,7 +189,8 @@
                         tr += '</tr>';
                         total_price += product.TotalPrice;
                     });
-                    $("#txtGrandTotal").val(total_price);
+                    $("#txtGrandTotal").val(total_price);                    
+                    $("#txtDiscount").val(0);
                     $("#tBody").html(tr);
                     $('#dvLoader').hide();
                     Clear();

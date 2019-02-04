@@ -1,3 +1,5 @@
+using InventoryManagement.Areas.Accounting.Interfaces;
+using InventoryManagement.Areas.Accounting.Services;
 using InventoryManagement.Areas.Global.Interfaces;
 using InventoryManagement.Areas.Global.Services;
 using InventoryManagement.Areas.Inventory.Interfaces;
@@ -29,7 +31,10 @@ namespace InventoryManagement
             container.RegisterType<IDuePayment, DuePaymentService>();
             container.RegisterType<ISystemUser, SystemUserService>();
             container.RegisterType<IReport, ReportService>();
-            
+            container.RegisterType<ISettings, SettingsServices>();
+            container.RegisterType<IJournal, JournalService>();
+            container.RegisterType<IAccountReport, AccountReportService>();
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
