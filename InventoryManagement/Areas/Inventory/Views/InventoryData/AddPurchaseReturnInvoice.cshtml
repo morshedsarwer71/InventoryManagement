@@ -8,7 +8,7 @@
         <small>adding new purchase return invoice</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> Home</a></li>
     </ol>
 </section>
 
@@ -19,6 +19,12 @@
             <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
         </center>
     </div>
+    @{
+
+        var date = DateTime.Now.ToString("mmddfff");
+        var code = "4" + date + "5";
+
+     }
     <div class="row">
         <div class="box">
             <div class="box-header with-border">
@@ -35,7 +41,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" value="@DateTime.Now.ToString("mmddfff")" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                    <input type="text" value="@code" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
                                 </div>
                             </div>
                         </div>

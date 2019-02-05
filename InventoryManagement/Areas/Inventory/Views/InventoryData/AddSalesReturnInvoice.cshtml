@@ -20,6 +20,10 @@
         </center>
     </div>
     <div class="row">
+        @{
+            var date = DateTime.Now.ToString("mmddfff");
+            var code = "4" + date + "5";
+        }
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Sales Return Form</h3>
@@ -35,7 +39,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" value="@DateTime.Now.ToString("mmddfff")" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
+                                    <input type="text" value="@code" readonly="readonly" name="Date" class="form-control pull-right" id="txtInvoiceCode">
                                 </div>
                             </div>
                         </div>

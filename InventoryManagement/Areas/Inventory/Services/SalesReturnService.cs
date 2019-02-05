@@ -28,7 +28,7 @@ namespace InventoryManagement.Areas.Inventory.Services
             List<SalesReturnInvoice> salesInvoices = new List<SalesReturnInvoice>();
             var sessionData = _context.SessionInvoices.Where(m => m.ConcernID == concernId && m.UserID == userId);
             var dateString = DateTime.Now;
-            var invoiceCode = DateTime.Now.ToString("mmddfff");
+            //var invoiceCode = DateTime.Now.ToString("mmddfff");
             using (var transaction = _context.Database.BeginTransaction())
             {
                 SalesDuePayment salesDue = new SalesDuePayment();
@@ -69,8 +69,7 @@ namespace InventoryManagement.Areas.Inventory.Services
 
                 if (sessionInvoice.DuePayment > 0)
                 {
-                    if (sessionInvoice.CashPayment > 0)
-                    {
+                    
                         //Journal Input-- Due
                         Journal journalCash = new Journal();
                         journalCash.DebitAccountsHeadId = 3;
@@ -91,20 +90,8 @@ namespace InventoryManagement.Areas.Inventory.Services
                         journalDue.JournalEntryDate = dateString;
                         journalDue.VoucherCode = sessionInvoice.Code;
                         journalDue.Description = "Sales Return";
-                        _journal.AddJournal(journalDue, userId, concernId);
-                    }
-                    else
-                    {
-                        Journal journalCash = new Journal();
-                        journalCash.DebitAccountsHeadId = 3;
-                        journalCash.CreditAccountsHeadId = 7;
-                        journalCash.DebitJournalAmount = sessionInvoice.CashPayment;
-                        journalCash.CreditJournalAmount = sessionInvoice.CashPayment;
-                        journalCash.JournalEntryDate = dateString;
-                        journalCash.VoucherCode = sessionInvoice.Code;
-                        journalCash.Description = "Sales Return";
-                        _journal.AddJournal(journalCash, userId, concernId);
-                    }
+                        _journal.AddJournal(journalDue, userId, concernId);                  
+                    
 
                 }
                 else

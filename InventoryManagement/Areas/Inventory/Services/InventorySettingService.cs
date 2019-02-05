@@ -1,4 +1,6 @@
-﻿using InventoryManagement.Areas.Inventory.Interfaces;
+﻿using InventoryManagement.Areas.Accounting.Interfaces;
+using InventoryManagement.Areas.Accounting.Models;
+using InventoryManagement.Areas.Inventory.Interfaces;
 using InventoryManagement.Areas.Inventory.Models;
 using InventoryManagement.Areas.Inventory.ResponseModels;
 using InventoryManagement.Context;
@@ -13,9 +15,11 @@ namespace InventoryManagement.Areas.Inventory.Services
     public class InventorySettingService : IInventorySetting
     {
         private readonly DataContext _context;
-        public InventorySettingService(DataContext context)
+        private readonly IJournal _journal;
+        public InventorySettingService(DataContext context, IJournal journal)
         {
             _context = context;
+            _journal = journal;
         }
         public void AddCategory(Category category, int userId, int concernId)
         {
@@ -29,11 +33,30 @@ namespace InventoryManagement.Areas.Inventory.Services
 
         public void AddExpense(Expense expense,int concernId, int userId)
         {
-            expense.Creator = userId;
-            expense.CreationDate = DateTime.Now;
-            expense.ConcernId = concernId;
-            _context.Expenses.Add(expense);
-            _context.SaveChanges();
+            var today = DateTime.Now;
+            var date = DateTime.Now.ToString("mmddfff");
+            var code = "4" + date + "5";
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                expense.Creator = userId;
+                expense.CreationDate = today;
+                expense.ExpensesCode = code;
+                expense.ConcernId = concernId;
+                _context.Expenses.Add(expense);
+                _context.SaveChanges();
+
+                Journal journalCash = new Journal();
+                journalCash.DebitAccountsHeadId = 5;
+                journalCash.CreditAccountsHeadId = 10;
+                journalCash.DebitJournalAmount = expense.Payment;
+                journalCash.CreditJournalAmount = expense.Payment;
+                journalCash.JournalEntryDate = today;
+                journalCash.VoucherCode = code;
+                journalCash.Description = "Expense Payment";
+                _journal.AddJournal(journalCash, userId, concernId);
+
+                transaction.Commit();
+            }
         }
 
         public void AddExpenseName(ExpenseName expenseName,int concernId, int userId)
