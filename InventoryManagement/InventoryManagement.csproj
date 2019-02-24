@@ -271,6 +271,7 @@
     <Compile Include="Areas\Inventory\ResponseModels\ResponseExpense.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseExpenses.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseInvoiceReport.cs" />
+    <Compile Include="Areas\Inventory\ResponseModels\ResponsePaymentReport.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponseProduct.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchase.cs" />
     <Compile Include="Areas\Inventory\ResponseModels\ResponsePurchaseReturn.cs" />
@@ -7242,6 +7243,8 @@
     <Content Include="Areas\Accounting\Views\AccountingData\TrialBalance.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\ExpenseNameReport.cshtml" />
     <Content Include="Areas\Inventory\Views\InventoryData\ExpenseHeadReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\BuyerPaymentReport.cshtml" />
+    <Content Include="Areas\Inventory\Views\InventoryData\SupplierPaymentReport.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

@@ -16,5 +16,7 @@ namespace InventoryManagement.Areas.Inventory.Interfaces
         IEnumerable<ResponseInvoiceReport> ResponsePurchaseInvoiceReports(int concernId,string fromDate,string toDate,int vendorId,int Status,int SalesType);
         IEnumerable<ResponseExpense> ResponseExpensesName(int concernId,int id,string fromDate,string toDate);
         IEnumerable<ResponseExpense> ResponseExpensesHead(int concernId,int id,string fromDate,string toDate);
+        IEnumerable<ResponsePaymentReport> BuyerDuPaymentReport(int concernId,int id,string fromDate,string toDate);
+        IEnumerable<ResponsePaymentReport> SupplierDuPaymentReport(int concernId,int id,string fromDate,string toDate);
     }
 }

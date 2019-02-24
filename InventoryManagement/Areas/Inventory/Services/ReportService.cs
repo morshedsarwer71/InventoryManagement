@@ -17,6 +17,40 @@ namespace InventoryManagement.Areas.Inventory.Services
             _context = context;
         }
 
+        public IEnumerable<ResponsePaymentReport> BuyerDuPaymentReport(int concernId, int id, string fromDate, string toDate)
+        {
+            List<ResponsePaymentReport> responses = new List<ResponsePaymentReport>();
+            using (var command = _context.Database.Connection.CreateCommand())
+            {
+                command.CommandText = "Reporting_InnventoryManagement_Buyer_Payment_Report @ConcernId,@BuyerId,@fromDate,@toDate";
+                command.Parameters.Add(new SqlParameter("@ConcernId", concernId));
+                command.Parameters.Add(new SqlParameter("@BuyerId", id));
+                command.Parameters.Add(new SqlParameter("@fromDate", fromDate));
+                command.Parameters.Add(new SqlParameter("@toDate", toDate));
+                _context.Database.Connection.Open();
+                using (var result = command.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            responses.Add(new ResponsePaymentReport()
+                            {
+                                Serial = Convert.ToInt32(result[0]),
+                                Id = Convert.ToInt32(result[1]),
+                                Date = Convert.ToString(result[2]),
+                                VendorId = Convert.ToInt32(result[3]),
+                                Name = Convert.ToString(result[4]),
+                                Amount = Convert.ToDecimal(result[5])
+                            });
+                        }
+                    }
+                }
+                _context.Database.Connection.Close();
+            }
+            return responses;
+        }
+
         public IEnumerable<ResponseDuesSummary> ResponseBuyerDuesSummaries(int concernId)
         {
             List<ResponseDuesSummary> responses = new List<ResponseDuesSummary>();
@@ -250,6 +284,40 @@ namespace InventoryManagement.Areas.Inventory.Services
                                 TotalPaid = Convert.ToDecimal(result[3]),
                                 PreviousBalance = Convert.ToDecimal(result[4]),
                                 GrandDues = Convert.ToDecimal(result[5]),
+                            });
+                        }
+                    }
+                }
+                _context.Database.Connection.Close();
+            }
+            return responses;
+        }
+
+        public IEnumerable<ResponsePaymentReport> SupplierDuPaymentReport(int concernId, int id, string fromDate, string toDate)
+        {
+            List<ResponsePaymentReport> responses = new List<ResponsePaymentReport>();
+            using (var command = _context.Database.Connection.CreateCommand())
+            {
+                command.CommandText = "Reporting_InnventoryManagement_Supplier_Payment_Report @ConcernId,@BuyerId,@fromDate,@toDate";
+                command.Parameters.Add(new SqlParameter("@ConcernId", concernId));
+                command.Parameters.Add(new SqlParameter("@BuyerId", id));
+                command.Parameters.Add(new SqlParameter("@fromDate", fromDate));
+                command.Parameters.Add(new SqlParameter("@toDate", toDate));
+                _context.Database.Connection.Open();
+                using (var result = command.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            responses.Add(new ResponsePaymentReport()
+                            {
+                                Serial = Convert.ToInt32(result[0]),
+                                Id = Convert.ToInt32(result[1]),
+                                Date = Convert.ToString(result[2]),
+                                VendorId = Convert.ToInt32(result[3]),
+                                Name = Convert.ToString(result[4]),
+                                Amount = Convert.ToDecimal(result[5])
                             });
                         }
                     }

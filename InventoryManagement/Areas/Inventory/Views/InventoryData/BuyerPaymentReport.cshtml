@@ -1,0 +1,170 @@
+﻿@model InventoryManagement.Areas.Inventory.ViewModels.ReportDuePayment
+<section class="content-header">
+    <h1>
+        Buyer Payment Report
+        <small>preview of buyer payment report</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","InventoryData")"><i class="fa fa-dashboard"></i> Home</a></li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div id="dvLoader" class="LoadingDiv" style="display: none;">
+        <center>
+            <img src="~/Content/img/ajax-loader.gif" alt="Loading" />
+        </center>
+    </div>
+    <div class="row">
+        <div class="box">
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label> From Date:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="fromDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>To Date:</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" id="toDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Buyer</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <select class="form-control" id="id">
+                                <option value="0">All</option>
+                                @foreach (var item in Model.Buyer)
+                                {
+                                    <option value="@item.BuyerID">@item.BuyerName</option>
+                                }
+                            </select>
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btnView">View Report</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th style="width: 50px">Name</th>
+                            <th style="width: 40px">Date</th>
+                            <th style="width: 30px">Amont</th>
+                        </tr>
+                    </thead>
+                    @{ decimal total = 0;}
+                    <tbody id="tBody">
+                        @foreach (var item in Model.PaymentReport)
+                        {
+                            total +=item.Amount;
+                            <tr>
+                                <td>@item.Serial</td>
+                                <td>@item.Name</td>
+                                <td>@item.Date</td>
+                                <td>@item.Amount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label> Total:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-try"></i>
+                                </div>
+                                <input type="text" readonly="readonly" value="@total" class="form-control pull-right" id="valPrice">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script src="~/Content/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#fromDate").datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose:true
+                });
+                $("#toDate").datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose:true
+                });
+            });
+            $('#btnView').click(function () {
+                var fDate = $('#fromDate').val();
+                var tDate = $('#toDate').val();
+                var id = $('#id').val();
+                $('#dvLoader').show();
+                $.ajax({
+                    url: "/InventoryData/BuyerPaymentReport",
+                    type: "POST",
+                    data: JSON.stringify({
+                        "fromDate": fDate,
+                        "toDate": tDate,
+                        "id": id,
+                    }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //console.log(data);
+                        var result = data.PaymentReport;
+                        var tr = "";
+                        var gtotalPrice = 0;
+                        result.forEach(function (result) {
+                            tr += '<tr>';
+                            tr += '<td>' + result.Serial + '</td>';
+                            tr += '<td>' + result.Name + '</td>';
+                            tr += '<td>' + result.Date + '</td>';
+                            tr += '<td>' + result.Amount + '</td>';
+                            tr += '</tr>';
+                            gtotalPrice += result.Amount;
+                        });
+                        $("#tBody").html(tr);
+                        $("#valPrice").val('');
+                        $("#valPrice").val(gtotalPrice);
+                        $('#dvLoader').hide();
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}
